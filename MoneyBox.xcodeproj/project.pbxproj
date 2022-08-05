@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B3254DB289DC3D10008C580 /* MoneyBoxApplication in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3254DA289DC3D10008C580 /* MoneyBoxApplication */; };
 		B228EA6B2880B30B00B35F16 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228EA692880B30B00B35F16 /* LoginViewController.swift */; };
 		B228EA6C2880B30B00B35F16 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B228EA6A2880B30B00B35F16 /* Login.storyboard */; };
 		B26EF47828881E7F003BFDF2 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = B26EF47728881E7F003BFDF2 /* Networking */; };
@@ -49,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B3254DB289DC3D10008C580 /* MoneyBoxApplication in Frameworks */,
 				B26EF47828881E7F003BFDF2 /* Networking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +65,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B3254D9289DC3D10008C580 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B2CA46BF279350880041B3A5 = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +79,7 @@
 				B2CA46CA279350880041B3A5 /* MoneyBox */,
 				B2CA46E12793508A0041B3A5 /* MoneyBoxTests */,
 				B2CA46C9279350880041B3A5 /* Products */,
+				3B3254D9289DC3D10008C580 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,6 +150,7 @@
 			name = MoneyBox;
 			packageProductDependencies = (
 				B26EF47728881E7F003BFDF2 /* Networking */,
+				3B3254DA289DC3D10008C580 /* MoneyBoxApplication */,
 			);
 			productName = MoneyBox;
 			productReference = B2CA46C8279350880041B3A5 /* MoneyBox.app */;
@@ -512,6 +523,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3B3254DA289DC3D10008C580 /* MoneyBoxApplication */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoneyBoxApplication;
+		};
 		B26EF47728881E7F003BFDF2 /* Networking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Networking;

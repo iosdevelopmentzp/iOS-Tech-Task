@@ -7,13 +7,15 @@ let package = Package(
     name: "MoneyBoxApplication",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "MoneyBoxApplication", targets: ["MoneyBoxApplication"]),
+        .library(name: "MoneyBoxApplication", targets: ["Core"]),
+        .library(name: "Core", targets: ["Core"]),
     ],
     dependencies: [
         
     ],
     targets: [
-        .target(name: "MoneyBoxApplication", dependencies: []),
-        .testTarget(name: "MoneyBoxApplicationTests", dependencies: ["MoneyBoxApplication"])
+        .target(name: "MoneyBoxApplication", dependencies: ["Core"]),
+        
+        .target(name: "Core", dependencies: [])
     ]
 )
