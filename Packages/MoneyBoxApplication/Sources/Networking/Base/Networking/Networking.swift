@@ -11,10 +11,6 @@ import AlamofireNetworkActivityLogger
 
 /// Base Util to perform requests
 final class Networking {
-    private struct Constants {
-        static let validStatusCode = 200 ... 399
-    }
-    
     init() {
         // TODO: - Move to more suitable place.
         NetworkActivityLogger.shared.startLogging()
