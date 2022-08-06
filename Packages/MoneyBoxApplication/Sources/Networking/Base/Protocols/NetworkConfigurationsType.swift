@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Entity that should be passed outside to adjust the Target model
 public protocol NetworkConfigurationsType {
     var host: String { get }
     var appId: String { get }

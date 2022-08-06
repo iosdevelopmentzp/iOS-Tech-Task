@@ -36,7 +36,7 @@ public struct ProductResponseDTO: Decodable, Equatable {
     
     // MARK: - Properties
     
-    public let id: Int?
+    public let id: Int
     public let assetBoxGlobalID: String?
     public let planValue: Double?
     public let moneybox: Double?

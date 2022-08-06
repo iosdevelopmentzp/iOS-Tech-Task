@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3B3254DB289DC3D10008C580 /* MoneyBoxApplication in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3254DA289DC3D10008C580 /* MoneyBoxApplication */; };
-		3B3254DE289DEAC70008C580 /* NetworkingLegacy in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3254DD289DEAC70008C580 /* NetworkingLegacy */; };
 		B228EA6B2880B30B00B35F16 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228EA692880B30B00B35F16 /* LoginViewController.swift */; };
 		B228EA6C2880B30B00B35F16 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B228EA6A2880B30B00B35F16 /* Login.storyboard */; };
 		B2CA46CC279350880041B3A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CA46CB279350880041B3A5 /* AppDelegate.swift */; };
@@ -51,7 +50,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B3254DB289DC3D10008C580 /* MoneyBoxApplication in Frameworks */,
-				3B3254DE289DEAC70008C580 /* NetworkingLegacy in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +148,6 @@
 			name = MoneyBox;
 			packageProductDependencies = (
 				3B3254DA289DC3D10008C580 /* MoneyBoxApplication */,
-				3B3254DD289DEAC70008C580 /* NetworkingLegacy */,
 			);
 			productName = MoneyBox;
 			productReference = B2CA46C8279350880041B3A5 /* MoneyBox.app */;
@@ -526,10 +523,6 @@
 		3B3254DA289DC3D10008C580 /* MoneyBoxApplication */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MoneyBoxApplication;
-		};
-		3B3254DD289DEAC70008C580 /* NetworkingLegacy */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = NetworkingLegacy;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

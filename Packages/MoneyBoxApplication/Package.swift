@@ -13,7 +13,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
-        .package(url: "https://github.com/Alamofire/Alamofire.git", exact: "5.6.1")
+        .package(url: "https://github.com/Alamofire/Alamofire.git", exact: "5.6.1"),
+        .package(url: "https://github.com/konkab/AlamofireNetworkActivityLogger.git", .upToNextMajor(from: "3.4.0"))
     ],
     targets: [
         .target(name: "MoneyBoxApplication", dependencies: [
@@ -24,7 +25,8 @@ let package = Package(
         
         .target(name: "Networking", dependencies: [
             "Core",
-            "Alamofire"
+            "Alamofire",
+            "AlamofireNetworkActivityLogger"
         ]),
     ]
 )

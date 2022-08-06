@@ -6,14 +6,14 @@
 //
 
 import Foundation
-import Moya
+import Alamofire
 
 enum AuthorizationRouter {
     case login
 }
 
 extension AuthorizationRouter: RouteType {
-    var method: Moya.Method {
+    var method: Alamofire.HTTPMethod {
         switch self {
         case .login:
             return .post

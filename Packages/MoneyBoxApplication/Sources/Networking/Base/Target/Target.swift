@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import Moya
+import Alamofire
 
 protocol RouteType {
-    var method: Moya.Method { get }
+    var method: Alamofire.HTTPMethod { get }
     var path: String { get }
 }
 
@@ -38,7 +38,7 @@ extension Target: TargetType {
         router.path
     }
     
-    var method: Moya.Method {
+    var method: Alamofire.HTTPMethod {
         router.method
     }
     

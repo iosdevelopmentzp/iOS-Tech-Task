@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Moya
 import Core
 
 public protocol AuthorizationNetworkServiceProtocol {
@@ -31,6 +30,7 @@ extension AuthorizationNetworkService: AuthorizationNetworkServiceProtocol {
     func login(_ data: LoginRequestDTO) async throws -> LoginResponseDTO {
         let dataProvider = RequestDataProvider(configurations, parameters: try data.toDictionary())
         let target = AuthorizationTarget(dataProvider, router: .login)
-        return try await networking.perform(target: target)
+        let response: MultipleDecodableModel<ErrorResponseDTO, LoginResponseDTO> = try await networking.perform(target: target)
+        return try response.mainExpectation()
     }
 }

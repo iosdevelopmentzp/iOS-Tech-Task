@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Moya
+import Alamofire
 
 enum AccountRouter {
     case products
@@ -14,7 +14,7 @@ enum AccountRouter {
 }
 
 extension AccountRouter: RouteType {
-    var method: Moya.Method {
+    var method: Alamofire.HTTPMethod {
         switch self {
         case .products:
             return .get

@@ -28,7 +28,7 @@ public struct ErrorResponseDTO: Decodable, Equatable {
     
     // MARK: - Properties
     
-    public let name: String?
-    public let message: String?
+    public let name: String
+    public let message: String
     public let validationErrors: [ValidationError]?
 }
