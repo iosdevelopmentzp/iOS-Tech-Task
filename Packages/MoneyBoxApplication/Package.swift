@@ -7,9 +7,10 @@ let package = Package(
     name: "MoneyBoxApplication",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "MoneyBoxApplication", targets: ["Networking"]),
+        .library(name: "MoneyBoxApplication", targets: ["UseCases"]),
         .library(name: "Core", targets: ["Core"]),
         .library(name: "Networking", targets: ["Networking"]),
+        .library(name: "UseCases", targets: ["UseCases"])
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
@@ -18,7 +19,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "MoneyBoxApplication", dependencies: [
-            "Networking"
+            "UseCases"
         ]),
         
         .target(name: "Core"),
@@ -28,5 +29,10 @@ let package = Package(
             "Alamofire",
             "AlamofireNetworkActivityLogger"
         ]),
+        
+            .target(name: "UseCases", dependencies: [
+                "Core",
+                "Networking"
+            ])
     ]
 )

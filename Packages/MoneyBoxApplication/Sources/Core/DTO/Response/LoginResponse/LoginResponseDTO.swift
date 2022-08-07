@@ -20,7 +20,7 @@ public struct LoginResponseDTO: Decodable, Equatable {
             case bearerToken = "BearerToken"
         }
         
-        let bearerToken: String
+        public let bearerToken: String
     }
     
     public struct User: Decodable, Equatable {

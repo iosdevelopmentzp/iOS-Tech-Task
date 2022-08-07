@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-// The protocol used to define the specifications necessary for a `MoyaProvider`.
+// The protocol used to define the specifications necessary for a networking.
 public protocol TargetType: URLConvertible {
     var scheme: String { get }
 

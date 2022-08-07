@@ -9,7 +9,7 @@ import Foundation
 import Core
 
 public protocol AccountNetworkServiceProtocol {
-    func products() async throws -> AccountResponseDTO
+    func account() async throws -> AccountResponseDTO
 }
 
 final class AccountNetworkService {
@@ -33,7 +33,7 @@ final class AccountNetworkService {
 // MARK: - AccountNetworkServiceProtocol
 
 extension AccountNetworkService: AccountNetworkServiceProtocol {
-    func products() async throws -> AccountResponseDTO {
+    func account() async throws -> AccountResponseDTO {
         let provider = RequestDataProvider(configurations, token: self.tokenProvider?.authorizationToken())
         let target = AccountTarget(provider, router: .products)
         return try await networking.perform(target: target)
