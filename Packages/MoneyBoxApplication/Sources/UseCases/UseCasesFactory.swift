@@ -7,10 +7,16 @@
 
 import Foundation
 import Networking
+import SettingsStorage
 
 public protocol UseCasesFactoryProtocol {
     func account(_ networking: AccountNetworkServiceProtocol) -> AccountUseCaseProtocol
-    func authorization(_ networking: AuthorizationNetworkServiceProtocol) -> AuthorizationUseCaseProtocol
+    
+    func authorisation(
+        networking: AuthorizationNetworkServiceProtocol,
+        authorizationSettings: AuthorizationSettingsStorageProtocol,
+        userSettings: UserSettingsStorageProtocol
+    ) -> AuthorizationUseCaseProtocol
 }
 
 public final class UseCasesFactory {
@@ -24,7 +30,15 @@ extension UseCasesFactory: UseCasesFactoryProtocol {
         AccountUseCase(networking)
     }
     
-    public func authorization(_ networking: AuthorizationNetworkServiceProtocol) -> AuthorizationUseCaseProtocol {
-        AuthorizationUseCase(networking: networking)
+    public func authorisation(
+        networking: AuthorizationNetworkServiceProtocol,
+        authorizationSettings: AuthorizationSettingsStorageProtocol,
+        userSettings: UserSettingsStorageProtocol
+    ) -> AuthorizationUseCaseProtocol {
+        AuthorizationUseCase(
+            networking: networking,
+            authorizationSettings: authorizationSettings,
+            userSettings: userSettings
+        )
     }
 }

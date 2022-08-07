@@ -10,7 +10,8 @@ let package = Package(
         .library(name: "MoneyBoxApplication", targets: ["UseCases"]),
         .library(name: "Core", targets: ["Core"]),
         .library(name: "Networking", targets: ["Networking"]),
-        .library(name: "UseCases", targets: ["UseCases"])
+        .library(name: "UseCases", targets: ["UseCases"]),
+        .library(name: "SettingsStorage", targets: ["SettingsStorage"])
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
@@ -30,9 +31,12 @@ let package = Package(
             "AlamofireNetworkActivityLogger"
         ]),
         
-            .target(name: "UseCases", dependencies: [
-                "Core",
-                "Networking"
-            ])
+        .target(name: "UseCases", dependencies: [
+            "Core",
+            "Networking",
+            "SettingsStorage"
+        ]),
+        
+        .target(name: "SettingsStorage")
     ]
 )
