@@ -9,21 +9,25 @@ import Foundation
 import Core
 import Networking
 import SettingsStorage
+import AppNotifier
 
 final class AuthorizationUseCase {
     private let networking: AuthorizationNetworkServiceProtocol
     
     private let authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
     private let userSettingsStorage: UserSettingsStorageProtocol
+    private let authorizationNotifier: AuthorizationNotifierProtocol
     
     init(
         networking:  AuthorizationNetworkServiceProtocol,
         authorizationSettings: AuthorizationSettingsStorageProtocol,
-        userSettings: UserSettingsStorageProtocol
+        userSettings: UserSettingsStorageProtocol,
+        authorizationNotifier: AuthorizationNotifierProtocol
     ) {
         self.networking = networking
         self.authorizationSettingsStorage = authorizationSettings
         self.userSettingsStorage = userSettings
+        self.authorizationNotifier = authorizationNotifier
     }
 }
 
@@ -32,11 +36,11 @@ final class AuthorizationUseCase {
 extension AuthorizationUseCase: AuthorizationUseCaseProtocol {
     func login(username: String, password: String) async throws {
         let response = try await networking.login(.init(email: username, password: password, idfa: "ANYTHING"))
-        debugPrint("Did login with token: \(response.session.bearerToken)")
         authorizationSettingsStorage.saveAuthorizationToken(response.session.bearerToken)
         userSettingsStorage.saveUserName(
             firstName: response.user.firstName,
             lastName: response.user.lastName
         )
+        authorizationNotifier.notify(event: .didLogin)
     }
 }

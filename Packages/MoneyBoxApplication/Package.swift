@@ -11,7 +11,8 @@ let package = Package(
         .library(name: "Core", targets: ["Core"]),
         .library(name: "Networking", targets: ["Networking"]),
         .library(name: "UseCases", targets: ["UseCases"]),
-        .library(name: "SettingsStorage", targets: ["SettingsStorage"])
+        .library(name: "SettingsStorage", targets: ["SettingsStorage"]),
+        .library(name: "AppNotifier", targets: ["AppNotifier"])
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
@@ -34,9 +35,12 @@ let package = Package(
         .target(name: "UseCases", dependencies: [
             "Core",
             "Networking",
-            "SettingsStorage"
+            "SettingsStorage",
+            "AppNotifier"
         ]),
         
-        .target(name: "SettingsStorage")
+        .target(name: "SettingsStorage", dependencies: []),
+        
+        .target(name: "AppNotifier", dependencies: [])
     ]
 )
