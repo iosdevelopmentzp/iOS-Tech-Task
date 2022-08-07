@@ -7,21 +7,26 @@ let package = Package(
     name: "MoneyBoxApplication",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "MoneyBoxApplication", targets: ["UseCases"]),
+        .library(name: "MoneyBoxApplication", targets: ["Coordinator", "DependencyResolver"]),
         .library(name: "Core", targets: ["Core"]),
         .library(name: "Networking", targets: ["Networking"]),
         .library(name: "UseCases", targets: ["UseCases"]),
         .library(name: "SettingsStorage", targets: ["SettingsStorage"]),
-        .library(name: "AppNotifier", targets: ["AppNotifier"])
+        .library(name: "AppNotifier", targets: ["AppNotifier"]),
+        .library(name: "Coordinator", targets: ["Coordinator"]),
+        .library(name: "Assemblies", targets: ["Assemblies"]),
+        .library(name: "DependencyResolver", targets: ["DependencyResolver"])
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
         .package(url: "https://github.com/Alamofire/Alamofire.git", exact: "5.6.1"),
-        .package(url: "https://github.com/konkab/AlamofireNetworkActivityLogger.git", .upToNextMajor(from: "3.4.0"))
+        .package(url: "https://github.com/konkab/AlamofireNetworkActivityLogger.git", .upToNextMajor(from: "3.4.0")),
+        .package(url: "https://github.com/Swinject/Swinject.git", exact: "2.8.0")
     ],
     targets: [
         .target(name: "MoneyBoxApplication", dependencies: [
-            "UseCases"
+            "Coordinator",
+            "DependencyResolver"
         ]),
         
         .target(name: "Core"),
@@ -41,6 +46,23 @@ let package = Package(
         
         .target(name: "SettingsStorage", dependencies: []),
         
-        .target(name: "AppNotifier", dependencies: [])
+        .target(name: "AppNotifier", dependencies: []),
+        
+        .target(name: "Coordinator", dependencies: [
+            "DependencyResolver"
+        ]),
+        
+        .target(name: "Assemblies", dependencies: [
+            "Swinject",
+            "Networking",
+            "UseCases",
+            "SettingsStorage",
+            "AppNotifier"
+        ]),
+        
+        .target(name: "DependencyResolver", dependencies: [
+            "Swinject",
+            "Assemblies"
+        ])
     ]
 )

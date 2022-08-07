@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3B3254DB289DC3D10008C580 /* MoneyBoxApplication in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3254DA289DC3D10008C580 /* MoneyBoxApplication */; };
+		3B7208BE28A0785400CCDABA /* AppCoordinator+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7208BD28A0785400CCDABA /* AppCoordinator+Setup.swift */; };
+		3B7208C428A0793500CCDABA /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7208C028A0793400CCDABA /* APIConfiguration.swift */; };
+		3B7208C528A0793500CCDABA /* PlistDecodableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7208C228A0793400CCDABA /* PlistDecodableType.swift */; };
+		3B7208C628A0793500CCDABA /* PlistDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7208C328A0793400CCDABA /* PlistDecoder.swift */; };
+		3B7208C828A0798F00CCDABA /* APIConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B7208C728A0798F00CCDABA /* APIConfiguration.plist */; };
 		B228EA6B2880B30B00B35F16 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228EA692880B30B00B35F16 /* LoginViewController.swift */; };
 		B228EA6C2880B30B00B35F16 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B228EA6A2880B30B00B35F16 /* Login.storyboard */; };
 		B2CA46CC279350880041B3A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CA46CB279350880041B3A5 /* AppDelegate.swift */; };
@@ -31,6 +36,11 @@
 /* Begin PBXFileReference section */
 		3B3254D8289DBB5E0008C580 /* MoneyBoxApplication */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MoneyBoxApplication; path = Packages/MoneyBoxApplication; sourceTree = "<group>"; };
 		3B3254DC289DC9E10008C580 /* NetworkingLegacy */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkingLegacy; sourceTree = "<group>"; };
+		3B7208BD28A0785400CCDABA /* AppCoordinator+Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppCoordinator+Setup.swift"; sourceTree = "<group>"; };
+		3B7208C028A0793400CCDABA /* APIConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		3B7208C228A0793400CCDABA /* PlistDecodableType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistDecodableType.swift; sourceTree = "<group>"; };
+		3B7208C328A0793400CCDABA /* PlistDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistDecoder.swift; sourceTree = "<group>"; };
+		3B7208C728A0798F00CCDABA /* APIConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIConfiguration.plist; sourceTree = "<group>"; };
 		B228EA692880B30B00B35F16 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B228EA6A2880B30B00B35F16 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		B2CA46C8279350880041B3A5 /* MoneyBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +80,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3B7208BF28A0793400CCDABA /* APIConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				3B7208C028A0793400CCDABA /* APIConfiguration.swift */,
+				3B7208C128A0793400CCDABA /* PlistDecodableType */,
+			);
+			path = APIConfiguration;
+			sourceTree = "<group>";
+		};
+		3B7208C128A0793400CCDABA /* PlistDecodableType */ = {
+			isa = PBXGroup;
+			children = (
+				3B7208C228A0793400CCDABA /* PlistDecodableType.swift */,
+				3B7208C328A0793400CCDABA /* PlistDecoder.swift */,
+			);
+			path = PlistDecodableType;
+			sourceTree = "<group>";
+		};
 		B2CA46BF279350880041B3A5 = {
 			isa = PBXGroup;
 			children = (
@@ -93,12 +121,15 @@
 		B2CA46CA279350880041B3A5 /* MoneyBox */ = {
 			isa = PBXGroup;
 			children = (
+				B2CA46CB279350880041B3A5 /* AppDelegate.swift */,
+				3B7208BD28A0785400CCDABA /* AppCoordinator+Setup.swift */,
 				B228EA6A2880B30B00B35F16 /* Login.storyboard */,
 				B228EA692880B30B00B35F16 /* LoginViewController.swift */,
-				B2CA46CB279350880041B3A5 /* AppDelegate.swift */,
 				B2CA46D42793508A0041B3A5 /* Assets.xcassets */,
 				B2CA46D62793508A0041B3A5 /* LaunchScreen.storyboard */,
 				B2CA46D92793508A0041B3A5 /* Info.plist */,
+				3B7208C728A0798F00CCDABA /* APIConfiguration.plist */,
+				3B7208BF28A0793400CCDABA /* APIConfiguration */,
 			);
 			path = MoneyBox;
 			sourceTree = "<group>";
@@ -216,6 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B7208C828A0798F00CCDABA /* APIConfiguration.plist in Resources */,
 				B2CA46D82793508A0041B3A5 /* LaunchScreen.storyboard in Resources */,
 				B2CA47712794D8E50041B3A5 /* LoginSucceed.json in Resources */,
 				B2CA46D52793508A0041B3A5 /* Assets.xcassets in Resources */,
@@ -238,8 +270,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B7208BE28A0785400CCDABA /* AppCoordinator+Setup.swift in Sources */,
+				3B7208C628A0793500CCDABA /* PlistDecoder.swift in Sources */,
 				B2CA46CC279350880041B3A5 /* AppDelegate.swift in Sources */,
 				B228EA6B2880B30B00B35F16 /* LoginViewController.swift in Sources */,
+				3B7208C528A0793500CCDABA /* PlistDecodableType.swift in Sources */,
+				3B7208C428A0793500CCDABA /* APIConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
