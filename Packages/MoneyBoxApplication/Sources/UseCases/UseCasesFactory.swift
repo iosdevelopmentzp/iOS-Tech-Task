@@ -11,7 +11,10 @@ import SettingsStorage
 import AppNotifier
 
 public protocol UseCasesFactoryProtocol {
-    func account(_ networking: AccountNetworkServiceProtocol) -> AccountUseCaseProtocol
+    func account(
+        networking: AccountNetworkServiceProtocol,
+        authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
+    ) -> AccountUseCaseProtocol
     
     func authorisation(
         networking: AuthorizationNetworkServiceProtocol,
@@ -28,8 +31,11 @@ public final class UseCasesFactory {
 // MARK: - UseCasesFactoryProtocol
 
 extension UseCasesFactory: UseCasesFactoryProtocol {
-    public func account(_ networking: AccountNetworkServiceProtocol) -> AccountUseCaseProtocol {
-        AccountUseCase(networking)
+    public func account(
+        networking: AccountNetworkServiceProtocol,
+        authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
+    ) -> AccountUseCaseProtocol {
+        AccountUseCase(networking: networking, authorizationSettingsStorage: authorizationSettingsStorage)
     }
     
     public func authorisation(

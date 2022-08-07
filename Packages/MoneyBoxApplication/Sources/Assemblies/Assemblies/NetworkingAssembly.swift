@@ -27,10 +27,7 @@ struct NetworkingAssembly: Assembly {
         // AccountNetworkServiceProtocol
         
         container.register(AccountNetworkServiceProtocol.self) { r in
-            r.resolveOrFail(NetworkingFactoryProtocol.self).account(
-                configurations: r.resolveOrFail(),
-                tokenProvider: r.resolveOrFail()
-            )
+            r.resolveOrFail(NetworkingFactoryProtocol.self).account(configurations: r.resolveOrFail())
         }
     }
 }

@@ -8,25 +8,25 @@
 import Foundation
 import Core
 
-public protocol AccountNetworkServiceProtocol {
+public protocol AccountNetworkServiceProtocol: AnyObject {
+    var tokenProvider: TokenProviderType? { get set }
+    
     func account() async throws -> AccountResponseDTO
 }
 
 final class AccountNetworkService {
     private typealias AccountTarget = Target<AccountRouter>
     
+    weak var tokenProvider: TokenProviderType?
     private let networking: Networking
     private let configurations: NetworkConfigurationsType
-    private let tokenProvider: TokenProviderType?
     
     init(
         _ networking: Networking,
-        configurations: NetworkConfigurationsType,
-        tokenProvider: TokenProviderType?
+        configurations: NetworkConfigurationsType
     ) {
         self.networking = networking
         self.configurations = configurations
-        self.tokenProvider = tokenProvider
     }
 }
 

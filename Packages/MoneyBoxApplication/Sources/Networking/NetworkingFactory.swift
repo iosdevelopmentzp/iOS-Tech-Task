@@ -10,10 +10,7 @@ import Foundation
 public protocol NetworkingFactoryProtocol {
     func authorization(configurations: NetworkConfigurationsType) -> AuthorizationNetworkServiceProtocol
     
-    func account(
-        configurations: NetworkConfigurationsType,
-        tokenProvider: TokenProviderType
-    ) -> AccountNetworkServiceProtocol
+    func account(configurations: NetworkConfigurationsType) -> AccountNetworkServiceProtocol
 }
 
 public final class NetworkingFactory {
@@ -27,10 +24,7 @@ extension NetworkingFactory: NetworkingFactoryProtocol {
         AuthorizationNetworkService(Networking(), configurations: configurations)
     }
     
-    public func account(
-        configurations: NetworkConfigurationsType,
-        tokenProvider: TokenProviderType
-    ) -> AccountNetworkServiceProtocol {
-        AccountNetworkService(Networking(), configurations: configurations, tokenProvider: tokenProvider)
+    public func account(configurations: NetworkConfigurationsType) -> AccountNetworkServiceProtocol {
+        AccountNetworkService(Networking(), configurations: configurations)
     }
 }

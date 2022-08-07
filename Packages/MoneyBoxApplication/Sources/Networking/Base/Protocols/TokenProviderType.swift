@@ -8,6 +8,6 @@
 import Foundation
 
 /// Entity that should be passed outside to get a token
-public protocol TokenProviderType {
+public protocol TokenProviderType: AnyObject {
     func authorizationToken() -> String?
 }

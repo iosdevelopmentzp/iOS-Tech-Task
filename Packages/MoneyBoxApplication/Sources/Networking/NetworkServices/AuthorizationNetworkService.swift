@@ -8,7 +8,7 @@
 import Foundation
 import Core
 
-public protocol AuthorizationNetworkServiceProtocol {
+public protocol AuthorizationNetworkServiceProtocol: AnyObject {
     func login(_ data: LoginRequestDTO) async throws -> LoginResponseDTO
 }
 

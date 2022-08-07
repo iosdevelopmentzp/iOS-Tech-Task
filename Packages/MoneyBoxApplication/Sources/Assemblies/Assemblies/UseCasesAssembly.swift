@@ -33,7 +33,10 @@ struct UseCasesAssembly: Assembly {
         // AccountUseCaseProtocol
         
         container.register(AccountUseCaseProtocol.self) { r in
-            r.resolveOrFail(UseCasesFactoryProtocol.self).account(r.resolveOrFail())
+            r.resolveOrFail(UseCasesFactoryProtocol.self).account(
+                networking: r.resolveOrFail(),
+                authorizationSettingsStorage: r.resolveOrFail()
+            )
         }
     }
 }
