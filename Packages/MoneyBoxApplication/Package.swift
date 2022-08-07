@@ -15,7 +15,10 @@ let package = Package(
         .library(name: "AppNotifier", targets: ["AppNotifier"]),
         .library(name: "Coordinator", targets: ["Coordinator"]),
         .library(name: "Assemblies", targets: ["Assemblies"]),
-        .library(name: "DependencyResolver", targets: ["DependencyResolver"])
+        .library(name: "DependencyResolver", targets: ["DependencyResolver"]),
+        .library(name: "MVVM", targets: ["MVVM"]),
+        
+        .library(name: "SceneLogin", targets: ["SceneLogin"])
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
@@ -63,6 +66,15 @@ let package = Package(
         .target(name: "DependencyResolver", dependencies: [
             "Swinject",
             "Assemblies"
+        ]),
+        
+        .target(name: "MVVM"),
+        
+        .target(name: "SceneLogin", dependencies: [
+            "SnapKit",
+            "MVVM",
+            "UseCases",
+            "Core"
         ])
     ]
 )
