@@ -5,10 +5,12 @@ import PackageDescription
 
 let package = Package(
     name: "MoneyBoxApplication",
+    defaultLocalization: "en",
     platforms: [.iOS(.v13)],
     products: [
         .library(name: "MoneyBoxApplication", targets: ["Coordinator", "DependencyResolver"]),
         .library(name: "Core", targets: ["Core"]),
+        .library(name: "AppResources", targets: ["AppResources"]),
         .library(name: "Networking", targets: ["Networking"]),
         .library(name: "UseCases", targets: ["UseCases"]),
         .library(name: "SettingsStorage", targets: ["SettingsStorage"]),
@@ -34,6 +36,8 @@ let package = Package(
         
         .target(name: "Core"),
         
+        .target(name: "AppResources"),
+        
         .target(name: "Networking", dependencies: [
             "Core",
             "Alamofire",
@@ -52,7 +56,8 @@ let package = Package(
         .target(name: "AppNotifier", dependencies: []),
         
         .target(name: "Coordinator", dependencies: [
-            "DependencyResolver"
+            "DependencyResolver",
+            "SceneLogin"
         ]),
         
         .target(name: "Assemblies", dependencies: [
@@ -74,7 +79,8 @@ let package = Package(
             "SnapKit",
             "MVVM",
             "UseCases",
-            "Core"
+            "Core",
+            "AppResources"
         ])
     ]
 )

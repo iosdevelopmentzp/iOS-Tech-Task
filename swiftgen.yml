@@ -1,0 +1,41 @@
+# input_dir: .
+output_dir: Packages/MoneyBoxApplication/Sources/AppResources/Generated
+
+xcassets:
+  inputs:
+    - "Packages/MoneyBoxApplication/Sources/AppResources/Resources/Images.xcassets"
+  outputs:
+    - templateName: "swift5"
+      params:
+        publicAccess: true
+        enumName: Images
+      output: "Images+Generated.swift"
+
+strings:
+  inputs:
+    - "Packages/MoneyBoxApplication/Sources/AppResources/Resources/en.lproj"
+  outputs:
+    - templateName: structured-swift5
+      params:
+        enumName: Strings
+        publicAccess: true
+      output: "Strings+Generated.swift"
+
+xcassets:
+    inputs:
+      - "Packages/MoneyBoxApplication/Sources/AppResources/Resources/Colors.xcassets"
+    outputs:
+      - templateName: "swift5"
+        params:
+            enumName: Colors
+            publicAccess: true
+        output: "Colors+Generated.swift"
+        
+fonts:
+  inputs: "Packages/MoneyBoxApplication/Sources/AppResources/Resources/Fonts"
+  outputs:
+    templateName: swift5
+    params:
+        enumName: Fonts
+        publicAccess: true
+    output: Fonts+Generated.swift

@@ -168,6 +168,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2CA46F22793508A0041B3A5 /* Build configuration list for PBXNativeTarget "MoneyBox" */;
 			buildPhases = (
+				3BBF119D28A85F73003C6222 /* Swiftgen */,
 				B2CA46C4279350880041B3A5 /* Sources */,
 				B2CA46C5279350880041B3A5 /* Frameworks */,
 				B2CA46C6279350880041B3A5 /* Resources */,
@@ -264,6 +265,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3BBF119D28A85F73003C6222 /* Swiftgen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftgen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/swiftgen/bin/swiftgen\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B2CA46C4279350880041B3A5 /* Sources */ = {

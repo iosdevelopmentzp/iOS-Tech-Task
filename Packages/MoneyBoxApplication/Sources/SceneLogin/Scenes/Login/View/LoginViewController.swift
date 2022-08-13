@@ -6,3 +6,8 @@
 //
 
 import Foundation
+import AppResources
+
+func sfs() {
+    //debugPrint(Asset.LogIn.leftArrowLeft.image)
+}
