@@ -36,7 +36,7 @@ let package = Package(
         
         .target(name: "Core"),
         
-        .target(name: "AppResources"),
+        .target(name: "AppResources", exclude: ["Resources/Fonts"]),
         
         .target(name: "Networking", dependencies: [
             "Core",
