@@ -11,5 +11,6 @@ public protocol ViewModel {
     associatedtype Input
     associatedtype Output
     
+    @MainActor
     func transform(_ input: Input, outputHandler: @escaping (Output) -> Void)
 }

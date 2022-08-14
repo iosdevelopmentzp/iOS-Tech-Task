@@ -7,11 +7,11 @@
 
 import Foundation
 import UIKit
+import SceneLogin
 
 final class LoginCoordinator: NavigationCoordinator {
     override func start() {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = UIColor.red
+        let viewController = LoginViewController(.init())
         navigation.pushViewController(viewController, animated: true)
     }
 }

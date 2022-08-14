@@ -10,6 +10,7 @@ let package = Package(
     products: [
         .library(name: "MoneyBoxApplication", targets: ["Coordinator", "DependencyResolver"]),
         .library(name: "Core", targets: ["Core"]),
+        .library(name: "Extensions", targets: ["Extensions"]),
         .library(name: "AppResources", targets: ["AppResources"]),
         .library(name: "Networking", targets: ["Networking"]),
         .library(name: "UseCases", targets: ["UseCases"]),
@@ -35,6 +36,8 @@ let package = Package(
         ]),
         
         .target(name: "Core"),
+        
+        .target(name: "Extensions"),
         
         .target(name: "AppResources", exclude: ["Resources/Fonts"]),
         
@@ -80,7 +83,8 @@ let package = Package(
             "MVVM",
             "UseCases",
             "Core",
-            "AppResources"
+            "AppResources",
+            "Extensions"
         ])
     ]
 )
