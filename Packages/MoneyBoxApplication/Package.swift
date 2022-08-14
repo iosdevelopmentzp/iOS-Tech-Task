@@ -11,6 +11,7 @@ let package = Package(
         .library(name: "MoneyBoxApplication", targets: ["Coordinator", "DependencyResolver"]),
         .library(name: "Core", targets: ["Core"]),
         .library(name: "Extensions", targets: ["Extensions"]),
+        .library(name: "AppViews", targets: ["AppViews"]),
         .library(name: "AppResources", targets: ["AppResources"]),
         .library(name: "Networking", targets: ["Networking"]),
         .library(name: "UseCases", targets: ["UseCases"]),
@@ -39,7 +40,9 @@ let package = Package(
         
         .target(name: "Extensions"),
         
-        .target(name: "AppResources", exclude: ["Resources/Fonts"]),
+        .target(name: "AppViews"),
+        
+        .target(name: "AppResources", resources: [.process("Resources/Fonts/")]),
         
         .target(name: "Networking", dependencies: [
             "Core",
@@ -84,7 +87,8 @@ let package = Package(
             "UseCases",
             "Core",
             "AppResources",
-            "Extensions"
+            "Extensions",
+            "AppViews"
         ])
     ]
 )

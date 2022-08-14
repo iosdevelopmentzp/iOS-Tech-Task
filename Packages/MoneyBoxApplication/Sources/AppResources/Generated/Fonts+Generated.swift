@@ -20,11 +20,28 @@ public typealias Font = FontConvertible.Font
 
 // swiftlint:disable identifier_name line_length type_body_length
 public enum Fonts {
-  public enum DarlingtonDemo {
-    public static let regular = FontConvertible(name: "DarlingtonDemo", family: "Darlington Demo", path: "DarlingtonDemo-z8xjG.ttf")
-    public static let all: [FontConvertible] = [regular]
+  public enum Lato {
+    public static let black = FontConvertible(name: "Lato-Black", family: "Lato", path: "Lato-Black.ttf")
+    public static let blackItalic = FontConvertible(name: "Lato-BlackItalic", family: "Lato", path: "Lato-BlackItalic.ttf")
+    public static let bold = FontConvertible(name: "Lato-Bold", family: "Lato", path: "Lato-Bold.ttf")
+    public static let boldItalic = FontConvertible(name: "Lato-BoldItalic", family: "Lato", path: "Lato-BoldItalic.ttf")
+    public static let hairline = FontConvertible(name: "Lato-Hairline", family: "Lato", path: "Lato-Hairline.ttf")
+    public static let hairlineItalic = FontConvertible(name: "Lato-HairlineItalic", family: "Lato", path: "Lato-HairlineItalic.ttf")
+    public static let heavy = FontConvertible(name: "Lato-Heavy", family: "Lato", path: "Lato-Heavy.ttf")
+    public static let heavyItalic = FontConvertible(name: "Lato-HeavyItalic", family: "Lato", path: "Lato-HeavyItalic.ttf")
+    public static let italic = FontConvertible(name: "Lato-Italic", family: "Lato", path: "Lato-Italic.ttf")
+    public static let light = FontConvertible(name: "Lato-Light", family: "Lato", path: "Lato-Light.ttf")
+    public static let lightItalic = FontConvertible(name: "Lato-LightItalic", family: "Lato", path: "Lato-LightItalic.ttf")
+    public static let medium = FontConvertible(name: "Lato-Medium", family: "Lato", path: "Lato-Medium.ttf")
+    public static let mediumItalic = FontConvertible(name: "Lato-MediumItalic", family: "Lato", path: "Lato-MediumItalic.ttf")
+    public static let regular = FontConvertible(name: "Lato-Regular", family: "Lato", path: "Lato-Regular.ttf")
+    public static let semibold = FontConvertible(name: "Lato-Semibold", family: "Lato", path: "Lato-Semibold.ttf")
+    public static let semiboldItalic = FontConvertible(name: "Lato-SemiboldItalic", family: "Lato", path: "Lato-SemiboldItalic.ttf")
+    public static let thin = FontConvertible(name: "Lato-Thin", family: "Lato", path: "Lato-Thin.ttf")
+    public static let thinItalic = FontConvertible(name: "Lato-ThinItalic", family: "Lato", path: "Lato-ThinItalic.ttf")
+    public static let all: [FontConvertible] = [black, blackItalic, bold, boldItalic, hairline, hairlineItalic, heavy, heavyItalic, italic, light, lightItalic, medium, mediumItalic, regular, semibold, semiboldItalic, thin, thinItalic]
   }
-  public static let allCustomFonts: [FontConvertible] = [DarlingtonDemo.all].flatMap { $0 }
+  public static let allCustomFonts: [FontConvertible] = [Lato.all].flatMap { $0 }
   public static func registerAllCustomFonts() {
     allCustomFonts.forEach { $0.register() }
   }

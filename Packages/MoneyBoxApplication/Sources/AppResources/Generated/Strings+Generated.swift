@@ -11,8 +11,8 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum Strings {
   public enum Login {
-    /// Log In
-    public static let title = Strings.tr("Localizable", "login.title", fallback: "Log In")
+    /// Login
+    public static let loginButtonTitle = Strings.tr("Localizable", "login.login_button_title", fallback: "Login")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
