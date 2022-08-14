@@ -13,15 +13,22 @@ import Extensions
 import SnapKit
 import AppViews
 
-public final class LoginViewController: UIViewController, View, ViewSettableType {
+public final class LoginViewController: UIViewController, View, ViewSettableType, KeyboardNotifiable {
+    // MARK: - Nested
+    
+    private struct Constants {
+        static let loginButtonBottomPadding: CGFloat = 20
+    }
+    
     // MARK: - Properties
     
     public let viewModel: LoginViewModel
     
     private let scrollView = UIScrollView()
-    private let contentView = UIView()
+    private let contentView = UIControl()
     private let textFieldsContainer = UIView()
     private let logInButton = UIButton()
+    private var logInButtonBottomConstraint: NSLayoutConstraint?
     private let loginTextField = TextField()
     private let passwordTextField = TextField()
     
@@ -47,10 +54,18 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        registerKeyboardNotification(.willChangeFrame) { [weak self] notification in
+            notification.keyboardFrame.map {
+                self?.updateConstraints(for: $0)
+                self?.updateInset(for: $0)
+            }
+        }
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        deregisterKeyboardNotification(self, type: .willChangeFrame)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -74,6 +89,8 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
         passwordTextField.layer.borderColor = Colors.Border.black.color.cgColor
         passwordTextField.layer.borderWidth = 1
         passwordTextField.layer.cornerRadius = 6
+        
+        contentView.addTarget(self, action: #selector(self.didTapContent(_:)), for: .touchUpInside)
     }
     
     public func setupLocalization() {
@@ -106,7 +123,12 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
             $0.centerX.equalToSuperview()
             $0.width.equalToSuperview().multipliedBy(0.8)
             $0.height.equalTo(44)
-            $0.bottom.equalToSuperview().inset(20)
+            logInButtonBottomConstraint = $0.bottom
+                .equalToSuperview()
+                .inset(Constants.loginButtonBottomPadding)
+                .constraint
+                .layoutConstraints
+                .first
         }
         
         textFieldsContainer.snp.makeConstraints {
@@ -134,5 +156,39 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     
     public func setupInput(_ input: LoginViewModel.Output) {
         
+    }
+    
+    // MARK: - User Interaction
+    
+    @objc
+    private func didTapContent(_ sender: UIControl) {
+        self.view.endEditing(true)
+    }
+}
+
+// MARK: - Private Functions
+
+private extension LoginViewController {
+    private func updateInset(for keyboardFrame: CGRect) {
+        scrollView.contentInset = .init(
+            top: 0,
+            left: 0,
+            bottom: max(0, scrollView.frame.maxY - keyboardFrame.minY),
+            right: 0
+        )
+    }
+    
+    private func updateConstraints(for keyboardFrame: CGRect) {
+        guard let constraint = logInButtonBottomConstraint else { return }
+        
+        let buttonFrame = self.logInButton.superview?.convert(self.logInButton.frame, to: self.view) ?? .zero
+        let currentMinY = buttonFrame.minY
+        let targetMinY = keyboardFrame.minY - Constants.loginButtonBottomPadding - buttonFrame.height
+        let shift = targetMinY - currentMinY
+        constraint.constant = min(-Constants.loginButtonBottomPadding, constraint.constant + shift)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.contentView.layoutIfNeeded()
+        }
     }
 }
