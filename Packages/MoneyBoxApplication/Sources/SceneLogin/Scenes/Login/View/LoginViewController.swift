@@ -32,6 +32,13 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     private let loginTextField = TextField()
     private let passwordTextField = TextField()
     
+    private var shouldUpdateKeyboardDependencies = true
+    private var currentKeyboardFrame: CGRect?
+    
+    private var isKeyboardVisible: Bool {
+        currentKeyboardFrame.map { $0.minY < view.frame.maxY } ?? false
+    }
+    
     // MARK: - Constructor
     
     public init(_ viewModel: LoginViewModel) {
@@ -54,9 +61,10 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        
         registerKeyboardNotification(.willChangeFrame) { [weak self] notification in
             notification.keyboardFrame.map {
+                self?.currentKeyboardFrame = $0
+                guard self?.shouldUpdateKeyboardDependencies ?? false else { return }
                 self?.updateConstraints(for: $0)
                 self?.updateInset(for: $0)
             }
@@ -71,6 +79,11 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        handlerTrateCollectionChange(with: coordinator)
     }
     
     // MARK: - Setup
@@ -166,29 +179,58 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     }
 }
 
-// MARK: - Private Functions
+// MARK: - Keyboard Actions
 
 private extension LoginViewController {
+    private func handlerTrateCollectionChange(with coordinator: UIViewControllerTransitionCoordinator) {
+        guard isKeyboardVisible else { return }
+        shouldUpdateKeyboardDependencies = false
+        
+        let updateUIAfterAnimation = { [weak self] in
+            DispatchQueue.main.async { [weak self] in
+                guard let currentKeyboardFrame = self?.currentKeyboardFrame else { return }
+                self?.updateInset(for: currentKeyboardFrame)
+                self?.updateConstraints(for: currentKeyboardFrame)
+            }
+        }
+        
+        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            updateUIAfterAnimation()
+            self?.shouldUpdateKeyboardDependencies = true
+        }
+    }
+    
     private func updateInset(for keyboardFrame: CGRect) {
-        scrollView.contentInset = .init(
-            top: 0,
-            left: 0,
-            bottom: max(0, scrollView.frame.maxY - keyboardFrame.minY),
-            right: 0
-        )
+        UIView.animate(withDuration: 0.2) {
+            self.scrollView.contentInset = .init(
+                top: 0,
+                left: 0,
+                bottom: max(0, self.scrollView.frame.maxY - keyboardFrame.minY),
+                right: 0
+            )
+        }
     }
     
     private func updateConstraints(for keyboardFrame: CGRect) {
         guard let constraint = logInButtonBottomConstraint else { return }
         
+        var newConstant = -Constants.loginButtonBottomPadding
+        
+        defer {
+            if newConstant != constraint.constant {
+                constraint.constant = newConstant
+                UIView.animate(withDuration: 0.2) {
+                    self.contentView.layoutIfNeeded()
+                }
+            }
+        }
+        
+        guard view.bounds.width < view.bounds.height else { return }
+        
         let buttonFrame = self.logInButton.superview?.convert(self.logInButton.frame, to: self.view) ?? .zero
         let currentMinY = buttonFrame.minY
         let targetMinY = keyboardFrame.minY - Constants.loginButtonBottomPadding - buttonFrame.height
         let shift = targetMinY - currentMinY
-        constraint.constant = min(-Constants.loginButtonBottomPadding, constraint.constant + shift)
-        
-        UIView.animate(withDuration: 0.2) {
-            self.contentView.layoutIfNeeded()
-        }
+        newConstant = min(-Constants.loginButtonBottomPadding, constraint.constant + shift)
     }
 }
