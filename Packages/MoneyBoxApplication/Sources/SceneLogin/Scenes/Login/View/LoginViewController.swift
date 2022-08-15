@@ -18,12 +18,16 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     
     private struct Constants {
         static let loginButtonBottomPadding: CGFloat = 20
+        static let controlsMinSpace: CGFloat = 30
     }
     
     // MARK: - Properties
     
     public let viewModel: LoginViewModel
     
+    private let keyboardListener = KeyboardListener()
+    
+    private let stackView = UIStackView()
     private let scrollView = UIScrollView()
     private let contentView = UIControl()
     private let textFieldsContainer = UIView()
@@ -31,13 +35,7 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     private var logInButtonBottomConstraint: NSLayoutConstraint?
     private let loginTextField = TextField()
     private let passwordTextField = TextField()
-    
-    private var shouldUpdateKeyboardDependencies = true
-    private var currentKeyboardFrame: CGRect?
-    
-    private var isKeyboardVisible: Bool {
-        currentKeyboardFrame.map { $0.minY < view.frame.maxY } ?? false
-    }
+    private let spacer = UIView()
     
     // MARK: - Constructor
     
@@ -56,29 +54,19 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
         super.viewDidLoad()
         performSetupViews()
         setupOutput()
+        keyboardListener.delegate = self
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        registerKeyboardNotification(.willChangeFrame) { [weak self] notification in
-            notification.keyboardFrame.map {
-                self?.currentKeyboardFrame = $0
-                guard self?.shouldUpdateKeyboardDependencies ?? false else { return }
-                self?.updateConstraints(for: $0)
-                self?.updateInset(for: $0)
-            }
-        }
-    }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        deregisterKeyboardNotification(self, type: .willChangeFrame)
+        keyboardListener.startListen()
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        keyboardListener.stopListen()
     }
     
     public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -104,6 +92,8 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
         passwordTextField.layer.cornerRadius = 6
         
         contentView.addTarget(self, action: #selector(self.didTapContent(_:)), for: .touchUpInside)
+        
+        stackView.axis = .vertical
     }
     
     public func setupLocalization() {
@@ -115,10 +105,13 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     public func addViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(logInButton)
-        contentView.addSubview(textFieldsContainer)
+        
+        contentView.addSubview(stackView)
+        stackView.addArrangedSubview(textFieldsContainer)
         textFieldsContainer.addSubview(loginTextField)
         textFieldsContainer.addSubview(passwordTextField)
+        stackView.addArrangedSubview(spacer)
+        stackView.addArrangedSubview(logInButton)
     }
     
     public func layoutViews() {
@@ -132,23 +125,24 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
             $0.width.equalToSuperview()
         }
         
-        logInButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.width.equalToSuperview().multipliedBy(0.8)
-            $0.height.equalTo(44)
+        stackView.snp.makeConstraints {
             logInButtonBottomConstraint = $0.bottom
                 .equalToSuperview()
                 .inset(Constants.loginButtonBottomPadding)
                 .constraint
                 .layoutConstraints
                 .first
+            $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy(0.8)
+        }
+        
+        logInButton.snp.makeConstraints {
+            $0.height.equalTo(44)
         }
         
         textFieldsContainer.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().priority(.medium)
-            $0.width.equalToSuperview().multipliedBy(0.8)
-            $0.bottom.lessThanOrEqualTo(self.logInButton.snp.top).offset(-30)
+            $0.centerX.equalTo(self.contentView)
+            $0.centerY.equalTo(self.contentView).priority(.medium)
         }
         
         loginTextField.snp.makeConstraints {
@@ -159,7 +153,11 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
         passwordTextField.snp.makeConstraints {
             $0.left.bottom.right.equalToSuperview()
             $0.height.equalTo(44)
-            $0.top.equalTo(self.loginTextField.snp.bottom).offset(30)
+            $0.top.equalTo(self.loginTextField.snp.bottom).offset(Constants.controlsMinSpace)
+        }
+        
+        spacer.snp.makeConstraints {
+            $0.height.greaterThanOrEqualTo(Constants.controlsMinSpace)
         }
     }
     
@@ -181,37 +179,42 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
 
 // MARK: - Keyboard Actions
 
-private extension LoginViewController {
+extension LoginViewController: KeyboardListenerDelegate {
+    // MARK: - KeyboardListenerDelegate
+    
+    public func keyboardFrameWillChange(listener: KeyboardListener, newFrame: CGRect) {
+        updateConstraints(for: newFrame)
+        updateInset(for: newFrame)
+    }
+    
+    // MARK: Private Keyboard Actions
+    
     private func handlerTrateCollectionChange(with coordinator: UIViewControllerTransitionCoordinator) {
-        guard isKeyboardVisible else { return }
-        shouldUpdateKeyboardDependencies = false
-        
-        let updateUIAfterAnimation = { [weak self] in
-            DispatchQueue.main.async { [weak self] in
-                guard let currentKeyboardFrame = self?.currentKeyboardFrame else { return }
-                self?.updateInset(for: currentKeyboardFrame)
-                self?.updateConstraints(for: currentKeyboardFrame)
-            }
-        }
-        
+        guard keyboardListener.isKeyboardShowed(visibleViewController: self) else { return }
+        keyboardListener.allowNotify = false
+        updateInset(for: nil)
+        updateConstraints(for: nil)
+
         coordinator.animate(alongsideTransition: nil) { [weak self] _ in
-            updateUIAfterAnimation()
-            self?.shouldUpdateKeyboardDependencies = true
+            DispatchQueue.main.async { [weak self] in
+                guard let keyboardFrame = self?.keyboardListener.keyboardFrame else { return }
+                self?.updateInset(for: keyboardFrame)
+                self?.updateConstraints(for: keyboardFrame)
+            }
+            self?.keyboardListener.allowNotify = true
         }
     }
     
-    private func updateInset(for keyboardFrame: CGRect) {
-        UIView.animate(withDuration: 0.2) {
-            self.scrollView.contentInset = .init(
-                top: 0,
-                left: 0,
-                bottom: max(0, self.scrollView.frame.maxY - keyboardFrame.minY),
-                right: 0
-            )
-        }
+    private func updateInset(for keyboardFrame: CGRect?) {
+        scrollView.contentInset = .init(
+            top: 0,
+            left: 0,
+            bottom: keyboardFrame.map { max(0, scrollView.frame.maxY - $0.minY) } ?? 0 ,
+            right: 0
+        )
     }
     
-    private func updateConstraints(for keyboardFrame: CGRect) {
+    private func updateConstraints(for keyboardFrame: CGRect?) {
         guard let constraint = logInButtonBottomConstraint else { return }
         
         var newConstant = -Constants.loginButtonBottomPadding
@@ -225,7 +228,7 @@ private extension LoginViewController {
             }
         }
         
-        guard view.bounds.width < view.bounds.height else { return }
+        guard let keyboardFrame = keyboardFrame, view.bounds.width < view.bounds.height else { return }
         
         let buttonFrame = self.logInButton.superview?.convert(self.logInButton.frame, to: self.view) ?? .zero
         let currentMinY = buttonFrame.minY
