@@ -34,6 +34,10 @@ final class AuthorizationUseCase {
 // MARK: - AuthorizationUseCaseProtocol
 
 extension AuthorizationUseCase: AuthorizationUseCaseProtocol {
+    var isAuthorized: Bool {
+        authorizationSettingsStorage.authorizationToken != nil
+    }
+    
     func login(username: String, password: String) async throws {
         let response = try await networking.login(.init(email: username, password: password, idfa: "ANYTHING"))
         authorizationSettingsStorage.saveAuthorizationToken(response.session.bearerToken)
@@ -42,5 +46,9 @@ extension AuthorizationUseCase: AuthorizationUseCaseProtocol {
             lastName: response.user.lastName
         )
         authorizationNotifier.notify(event: .didLogin)
+    }
+    
+    func clearAuthorizationToken() {
+        authorizationSettingsStorage.clearAuthorizationToken()
     }
 }

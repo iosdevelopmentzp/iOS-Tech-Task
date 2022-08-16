@@ -13,10 +13,11 @@ public enum AuthorizationNotifierEvent: String {
 }
 
 public protocol AuthorizationNotifierDelegate: AnyObject {
-    func notifier(_ notifier: AuthorizationNotifierProtocol, didNotifyEvent: AuthorizationNotifierEvent)
+    func notifier(_ notifier: AuthorizationNotifierProtocol, didNotifyEvent event: AuthorizationNotifierEvent)
 }
 
 public protocol AuthorizationNotifierProtocol {
-    func addListener(_ delegate: AuthorizationNotifierDelegate) -> Cancellable
+    func addListener(_ listener: AuthorizationNotifierDelegate)
+    func removeListener(_ listener: AuthorizationNotifierDelegate)
     func notify(event: AuthorizationNotifierEvent)
 }

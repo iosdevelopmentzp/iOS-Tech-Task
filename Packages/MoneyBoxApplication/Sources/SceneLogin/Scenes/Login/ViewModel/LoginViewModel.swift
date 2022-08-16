@@ -35,8 +35,8 @@ public final class LoginViewModel: ViewModel {
     
     private let useCase: AuthorizationUseCaseProtocol
     
-    private var userName = ""
-    private var passwordText = ""
+    private var userName = "test+ios2@moneyboxapp.com"
+    private var passwordText = "P455word12"
     
     private var onStateUpdate: ArgClosure<(current: LoginState, previous: LoginState?), Void>?
     

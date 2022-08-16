@@ -8,5 +8,8 @@
 import Foundation
 
 public protocol AuthorizationUseCaseProtocol {
+    var isAuthorized: Bool { get }
+    
+    func clearAuthorizationToken()
     func login(username: String, password: String) async throws 
 }
