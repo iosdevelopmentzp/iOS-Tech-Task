@@ -9,5 +9,9 @@ import Foundation
 
 /// helper to change behaviour of app during testing
 public var isTesting: Bool {
-    NSClassFromString("XCTestCase") != nil
+    #if DEBUG
+    return NSClassFromString("XCTestCase") != nil
+    #else
+    return false
+    #endif
 }
