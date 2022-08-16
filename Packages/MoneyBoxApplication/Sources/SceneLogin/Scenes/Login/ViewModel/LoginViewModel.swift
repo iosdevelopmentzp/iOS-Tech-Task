@@ -97,7 +97,7 @@ private extension LoginViewModel {
 #if DEBUG
                 if !isTesting {
                     // For debugging purposes, extend the load time by 1 second.
-                    try? await Task.sleep(nanoseconds: 4_000_000_000)
+                    try? await Task.sleep(nanoseconds: 2_000_000_000)
                 }
 #endif
                 try await useCase.login(username: userName, password: passwordText)

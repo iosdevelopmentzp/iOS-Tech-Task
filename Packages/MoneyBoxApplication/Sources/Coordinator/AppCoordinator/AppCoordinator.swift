@@ -69,7 +69,9 @@ extension AppCoordinator: AuthorizationNotifierDelegate {
     public func notifier(_ notifier: AuthorizationNotifierProtocol, didNotifyEvent event: AuthorizationNotifierEvent) {
         switch event {
         case .didLogin, .didLogout:
-            DispatchQueue.main.async { [weak self] in self?.start() }
+            DispatchQueue.main.async { [weak self] in
+                self?.start()
+            }
         }
     }
 }

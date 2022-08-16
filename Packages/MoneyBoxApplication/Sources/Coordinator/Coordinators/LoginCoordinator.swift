@@ -21,6 +21,6 @@ final class LoginCoordinator: NavigationCoordinator {
     
     override func start() {
         let viewController = LoginViewController(.init(useCase: resolver.resolve()))
-        navigation.setViewControllers([viewController], animated: true)
+        navigation.pushViewController(viewController, animated: true)
     }
 }

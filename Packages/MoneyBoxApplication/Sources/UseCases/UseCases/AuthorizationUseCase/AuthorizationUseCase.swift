@@ -28,6 +28,11 @@ final class AuthorizationUseCase {
         self.authorizationSettingsStorage = authorizationSettings
         self.userSettingsStorage = userSettings
         self.authorizationNotifier = authorizationNotifier
+        
+        #warning("For Testing")
+        #if DEBUG
+        self.clearAuthorizationToken()
+        #endif
     }
 }
 
