@@ -39,9 +39,9 @@ public final class AppCoordinator: NavigationCoordinator {
     
     public override func start() {
         if authorizationUseCase.isAuthorized {
-            let viewController = UIViewController()
-            viewController.view.backgroundColor = UIColor.blue
-            navigation.setViewControllers([viewController], animated: true)
+            let accountCoordinator = AccountCoordinator(resolver, navigation: navigation)
+            addChild(accountCoordinator)
+            accountCoordinator.start()
         } else {
             let loginCoordinator = LoginCoordinator(resolver, navigation: navigation)
             addChild(loginCoordinator)

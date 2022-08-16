@@ -21,8 +21,9 @@ let package = Package(
         .library(name: "Assemblies", targets: ["Assemblies"]),
         .library(name: "DependencyResolver", targets: ["DependencyResolver"]),
         .library(name: "MVVM", targets: ["MVVM"]),
-        
-        .library(name: "SceneLogin", targets: ["SceneLogin"])
+        // Scenes
+        .library(name: "SceneLogin", targets: ["SceneLogin"]),
+        .library(name: "SceneAccount", targets: ["SceneAccount"])
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
@@ -63,7 +64,8 @@ let package = Package(
         
         .target(name: "Coordinator", dependencies: [
             "DependencyResolver",
-            "SceneLogin"
+            "SceneLogin",
+            "SceneAccount"
         ]),
         
         .target(name: "Assemblies", dependencies: [
@@ -81,6 +83,8 @@ let package = Package(
         
         .target(name: "MVVM"),
         
+        // Scenes
+        
         .target(name: "SceneLogin", dependencies: [
             "SnapKit",
             "MVVM",
@@ -89,6 +93,15 @@ let package = Package(
             "AppResources",
             "Extensions",
             "AppViews"
+        ]),
+        
+        .target(name: "SceneAccount", dependencies: [
+            "SnapKit",
+            "MVVM",
+            "UseCases",
+            "Core",
+            "AppResources",
+            "Extensions"
         ])
     ]
 )

@@ -25,8 +25,7 @@ struct UseCasesAssembly: Assembly {
             r.resolveOrFail(UseCasesFactoryProtocol.self).authorisation(
                 networking: r.resolveOrFail(),
                 authorizationSettings: r.resolveOrFail(),
-                userSettings: r.resolveOrFail(),
-                authorizationNotifier: r.resolveOrFail()
+                userSettings: r.resolveOrFail()
             )
         }
         

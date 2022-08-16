@@ -19,8 +19,7 @@ public protocol UseCasesFactoryProtocol {
     func authorisation(
         networking: AuthorizationNetworkServiceProtocol,
         authorizationSettings: AuthorizationSettingsStorageProtocol,
-        userSettings: UserSettingsStorageProtocol,
-        authorizationNotifier: AuthorizationNotifierProtocol
+        userSettings: UserSettingsStorageProtocol
     ) -> AuthorizationUseCaseProtocol
 }
 
@@ -41,14 +40,12 @@ extension UseCasesFactory: UseCasesFactoryProtocol {
     public func authorisation(
         networking: AuthorizationNetworkServiceProtocol,
         authorizationSettings: AuthorizationSettingsStorageProtocol,
-        userSettings: UserSettingsStorageProtocol,
-        authorizationNotifier: AuthorizationNotifierProtocol
+        userSettings: UserSettingsStorageProtocol
     ) -> AuthorizationUseCaseProtocol {
         AuthorizationUseCase(
             networking: networking,
             authorizationSettings: authorizationSettings,
-            userSettings: userSettings,
-            authorizationNotifier: authorizationNotifier
+            userSettings: userSettings
         )
     }
 }

@@ -16,18 +16,15 @@ final class AuthorizationUseCase {
     
     private let authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
     private let userSettingsStorage: UserSettingsStorageProtocol
-    private let authorizationNotifier: AuthorizationNotifierProtocol
     
     init(
         networking:  AuthorizationNetworkServiceProtocol,
         authorizationSettings: AuthorizationSettingsStorageProtocol,
-        userSettings: UserSettingsStorageProtocol,
-        authorizationNotifier: AuthorizationNotifierProtocol
+        userSettings: UserSettingsStorageProtocol
     ) {
         self.networking = networking
         self.authorizationSettingsStorage = authorizationSettings
         self.userSettingsStorage = userSettings
-        self.authorizationNotifier = authorizationNotifier
         
         #warning("For Testing")
         #if DEBUG
@@ -50,7 +47,6 @@ extension AuthorizationUseCase: AuthorizationUseCaseProtocol {
             firstName: response.user.firstName,
             lastName: response.user.lastName
         )
-        authorizationNotifier.notify(event: .didLogin)
     }
     
     func clearAuthorizationToken() {

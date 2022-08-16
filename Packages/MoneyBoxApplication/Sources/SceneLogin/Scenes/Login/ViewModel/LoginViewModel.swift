@@ -102,7 +102,6 @@ private extension LoginViewModel {
 #endif
                 try await useCase.login(username: userName, password: passwordText)
                 sceneDelegate?.didLogin()
-                state = .expectation(state.model)
             } catch {
                 state = .error(error.localizedDescription, state.model)
             }
