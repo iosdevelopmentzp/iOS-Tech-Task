@@ -2,9 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>appId</key>
+	<string>8cb2237d0679ca88db6464</string>
+	<key>appVersion</key>
+	<string>8.10.0</string>
 	<key>apiVersion</key>
-	<string>v1</string>
+	<string>3.0.0</string>
 	<key>host</key>
-	<string>61e947967bc0550017bc61bf.mockapi.io</string>
+	<string>api-test02.moneyboxapp.com</string>
 </dict>
 </plist>

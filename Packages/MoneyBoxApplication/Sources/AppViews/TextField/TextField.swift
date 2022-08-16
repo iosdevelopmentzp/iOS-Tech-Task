@@ -7,7 +7,7 @@
 
 import UIKit
 
-public final class TextField: UITextField {
+open class TextField: UITextField {
     
     // MARK: - Public
     

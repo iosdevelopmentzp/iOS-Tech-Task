@@ -8,3 +8,5 @@
 // MARK: - Login
 
 "login.login_button_title" = "Login";
+"login.login_placeholder" = "Email";
+"login.password_placeholder" = "Password";

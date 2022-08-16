@@ -7,28 +7,120 @@
 
 import Foundation
 import MVVM
+import Extensions
+import UseCases
+import AppResources
 
 @MainActor
 public final class LoginViewModel: ViewModel {
     // MARK: - Nested
     
     public struct Input {
-        
+        var onStateUpdate: ArgClosure<(current: LoginState, previous: LoginState?), Void>
     }
     
     public struct Output {
+        enum EventType {
+            case loginTap
+            case loginText(_ text: String)
+            case passwordText(_ text: String)
+        }
         
+        var onEvent: ArgClosure<EventType, Void>
+    }
+    
+    // MARK: - Properties
+    
+    public var sceneDelegate: LoginSceneDelegate?
+    
+    private let useCase: AuthorizationUseCaseProtocol
+    
+    private var userName = ""
+    private var passwordText = ""
+    
+    private var onStateUpdate: ArgClosure<(current: LoginState, previous: LoginState?), Void>?
+    
+    private var state: LoginState = .idle {
+        didSet {
+            guard state != oldValue else { return }
+            onStateUpdate?((state, oldValue))
+        }
     }
     
     // MARK: - Constructor
     
-    public init() {
-        
+    public init(useCase: AuthorizationUseCaseProtocol) {
+        self.useCase = useCase
     }
     
     // MARK: - Transform
     
     public func transform(_ input: Input, outputHandler: @escaping (Output) -> Void) {
+        onStateUpdate = {
+            input.onStateUpdate($0)
+        }
         
+        let output = Output(
+            onEvent: { [weak self] in
+                self?.handler(event: $0)
+            }
+        )
+        
+        outputHandler(output)
+        state = .expectation(makeViewModels())
+    }
+}
+
+// MARK: - Private Functions
+
+private extension LoginViewModel {
+    private func handler(event: Output.EventType) {
+        switch event {
+        case .loginTap:
+            login()
+
+        case .loginText(let text):
+            userName = text
+            state = .expectation(makeViewModels())
+
+        case .passwordText(let text):
+            passwordText = text
+            state = .expectation(makeViewModels())
+        }
+    }
+
+    private func login() {
+        state = .loading(state.model)
+
+        Task {
+            do {
+#if DEBUG
+                if !isTesting {
+                    // For debugging purposes, extend the load time by 1 second.
+                    try? await Task.sleep(nanoseconds: 4_000_000_000)
+                }
+#endif
+                try await useCase.login(username: userName, password: passwordText)
+                sceneDelegate?.didLogin()
+                state = .expectation(state.model)
+            } catch {
+                state = .error(error.localizedDescription, state.model)
+            }
+        }
+    }
+    
+    private func makeViewModels() -> LoginViewModels {
+        let loginModel = LoginTextFieldModel(text: userName, placeholder: Strings.Login.loginPlaceholder)
+        let passwordModel = LoginTextFieldModel(text: passwordText, placeholder: Strings.Login.passwordPlaceholder)
+        let buttonModel = LoginButtonModel(
+            title: Strings.Login.loginButtonTitle,
+            isEnabled: !userName.isEmpty && !passwordText.isEmpty
+        )
+        
+        return .init(
+            loginButtonModel: buttonModel,
+            loginTextFieldModel: loginModel,
+            passwordTextFieldModel: passwordModel
+        )
     }
 }

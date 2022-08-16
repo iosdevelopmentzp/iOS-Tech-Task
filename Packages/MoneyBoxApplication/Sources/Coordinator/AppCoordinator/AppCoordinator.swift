@@ -30,7 +30,7 @@ public final class AppCoordinator: NavigationCoordinator {
     
     public override func start() {
         window.rootViewController = navigation
-        let loginCoordinator = LoginCoordinator(navigation: navigation)
+        let loginCoordinator = LoginCoordinator(resolver, navigation: navigation)
         addChild(loginCoordinator)
         loginCoordinator.start()
         window.makeKeyAndVisible()

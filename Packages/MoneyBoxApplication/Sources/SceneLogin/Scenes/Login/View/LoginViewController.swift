@@ -21,6 +21,12 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
         static let controlsMinSpace: CGFloat = 30
     }
     
+    private enum Event {
+        case loginTap
+        case loginTextDidChange(_ text: String)
+        case passwordTextDidChange(_ text: String)
+    }
+    
     // MARK: - Properties
     
     public let viewModel: LoginViewModel
@@ -31,11 +37,13 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     private let scrollView = UIScrollView()
     private let contentView = UIControl()
     private let textFieldsContainer = UIView()
-    private let logInButton = UIButton()
+    private let logInButton = LoginButton()
     private var logInButtonBottomConstraint: NSLayoutConstraint?
-    private let loginTextField = TextField()
-    private let passwordTextField = TextField()
+    private let loginTextField = LoginTextField(mode: .email)
+    private let passwordTextField = LoginTextField(mode: .password)
     private let spacer = UIView()
+    
+    private var eventsHandler: ArgClosure<Event, Void>?
     
     // MARK: - Constructor
     
@@ -77,29 +85,8 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     // MARK: - Setup
     
     public func setupViews() {
-        logInButton.titleLabel?.font = Fonts.Lato.bold.font(size: 20)
-        logInButton.backgroundColor = Colors.Buttons.blue.color
-        logInButton.layer.cornerRadius = 8
-        
-        scrollView.bounces = true
-        
-        loginTextField.layer.borderColor = Colors.Border.black.color.cgColor
-        loginTextField.layer.borderWidth = 1
-        loginTextField.layer.cornerRadius = 6
-        
-        passwordTextField.layer.borderColor = Colors.Border.black.color.cgColor
-        passwordTextField.layer.borderWidth = 1
-        passwordTextField.layer.cornerRadius = 6
-        
-        contentView.addTarget(self, action: #selector(self.didTapContent(_:)), for: .touchUpInside)
-        
+        scrollView.bounces = false
         stackView.axis = .vertical
-    }
-    
-    public func setupLocalization() {
-        logInButton.setTitle(Strings.Login.loginButtonTitle, for: .normal)
-        loginTextField.placeholder = "Email"
-        passwordTextField.placeholder = "Password"
     }
     
     public func addViews() {
@@ -136,10 +123,6 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
             $0.width.equalToSuperview().multipliedBy(0.8)
         }
         
-        logInButton.snp.makeConstraints {
-            $0.height.equalTo(44)
-        }
-        
         textFieldsContainer.snp.makeConstraints {
             $0.centerX.equalTo(self.contentView)
             $0.centerY.equalTo(self.contentView).priority(.medium)
@@ -147,12 +130,10 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
         
         loginTextField.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
-            $0.height.equalTo(44)
         }
         
         passwordTextField.snp.makeConstraints {
             $0.left.bottom.right.equalToSuperview()
-            $0.height.equalTo(44)
             $0.top.equalTo(self.loginTextField.snp.bottom).offset(Constants.controlsMinSpace)
         }
         
@@ -161,12 +142,36 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
         }
     }
     
+    public func setupViewLinks() {
+        contentView.addTarget(self, action: #selector(self.didTapContent(_:)), for: .touchUpInside)
+        
+        logInButton.delegate = self
+        loginTextField.eventsDelegate = self
+        passwordTextField.eventsDelegate = self
+        
+    }
+    
     public func setupOutput() {
-        viewModel.transform(.init(), outputHandler: self.setupInput(_:))
+        let output = LoginViewModel.Input(
+            onStateUpdate: { [weak self] in self?.updateState($0.current, previous: $0.previous) }
+        )
+        
+        viewModel.transform(output, outputHandler: self.setupInput(_:))
     }
     
     public func setupInput(_ input: LoginViewModel.Output) {
-        
+        eventsHandler = {
+            switch $0 {
+            case .loginTap:
+                input.onEvent(.loginTap)
+                
+            case .loginTextDidChange(let loginText):
+                input.onEvent(.loginText(loginText))
+                
+            case .passwordTextDidChange(let password):
+                input.onEvent(.passwordText(password))
+            }
+        }
     }
     
     // MARK: - User Interaction
@@ -174,6 +179,55 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     @objc
     private func didTapContent(_ sender: UIControl) {
         self.view.endEditing(true)
+    }
+    
+    // MARK: - Private
+    
+    private func updateState(_ state: LoginState, previous: LoginState?) {
+//        view.isUserInteractionEnabled = state.isLoading == false
+        
+        if state.isLoading != previous?.isLoading {
+            logInButton.setActivityIndicator(isAnimating: state.isLoading)
+        }
+        
+        if let errorMessage = state.errorMessage {
+            // TODO: - Handler error
+            let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+            let action = UIAlertAction.init(title: "OK", style: .default)
+            alert.addAction(action)
+            self.present(alert, animated: true)
+        }
+        
+        guard let models = state.model, models != previous?.model else { return }
+        loginTextField.configure(using: models.loginTextFieldModel)
+        passwordTextField.configure(using: models.passwordTextFieldModel)
+        logInButton.configure(using: models.loginButtonModel)
+    }
+}
+
+// MARK: - LoginButtonDelegate
+
+extension LoginViewController: LoginButtonDelegate {
+    func didTap(button: LoginButton) {
+        eventsHandler?(.loginTap)
+    }
+}
+
+// MARK: - LoginTextFieldEventsDelegate
+
+extension LoginViewController: LoginTextFieldEventsDelegate {
+    func didChangeText(textField: LoginTextField, text: String?) {
+        switch textField {
+        case loginTextField:
+            eventsHandler?(.loginTextDidChange(text ?? ""))
+            
+        case passwordTextField:
+            eventsHandler?(.passwordTextDidChange(text ?? ""))
+            
+        default:
+            assertionFailure("Unexpected text field")
+            break
+        }
     }
 }
 
@@ -196,6 +250,7 @@ extension LoginViewController: KeyboardListenerDelegate {
         updateConstraints(for: nil)
 
         coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            // Update keyboard spaces after animation was finished
             DispatchQueue.main.async { [weak self] in
                 guard let keyboardFrame = self?.keyboardListener.keyboardFrame else { return }
                 self?.updateInset(for: keyboardFrame)

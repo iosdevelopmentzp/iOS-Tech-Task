@@ -13,6 +13,10 @@ public enum Strings {
   public enum Login {
     /// Login
     public static let loginButtonTitle = Strings.tr("Localizable", "login.login_button_title", fallback: "Login")
+    /// Email
+    public static let loginPlaceholder = Strings.tr("Localizable", "login.login_placeholder", fallback: "Email")
+    /// Password
+    public static let passwordPlaceholder = Strings.tr("Localizable", "login.password_placeholder", fallback: "Password")
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

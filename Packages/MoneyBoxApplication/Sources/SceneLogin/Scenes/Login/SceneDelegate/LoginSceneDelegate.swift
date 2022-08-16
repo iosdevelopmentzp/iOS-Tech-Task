@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol LoginSceneDelegate: AnyObject {
-    
+    func didLogin()
 }

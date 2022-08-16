@@ -12,6 +12,7 @@ public protocol ViewSettableType {
     func setupLocalization()
     func addViews()
     func layoutViews()
+    func setupViewLinks()
 }
 
 public extension ViewSettableType {
@@ -20,6 +21,7 @@ public extension ViewSettableType {
         setupLocalization()
         addViews()
         layoutViews()
+        setupViewLinks()
     }
     
     func setupViews() {
@@ -27,7 +29,7 @@ public extension ViewSettableType {
     }
     
     func setupLocalization() {
-        
+        // Default Implementation
     }
     
     func addViews() {
@@ -35,6 +37,10 @@ public extension ViewSettableType {
     }
     
     func layoutViews() {
+        // Default Implementation
+    }
+    
+    func setupViewLinks() {
         // Default Implementation
     }
 }
