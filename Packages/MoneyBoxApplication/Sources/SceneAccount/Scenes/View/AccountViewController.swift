@@ -13,6 +13,9 @@ import Extensions
 final public class AccountViewController: UIViewController, View, ViewSettableType {
     // MARK: - Properties
     
+    private let tableView = UITableView()
+    private let headerContainer = UIView()
+    
     public let viewModel: AccountViewModel
     
     // MARK: - Constructor

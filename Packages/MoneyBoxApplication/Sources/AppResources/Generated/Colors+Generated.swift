@@ -31,6 +31,7 @@ public enum Colors {
     public static let gray = ColorAsset(name: "Buttons/gray")
   }
   public enum Font {
+    public static let black = ColorAsset(name: "Font/black")
     public static let gray = ColorAsset(name: "Font/gray")
   }
 }

@@ -24,22 +24,27 @@ public extension ViewSettableType {
         setupViewLinks()
     }
     
+    /// To customizing your views
     func setupViews() {
         // Default Implementation
     }
     
+    /// To setup localized strings
     func setupLocalization() {
         // Default Implementation
     }
     
+    /// To add views to them parents
     func addViews() {
         // Default Implementation
     }
     
+    /// Set your views constraints
     func layoutViews() {
         // Default Implementation
     }
     
+    /// To link your views with delegate, add targets and actions, etc.
     func setupViewLinks() {
         // Default Implementation
     }

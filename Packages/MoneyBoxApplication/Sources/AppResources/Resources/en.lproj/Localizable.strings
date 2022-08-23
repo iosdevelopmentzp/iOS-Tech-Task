@@ -10,3 +10,9 @@
 "login.login_button_title" = "Login";
 "login.login_placeholder" = "Email";
 "login.password_placeholder" = "Password";
+
+// MARK: - Account
+
+"account.title" = "User Account";
+"account.name" = "Hello %@!";
+"account.totalPlan" = "Total Plan Value: %@%@";

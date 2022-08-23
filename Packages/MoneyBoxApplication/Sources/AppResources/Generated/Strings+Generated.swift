@@ -10,6 +10,18 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum Strings {
+  public enum Account {
+    /// Hello %@!
+    public static func name(_ p1: Any) -> String {
+      return Strings.tr("Localizable", "account.name", String(describing: p1), fallback: "Hello %@!")
+    }
+    /// User Account
+    public static let title = Strings.tr("Localizable", "account.title", fallback: "User Account")
+    /// Total Plan Value: %@%@
+    public static func totalPlan(_ p1: Any, _ p2: Any) -> String {
+      return Strings.tr("Localizable", "account.totalPlan", String(describing: p1), String(describing: p2), fallback: "Total Plan Value: %@%@")
+    }
+  }
   public enum Login {
     /// Login
     public static let loginButtonTitle = Strings.tr("Localizable", "login.login_button_title", fallback: "Login")

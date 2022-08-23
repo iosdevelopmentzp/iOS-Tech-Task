@@ -184,7 +184,7 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     // MARK: - Private
     
     private func updateState(_ state: LoginState, previous: LoginState?) {
-//        view.isUserInteractionEnabled = state.isLoading == false
+        view.isUserInteractionEnabled = state.isLoading == false
         
         if state.isLoading != previous?.isLoading {
             logInButton.setActivityIndicator(isAnimating: state.isLoading)
