@@ -21,6 +21,16 @@ public enum Strings {
     public static func totalPlan(_ p1: Any, _ p2: Any) -> String {
       return Strings.tr("Localizable", "account.totalPlan", String(describing: p1), String(describing: p2), fallback: "Total Plan Value: %@%@")
     }
+    public enum Cell {
+      /// Moneybox: %@%@
+      public static func moneyboxValue(_ p1: Any, _ p2: Any) -> String {
+        return Strings.tr("Localizable", "account.cell.moneybox-value", String(describing: p1), String(describing: p2), fallback: "Moneybox: %@%@")
+      }
+      /// Plan Value: %@%@
+      public static func planValue(_ p1: Any, _ p2: Any) -> String {
+        return Strings.tr("Localizable", "account.cell.plan-value", String(describing: p1), String(describing: p2), fallback: "Plan Value: %@%@")
+      }
+    }
   }
   public enum Login {
     /// Login

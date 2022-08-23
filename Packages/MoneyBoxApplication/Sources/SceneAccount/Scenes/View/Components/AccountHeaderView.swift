@@ -60,7 +60,7 @@ final class AccountHeaderView: UIView, ViewSettableType {
 
 extension AccountHeaderView {
     func configure(using model: AccountHeaderViewModel) {
-        self.subtitle.text = model.localizedName
-        self.totalPlanLabel.text = model.localizedTotalPlan
+        self.subtitle.text = model.name
+        self.totalPlanLabel.text = model.planValue
     }
 }

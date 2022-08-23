@@ -16,3 +16,5 @@
 "account.title" = "User Account";
 "account.name" = "Hello %@!";
 "account.totalPlan" = "Total Plan Value: %@%@";
+"account.cell.plan-value" = "Plan Value: %@%@";
+"account.cell.moneybox-value" = "Moneybox: %@%@";

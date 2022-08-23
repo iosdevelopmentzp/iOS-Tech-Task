@@ -38,7 +38,7 @@ final class ProductCell: UICollectionViewCell, ViewSettableType {
         stackView.spacing = 4
         
         accessoryImageView.contentMode = .scaleAspectFit
-        //accessoryImageView.image = Images
+        accessoryImageView.image = Images.Account.accessorRightArrow.image
         
         [nameLabel, planValueLabel, moneyboxLabel].forEach {
             $0.font = Fonts.Lato.regular.font(size: 19)
@@ -48,10 +48,28 @@ final class ProductCell: UICollectionViewCell, ViewSettableType {
     }
     
     func addViews() {
-        
+        contentView.addSubview(contentContainerView)
+        contentContainerView.addSubview(accessoryImageView)
+        contentContainerView.addSubview(stackView)
+        stackView.addArrangedSubview(nameLabel)
+        stackView.addArrangedSubview(planValueLabel)
+        stackView.addArrangedSubview(moneyboxLabel)
     }
     
     func layoutViews() {
+        contentContainerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
+        stackView.snp.makeConstraints {
+            $0.left.top.bottom.equalToSuperview()
+        }
+        
+        accessoryImageView.snp.makeConstraints {
+            $0.size.equalTo(60)
+            $0.left.equalTo(self.stackView.snp.right).offset(10)
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().inset(8)
+        }
     }
 }
