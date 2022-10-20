@@ -28,7 +28,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
         .package(url: "https://github.com/Alamofire/Alamofire.git", exact: "5.6.1"),
-        .package(url: "https://github.com/konkab/AlamofireNetworkActivityLogger.git", .upToNextMajor(from: "3.4.0")),
         .package(url: "https://github.com/Swinject/Swinject.git", exact: "2.8.0")
     ],
     targets: [
@@ -47,8 +46,7 @@ let package = Package(
         
         .target(name: "Networking", dependencies: [
             "Core",
-            "Alamofire",
-            "AlamofireNetworkActivityLogger"
+            "Alamofire"
         ]),
         
         .target(name: "UseCases", dependencies: [
@@ -101,7 +99,8 @@ let package = Package(
             "UseCases",
             "Core",
             "AppResources",
-            "Extensions"
+            "Extensions",
+            "AppViews"
         ])
     ]
 )

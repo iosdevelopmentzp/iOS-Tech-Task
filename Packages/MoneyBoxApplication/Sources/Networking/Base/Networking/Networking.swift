@@ -7,16 +7,9 @@
 
 import Foundation
 import Alamofire
-import AlamofireNetworkActivityLogger
 
 /// Base Util to perform requests
 final class Networking {
-    init() {
-        // TODO: - Move to more suitable place.
-        NetworkActivityLogger.shared.startLogging()
-        NetworkActivityLogger.shared.level = .debug
-    }
-    
     func perform<R: Decodable>(target: TargetType, decoder: JSONDecoder = JSONDecoder()) async throws -> R {
         let task = AF.request(
             target,

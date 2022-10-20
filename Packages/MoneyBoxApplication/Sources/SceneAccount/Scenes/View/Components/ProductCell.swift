@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import Extensions
 import AppResources
+import AppViews
 
-final class ProductCell: UICollectionViewCell, ViewSettableType {
+final class ProductCell: DynamicCollectionCell, ViewSettableType {
     // MARK: - Properties
     
     private let contentContainerView = UIView()
@@ -45,10 +46,14 @@ final class ProductCell: UICollectionViewCell, ViewSettableType {
             $0.textColor = Colors.Font.black.color
             $0.numberOfLines = 1
         }
+        
+        contentContainerView.layer.cornerRadius = 10
+        contentContainerView.layer.borderWidth = 1
+        contentContainerView.layer.borderColor = Colors.Border.black.color.cgColor
     }
     
     func addViews() {
-        contentView.addSubview(contentContainerView)
+        container.addSubview(contentContainerView)
         contentContainerView.addSubview(accessoryImageView)
         contentContainerView.addSubview(stackView)
         stackView.addArrangedSubview(nameLabel)
@@ -71,5 +76,15 @@ final class ProductCell: UICollectionViewCell, ViewSettableType {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().inset(8)
         }
+    }
+}
+
+// MARK: - Configure
+
+extension ProductCell {
+    func configure(using model: ProductCellModel) {
+        nameLabel.text = model.name
+        planValueLabel.text = model.planValue
+        moneyboxLabel.text = model.moneyBoxValue
     }
 }

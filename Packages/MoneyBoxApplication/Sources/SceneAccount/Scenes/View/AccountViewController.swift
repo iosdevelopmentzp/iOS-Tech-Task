@@ -9,12 +9,18 @@ import Foundation
 import UIKit
 import MVVM
 import Extensions
+import AppResources
+
+class AccountHeaderView: UIView {
+    
+}
 
 final public class AccountViewController: UIViewController, View, ViewSettableType {
     // MARK: - Properties
     
     private let tableView = UITableView()
     private let headerContainer = UIView()
+    private let headerView = AccountHeaderView()
     
     public let viewModel: AccountViewModel
     
@@ -32,9 +38,6 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     public override func viewDidLoad() {
         super.viewDidLoad()
         performSetupViews()
-        #if DEBUG
-        self.navigationItem.title = "Test"
-        #endif
     }
     
     // MARK: - Setup
@@ -43,8 +46,17 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
         view.backgroundColor = UIColor.red
     }
     
+    public func setupLocalization() {
+        navigationItem.title = Strings.Account.title
+    }
+    
+    public func addViews() {
+        view.addSubview(headerContainer)
+        headerContainer.addSubview(headerView)
+    }
+    
     public func setupOutput() {
-        viewModel.transform(.init(), outputHandler: self.setupInput(_:))
+        viewModel.transform(.init(onDidUpdateState: { _ in }), outputHandler: self.setupInput(_:))
     }
     
     public func setupInput(_ input: AccountViewModel.Output) {

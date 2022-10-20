@@ -1,5 +1,5 @@
 //
-//  AccountHeaderViewModel.swift
+//  AccountHeaderCellModel.swift
 //  
 //
 //  Created by Dmytro Vorko on 23.08.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import AppResources
 
-struct AccountHeaderViewModel: Equatable {
+struct AccountHeaderCellModel: Equatable {
     // MARK: - Properties
     
     let name: String

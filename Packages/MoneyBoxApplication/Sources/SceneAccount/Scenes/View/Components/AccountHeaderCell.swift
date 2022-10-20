@@ -10,8 +10,9 @@ import UIKit
 import Extensions
 import AppResources
 import SnapKit
+import AppViews
 
-final class AccountHeaderView: UIView, ViewSettableType {
+final class AccountHeaderCell: DynamicCollectionCell, ViewSettableType {
     // MARK: - Properties
     
     private let stackView = UIStackView()
@@ -44,7 +45,7 @@ final class AccountHeaderView: UIView, ViewSettableType {
     }
     
     func addViews() {
-        addSubview(stackView)
+        container.addSubview(stackView)
         stackView.addArrangedSubview(subtitle)
         stackView.addArrangedSubview(totalPlanLabel)
     }
@@ -58,8 +59,8 @@ final class AccountHeaderView: UIView, ViewSettableType {
 
 // MARK: - Configure
 
-extension AccountHeaderView {
-    func configure(using model: AccountHeaderViewModel) {
+extension AccountHeaderCell {
+    func configure(using model: AccountHeaderCellModel) {
         self.subtitle.text = model.name
         self.totalPlanLabel.text = model.planValue
     }
