@@ -6,14 +6,13 @@
 //
 
 import Foundation
-import Alamofire
 
 enum AuthorizationRouter {
     case login
 }
 
 extension AuthorizationRouter: RouteType {
-    var method: Alamofire.HTTPMethod {
+    var method: HTTPMethod {
         switch self {
         case .login:
             return .post

@@ -38,6 +38,7 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     public override func viewDidLoad() {
         super.viewDidLoad()
         performSetupViews()
+        setupOutput()
     }
     
     // MARK: - Setup

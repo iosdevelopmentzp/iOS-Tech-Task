@@ -53,6 +53,7 @@ public final class AccountViewModel: ViewModel {
     // MARK: - Transform
     
     public func transform(_ input: Input, outputHandler: @escaping (Output) -> Void) {
+        setupProducts()
 //        eventsHandler = .init(
 //            onStateUpdate: {
 //                input.onDidUpdateState($0)
@@ -81,7 +82,12 @@ private extension AccountViewModel {
         state = .loading
         
         Task {
-            accountUseCase.products
+            do {
+                let products = try await accountUseCase.products()
+                debugPrint(products)
+            } catch {
+                debugPrint(error)
+            }
         }
     }
 }

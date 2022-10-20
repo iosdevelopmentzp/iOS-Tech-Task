@@ -27,7 +27,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", exact: "5.6.0"),
-        .package(url: "https://github.com/Alamofire/Alamofire.git", exact: "5.6.1"),
         .package(url: "https://github.com/Swinject/Swinject.git", exact: "2.8.0")
     ],
     targets: [
@@ -45,8 +44,7 @@ let package = Package(
         .target(name: "AppResources", resources: [.process("Resources/Fonts/")]),
         
         .target(name: "Networking", dependencies: [
-            "Core",
-            "Alamofire"
+            "Core"
         ]),
         
         .target(name: "UseCases", dependencies: [

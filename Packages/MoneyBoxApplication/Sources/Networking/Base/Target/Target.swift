@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import Alamofire
 
 protocol RouteType {
-    var method: Alamofire.HTTPMethod { get }
+    var method: HTTPMethod { get }
     var path: String { get }
 }
 
@@ -26,10 +25,6 @@ struct Target<Router: RouteType> {
 // MARK: - TargetType
 
 extension Target: TargetType {
-    enum TargetTypeError: Swift.Error {
-        case invalidComponents
-    }
-    
     var host: String {
         sendDataProvider.host
     }
@@ -38,7 +33,7 @@ extension Target: TargetType {
         router.path
     }
     
-    var method: Alamofire.HTTPMethod {
+    var method: HTTPMethod {
         router.method
     }
     
@@ -48,17 +43,5 @@ extension Target: TargetType {
     
     var parameters: [String : Any]? {
         sendDataProvider.parameters
-    }
-    
-    func asURL() throws -> URL {
-        var components = URLComponents()
-        components.host = self.host
-        components.path = self.path
-        components.scheme = self.scheme
-        
-        guard let url = components.url else {
-            throw TargetTypeError.invalidComponents
-        }
-        return url
     }
 }

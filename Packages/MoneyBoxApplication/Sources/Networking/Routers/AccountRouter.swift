@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 
 enum AccountRouter {
     case products
@@ -14,7 +13,7 @@ enum AccountRouter {
 }
 
 extension AccountRouter: RouteType {
-    var method: Alamofire.HTTPMethod {
+    var method: HTTPMethod {
         switch self {
         case .products:
             return .get
