@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum HTTPMethod: String {
+enum HTTPMethod: String {
     case connect = "CONNECT"
     case delete = "DELETE"
     case get = "GET"
@@ -66,9 +66,9 @@ extension TargetType {
         }
         
         if let parameters = self.parameters, !parameters.isEmpty {
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters)
             urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters)
         }
         
         return urlRequest

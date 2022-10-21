@@ -18,7 +18,7 @@ final class AccountNetworkService {
     private typealias AccountTarget = Target<AccountRouter>
     
     weak var tokenProvider: TokenProviderType?
-    private let networking: Networking
+    private let networking: NetworkingProtocol
     private let configurations: NetworkConfigurationsType
     
     init(
@@ -36,6 +36,6 @@ extension AccountNetworkService: AccountNetworkServiceProtocol {
     func account() async throws -> AccountResponseDTO {
         let provider = RequestDataProvider(configurations, token: self.tokenProvider?.authorizationToken())
         let target = AccountTarget(provider, router: .products)
-        return try await networking.perform(target: target)
+        return try await networking.dataRequest(target: target)
     }
 }

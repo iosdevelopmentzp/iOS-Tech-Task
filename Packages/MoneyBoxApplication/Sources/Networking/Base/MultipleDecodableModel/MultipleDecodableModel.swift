@@ -8,9 +8,9 @@
 import Foundation
 
 /// Wrapper for multiple decode expectation.
-/// Can be used, when some response can return either expected decodable model or server decodable error
-enum MultipleDecodableModel<OptionalExpectation: Decodable, MainExpectation: Decodable>: Decodable {
-    case optional(_ data: OptionalExpectation)
+/// For instance can be used when some response can return either expected decodable model or server decodable error
+enum MultipleDecodableModel<MainExpectation: Decodable, SecondaryExpectation: Decodable>: Decodable {
+    case secondary(_ data: SecondaryExpectation)
     case main(_ main: MainExpectation)
     
     init(from decoder: Decoder) throws {
@@ -19,9 +19,9 @@ enum MultipleDecodableModel<OptionalExpectation: Decodable, MainExpectation: Dec
             let main = try decoder.singleValueContainer().decode(MainExpectation.self)
             self = .main(main)
         } catch {
-            // 2. If main decoding was failed - try decode optional expectation
-            if let optional = try? decoder.singleValueContainer().decode(OptionalExpectation.self) {
-                self = .optional(optional)
+            // 2. If main decoding was failed - try decode secondary expectation
+            if let secondary = try? decoder.singleValueContainer().decode(SecondaryExpectation.self) {
+                self = .secondary(secondary)
                 return
             }
             // 3. If optional decoding was also failed - throw main decoding error
@@ -33,12 +33,12 @@ enum MultipleDecodableModel<OptionalExpectation: Decodable, MainExpectation: Dec
 extension MultipleDecodableModel {
     /// If current case is main - returns main object.
     /// If current object is optional - throw optional error.
-    func mainExpectation() throws -> MainExpectation where OptionalExpectation: Error {
+    func mainExpectationOrError() throws -> MainExpectation where SecondaryExpectation: Error {
         switch self {
         case .main(let main):
             return main
-        case .optional(let optional):
-            throw optional
+        case .secondary(let secondary):
+            throw secondary
         }
     }
 }

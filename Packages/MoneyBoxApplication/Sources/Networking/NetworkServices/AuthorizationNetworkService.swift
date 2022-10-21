@@ -15,7 +15,7 @@ public protocol AuthorizationNetworkServiceProtocol: AnyObject {
 final class AuthorizationNetworkService {
     private typealias AuthorizationTarget = Target<AuthorizationRouter>
     
-    private let networking: Networking
+    private let networking: NetworkingProtocol
     private let configurations: NetworkConfigurationsType
     
     init(_ networking: Networking, configurations: NetworkConfigurationsType) {
@@ -30,7 +30,10 @@ extension AuthorizationNetworkService: AuthorizationNetworkServiceProtocol {
     func login(_ data: LoginRequestDTO) async throws -> LoginResponseDTO {
         let dataProvider = RequestDataProvider(configurations, parameters: try data.toDictionary())
         let target = AuthorizationTarget(dataProvider, router: .login)
-        let response: MultipleDecodableModel<ErrorResponseDTO, LoginResponseDTO> = try await networking.perform(target: target)
-        return try response.mainExpectation()
+        
+        let response: MultipleDecodableModel<LoginResponseDTO, ErrorResponseDTO>
+        response = try await networking.dataRequest(target: target)
+        
+        return try response.mainExpectationOrError()
     }
 }
