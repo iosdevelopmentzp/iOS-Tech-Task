@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HTTPMethod: String {
+public enum HTTPMethod: String {
     case connect = "CONNECT"
     case delete = "DELETE"
     case get = "GET"
@@ -20,7 +20,7 @@ enum HTTPMethod: String {
     case trace = "TRACE"
 }
 
-protocol TargetType {
+public protocol TargetType {
     /// URL scheme
     var scheme: String { get }
 

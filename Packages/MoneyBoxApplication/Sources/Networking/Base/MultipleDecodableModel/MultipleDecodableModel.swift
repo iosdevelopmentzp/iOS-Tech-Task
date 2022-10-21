@@ -24,7 +24,7 @@ enum MultipleDecodableModel<MainExpectation: Decodable, SecondaryExpectation: De
                 self = .secondary(secondary)
                 return
             }
-            // 3. If optional decoding was also failed - throw main decoding error
+            // 3. If secondary decoding was also failed - throw main decoding error
             throw error
         }
     }
