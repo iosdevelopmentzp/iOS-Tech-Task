@@ -43,19 +43,25 @@ extension Networking: NetworkingProtocol {
         let request: URLRequest
         do {
             request = try target.asURLRequest()
-            notifyListeners(target: target, didChangeState: .willBeSent)
+            notifyListeners(target: target, didChangeState: .willBeSent(request))
         } catch {
-            notifyListeners(target: target, didChangeState: .invalidTarget(error: error))
+            notifyListeners(target: target, didChangeState: .invalidTarget(error))
             throw error
         }
         
+        let startDate = Date()
         // Make a request
         let response: (data: Data, response: URLResponse)
         do {
             response = try await session.data(for: request)
-            notifyListeners(target: target, didChangeState: .serverResponse(response.response, response.data))
+            let endDate = Date()
+            let duration = endDate - startDate
+            notifyListeners(
+                target: target,
+                didChangeState: .serverResponse(request, response.response, response.data, duration)
+            )
         } catch {
-            notifyListeners(target: target, didChangeState: .requestError(error))
+            notifyListeners(target: target, didChangeState: .requestError(request, error))
             throw error
         }
         
@@ -71,4 +77,13 @@ extension Networking: NetworkingProtocol {
         
         return decodedModel
     }
+}
+
+// MARK: - Date Extra
+
+private extension Date {
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+
 }
