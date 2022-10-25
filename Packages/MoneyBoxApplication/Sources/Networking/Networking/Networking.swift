@@ -13,7 +13,6 @@ final class Networking {
     
     private let session: URLSession
     private let listeners: [NetworkListenerProtocol]
-    private lazy var lock = NSLock()
     
     // MARK: - Constructor
     
@@ -28,10 +27,7 @@ final class Networking {
     // MARK: - Private
     
     private func notifyListeners(requestId: Int, target: TargetType, didChangeState newState: DataRequestState) {
-        guard !listeners.isEmpty else { return }
-        lock.lock()
         listeners.forEach { $0.dataRequest(with: requestId, target: target, didChangeState: newState) }
-        lock.unlock()
     }
 }
 
