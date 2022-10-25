@@ -27,10 +27,10 @@ final class Networking {
     
     // MARK: - Private
     
-    private func notifyListeners(target: TargetType, didChangeState newState: DataRequestState) {
+    private func notifyListeners(requestId: Int, target: TargetType, didChangeState newState: DataRequestState) {
         guard !listeners.isEmpty else { return }
         lock.lock()
-        listeners.forEach { $0.dataRequest(target: target, didChangeState: newState) }
+        listeners.forEach { $0.dataRequest(with: requestId, target: target, didChangeState: newState) }
         lock.unlock()
     }
 }
@@ -39,29 +39,29 @@ final class Networking {
 
 extension Networking: NetworkingProtocol {
     func dataRequest<R: Decodable>(target: TargetType, decoder: JSONDecoder) async throws -> R {
+        let requestId = UUID().hashValue
+        
         // Preparing for request
         let request: URLRequest
         do {
             request = try target.asURLRequest()
-            notifyListeners(target: target, didChangeState: .willBeSent(request))
+            notifyListeners(requestId: requestId, target: target, didChangeState: .willBeSent(request))
         } catch {
-            notifyListeners(target: target, didChangeState: .invalidTarget(error))
+            notifyListeners(requestId: requestId, target: target, didChangeState: .invalidTarget(error))
             throw error
         }
         
-        let startDate = Date()
         // Make a request
         let response: (data: Data, response: URLResponse)
         do {
             response = try await session.data(for: request)
-            let endDate = Date()
-            let duration = endDate - startDate
             notifyListeners(
+                requestId: requestId,
                 target: target,
-                didChangeState: .serverResponse(request, response.response, response.data, duration)
+                didChangeState: .serverResponse(request, response.response, response.data)
             )
         } catch {
-            notifyListeners(target: target, didChangeState: .requestError(request, error))
+            notifyListeners(requestId: requestId, target: target, didChangeState: .requestError(request, error))
             throw error
         }
         
@@ -69,21 +69,12 @@ extension Networking: NetworkingProtocol {
         let decodedModel: R
         do {
             decodedModel = try decoder.decode(R.self, from: response.data)
-            notifyListeners(target: target, didChangeState: .decodedModel(decodedModel))
+            notifyListeners(requestId: requestId, target: target, didChangeState: .decodedModel(decodedModel))
         } catch {
-            notifyListeners(target: target, didChangeState: .failedDecoding(error))
+            notifyListeners(requestId: requestId, target: target, didChangeState: .failedDecoding(error))
             throw error
         }
         
         return decodedModel
     }
-}
-
-// MARK: - Date Extra
-
-private extension Date {
-    static func - (lhs: Date, rhs: Date) -> TimeInterval {
-        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
-    }
-
 }

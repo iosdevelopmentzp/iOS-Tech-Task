@@ -20,9 +20,11 @@ class NetworkLogListener: NetworkListenerProtocol {
         return dateFormatter
     }()
     
+    private var requestStartDates: [AnyHashable: Date] = [:]
+    
     // MARK: - NetworkListenerProtocol
     
-    func dataRequest(target: TargetType, didChangeState newState: DataRequestState) {
+    func dataRequest(with id: AnyHashable, target: TargetType, didChangeState newState: DataRequestState) {
         var description = """
                           :::::::::::::::::::::::::::::::::::::::
                           🌎 REQUEST (\(newState.description) state) \(dateFormatter.string(from: Date()))
@@ -36,9 +38,12 @@ class NetworkLogListener: NetworkListenerProtocol {
             
         case .willBeSent(let urlRequest):
             description += urlRequest.debugDescription
+            requestStartDates[id] = Date()
             
-        case .serverResponse(let request, let  response, let data, let duration):
+        case .serverResponse(let request, let  response, let data):
             description += request.debugDescription
+            let duration = requestStartDates[id].map { Date() - $0 }
+            requestStartDates[id] = .none
             description += response?.debugDescription(duration, data: data) ?? "\n\t⚠️ URLResponse IS NIL\n"
             
         case .requestError(let request, let error):
@@ -110,7 +115,7 @@ private extension URLRequest {
         if let body = self.httpBody {
             do {
                 let json = try body.toJSON()
-                bodyDescription = "\n" + json.prettyDescription.addBeforeEachNewLine(text: "\t\t")
+                bodyDescription = "\n" + json.prettyDescription.addBeforeEachNewLine(text: "\t\t\t")
             } catch {
                 bodyDescription = "⚠️ Request contains httpBody but during decodeing attempt obtain the ERROR: \(error.localizedDescription)"
             }
@@ -185,7 +190,7 @@ private extension DataRequestState {
 
 // MARK: Dictionary Extensions
 
-private extension Dictionary where Key == String, Value == Any {
+private extension JSON {
     var prettyDescription: String {
         (self as [AnyHashable: Any]).prettyDescription
     }
@@ -211,9 +216,9 @@ private extension Dictionary where Key == AnyHashable, Value == Any {
                 anyValue = stringValue.decodingUnicodeCharacters.unescaped
             } else if let stringArray = value as? [String] {
                 anyValue = stringArray.map({ $0.decodingUnicodeCharacters.unescaped })
-            } else if let jsonValue = value as? [String: Any] {
+            } else if let jsonValue = value as? JSON {
                 anyValue = convertToCirilicString(json: jsonValue)
-            } else if let jsonArray = value as? [[String: Any]] {
+            } else if let jsonArray = value as? [JSON] {
                 anyValue = jsonArray.map { convertToCirilicString(json: $0) }
             } else {
                 anyValue = value
@@ -263,4 +268,13 @@ private extension String {
     func addBeforeEachNewLine(text: String) -> String {
         text + self.replacingOccurrences(of: "\n", with: "\n\(text)")
     }
+}
+
+// MARK: - Date Extra
+
+private extension Date {
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+
 }

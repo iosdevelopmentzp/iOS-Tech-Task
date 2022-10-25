@@ -7,15 +7,17 @@
 
 import Foundation
 
+public typealias RequestID = AnyHashable
+
 public enum DataRequestState {
     case invalidTarget(_ error: Error)
     case willBeSent(_ request: URLRequest)
-    case serverResponse(_ request: URLRequest, _ response: URLResponse?, _ data: Data?, _ duration: TimeInterval)
+    case serverResponse(_ request: URLRequest, _ response: URLResponse?, _ data: Data?)
     case requestError(_ request: URLRequest, _ error: Error)
     case failedDecoding(_ error: Error)
     case decodedModel(_ model: Decodable)
 }
 
 public protocol NetworkListenerProtocol {
-    func dataRequest(target: TargetType, didChangeState newState: DataRequestState)
+    func dataRequest(with id: AnyHashable, target: TargetType, didChangeState newState: DataRequestState)
 }
