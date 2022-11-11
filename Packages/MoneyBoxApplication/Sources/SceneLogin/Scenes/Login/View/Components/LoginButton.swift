@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Extensions
 import AppResources
+import SnapKit
 
 protocol LoginButtonDelegate: AnyObject {
     func didTap(button: LoginButton)

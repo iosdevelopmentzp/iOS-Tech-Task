@@ -10,6 +10,7 @@ import AppViews
 import AppResources
 import UIKit
 import Extensions
+import SnapKit
 
 protocol LoginTextFieldEventsDelegate: AnyObject {
     func didChangeText(textField: LoginTextField, text: String?)

@@ -10,6 +10,7 @@ import UIKit
 import Extensions
 import AppResources
 import AppViews
+import SnapKit
 
 final class ProductCell: DynamicCollectionCell, ViewSettableType {
     // MARK: - Properties

@@ -7,6 +7,7 @@
 
 import UIKit
 import Extensions
+import SnapKit
 
 public protocol ErrorCellEventsDelegate: AnyObject {
     func cell(_ cell: ErrorCell, didPressRetryButton sender: UIButton)
