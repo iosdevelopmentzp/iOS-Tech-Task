@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Entity that decodes all ID formats into a string format. Nevertheless, it stores information about the type of the original ID.
+/// When encoding, the entity uses the original id format.
 public struct AdoptableID {
     // MARK: - Nested
     
@@ -32,6 +34,20 @@ public struct AdoptableID {
     public init(_ id: String) {
         self.stringFormat = id
         self.originalType = .string(id)
+    }
+}
+
+// MARK: - CustomStringConvertible
+
+extension AdoptableID: CustomStringConvertible {
+    public var description: String {
+        switch originalType {
+        case .int(let id):
+            return "\(id)"
+            
+        case .string(let id):
+            return "\"\(id)\""
+        }
     }
 }
 
