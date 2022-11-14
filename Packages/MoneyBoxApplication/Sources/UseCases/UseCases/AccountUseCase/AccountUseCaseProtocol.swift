@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import Core
 
 public protocol AccountUseCaseProtocol {
-    func products() async throws -> [Int]
+    func userAccount() async throws -> UserAccount
 }

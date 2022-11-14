@@ -27,9 +27,9 @@ final class AccountUseCase {
 // MARK: - AccountUseCaseProtocol
 
 extension AccountUseCase: AccountUseCaseProtocol {
-    func products() async throws -> [Int] {
-        let account = try await networking.account()
-        return account.productResponses?.map(\.id) ?? []
+    func userAccount() async throws -> UserAccount {
+        let accountResponse = try await networking.account()
+        return UserAccount.Factory.make(accountResponse)
     }
 }
 

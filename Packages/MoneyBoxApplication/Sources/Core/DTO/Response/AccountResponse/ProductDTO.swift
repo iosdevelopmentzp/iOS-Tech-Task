@@ -35,7 +35,7 @@ public struct ProductDTO: Decodable, Equatable {
     
     // MARK: - Properties
     
-    public let id: Int?
+    public let id: AdoptableID?
     public let name: String?
     public let categoryType: String?
     public let type: String?
@@ -49,7 +49,7 @@ public struct ProductDTO: Decodable, Equatable {
     public let maximumWeeklyDeposit: Int?
     public let documents: Documents?
     public let state: String?
-    public let wrapperDefinitionGlobalID: String?
+    public let wrapperDefinitionGlobalID: AdoptableID?
     public let lisa: Lisa?
     public let interestRate: String?
     public let interestRateAmount: Double?
@@ -76,7 +76,7 @@ public extension ProductDTO {
             case isFundDMB = "IsFundDMB"
         }
         
-        public let fundID: Int?
+        public let fundID: AdoptableID?
         public let name: String?
         public let logoURL: String?
         public let isFundDMB: Bool?

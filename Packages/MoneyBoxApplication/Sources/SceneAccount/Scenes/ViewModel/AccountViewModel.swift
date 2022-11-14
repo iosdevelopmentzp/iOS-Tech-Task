@@ -83,10 +83,9 @@ private extension AccountViewModel {
         
         Task {
             do {
-                let products = try await accountUseCase.products()
-                debugPrint(products)
+                let products = try await accountUseCase.userAccount()
             } catch {
-                debugPrint(error)
+                state = .error(error.localizedDescription)
             }
         }
     }

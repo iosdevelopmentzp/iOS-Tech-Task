@@ -7,29 +7,20 @@
 
 import Foundation
 
-struct AccountHeaderViewModel: Equatable {
-    
-}
-
 enum AccountState: Equatable {
     case idle
     case loading
     case error(_ errorMessage: String)
-    case loaded(_ productsModels: [ProductCellModel], _ headerModel: AccountHeaderViewModel)
+    case loaded(items: [AccountItem])
 }
 
+// MARK: - AccountState Extension
+
 extension AccountState {
-    var productsModels: [ProductCellModel]? {
-        guard case .loaded(let productsModels, _) = self else {
+    var loadedItems: [AccountItem]? {
+        guard case .loaded(items: let items) = self else {
             return nil
         }
-        return productsModels
-    }
-    
-    var headerModel: AccountHeaderViewModel? {
-        guard case .loaded(_, let headerModel) = self else {
-            return nil
-        }
-        return headerModel
+        return items
     }
 }

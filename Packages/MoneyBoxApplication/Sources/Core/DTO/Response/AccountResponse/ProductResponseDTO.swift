@@ -36,8 +36,8 @@ public struct ProductResponseDTO: Decodable, Equatable {
     
     // MARK: - Properties
     
-    public let id: Int
-    public let assetBoxGlobalID: String?
+    public let id: AdoptableID
+    public let assetBoxGlobalID: AdoptableID?
     public let planValue: Double?
     public let moneybox: Double?
     public let subscriptionAmount: Int?
@@ -45,7 +45,7 @@ public struct ProductResponseDTO: Decodable, Equatable {
     public let isSelected: Bool?
     public let isFavourite: Bool?
     public let collectionDayMessage: String?
-    public let wrapperID: String?
+    public let wrapperID: AdoptableID?
     public let isCashBox: Bool?
     public let pendingInstantBankTransferAmount: Int?
     public let assetBox: AssetBox?

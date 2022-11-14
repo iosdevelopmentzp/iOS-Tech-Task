@@ -7,6 +7,21 @@
 
 import Foundation
 
-public struct Account: Hashable {
+public struct Account: Equatable {
+    // MARK: - Properties
     
+    public let id: AdoptableID
+    public let name: String
+    public let planValue: Currency
+    public let moneyboxValue: Currency
+    
+    // MARK: - Constructor
+    
+    public init(id: AdoptableID, name: String, planValue: Currency, moneyboxValue: Currency) {
+        
+        self.id = id
+        self.name = name
+        self.planValue = planValue
+        self.moneyboxValue = moneyboxValue
+    }
 }
