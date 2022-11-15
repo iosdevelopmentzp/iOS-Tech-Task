@@ -15,17 +15,17 @@ struct AccountCellModel: Hashable {
     let id: AdoptableID
     let name: String
     
-    private let planValue: Double
-    private let moneyBoxValue: Double
+    private let planValue: String
+    private let moneyBoxValue: String
     private let planValueCurrency: String
     private let moneyBoxValueCurrency: String
     
     var planValueText: String {
-        Strings.Account.Cell.planValue(planValueCurrency, String(planValue))
+        Strings.Account.Cell.planValue(planValueCurrency, planValue)
     }
     
     var moneyBoxValueText: String {
-        Strings.Account.Cell.moneyboxValue(moneyBoxValueCurrency, String(moneyBoxValue))
+        Strings.Account.Cell.moneyboxValue(moneyBoxValueCurrency, moneyBoxValue)
     }
     
     // MARK: - Constructor
@@ -33,8 +33,8 @@ struct AccountCellModel: Hashable {
     init(id: AdoptableID, name: String, planValue: Double, planValueCurrency: String, moneyBoxValue: Double, moneyBoxValueCurrency: String) {
         self.id = id
         self.name = name
-        self.planValue = planValue
-        self.moneyBoxValue = moneyBoxValue
+        self.planValue = planValue.format(.roundUp(count: 2))
+        self.moneyBoxValue = moneyBoxValue.format(.roundUp(count: 2))
         self.planValueCurrency = planValueCurrency
         self.moneyBoxValueCurrency = moneyBoxValueCurrency
     }

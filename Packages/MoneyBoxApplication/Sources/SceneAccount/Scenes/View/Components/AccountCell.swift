@@ -43,7 +43,7 @@ final class AccountCell: DynamicCollectionCell, ViewSettableType, Reusable {
         accessoryImageView.image = Images.Account.accessorRightArrow.image
         
         [nameLabel, planValueLabel, moneyboxLabel].forEach {
-            $0.font = Fonts.Lato.regular.font(size: 19)
+            $0.font = Fonts.Lato.regular.font(size: 16)
             $0.textColor = Colors.Font.black.color
             $0.numberOfLines = 1
         }
