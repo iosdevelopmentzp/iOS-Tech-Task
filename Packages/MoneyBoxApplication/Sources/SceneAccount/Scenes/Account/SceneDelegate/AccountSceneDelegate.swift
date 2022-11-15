@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import Core
 
 public protocol AccountSceneDelegate: AnyObject {
-    // Navigation Interface
+    func didTapIndividualAccount(with id: AdoptableID)
 }

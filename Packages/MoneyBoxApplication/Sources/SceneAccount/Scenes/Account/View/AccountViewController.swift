@@ -12,8 +12,16 @@ import Extensions
 import AppResources
 import SnapKit
 import AppViews
+import Core
 
 final public class AccountViewController: UIViewController, View, ViewSettableType {
+    // MARK: Nested
+    
+    private enum Event {
+        case individAccountTap(_ id: AdoptableID)
+        case retryButtonTap
+    }
+    
     // MARK: - Properties
     
     public let viewModel: AccountViewModel
@@ -26,6 +34,8 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
         self?.layout(for: section, environment: environment)
     }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    
+    private var eventsHandler: ArgClosure<Event>?
     
     // MARK: - Constructor
     
@@ -48,6 +58,8 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     
     public func setupViews() {
         view.backgroundColor = Colors.Background.screenBackground.color
+        
+        collectionView.delegate = self
         
         collectionView.registerCellClass(LoadingCell.self)
         collectionView.registerCellClass(ErrorCell.self)
@@ -75,7 +87,15 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     }
     
     public func setupInput(_ input: AccountViewModel.Output) {
-        
+        eventsHandler = {
+            switch $0 {
+            case .individAccountTap(let id):
+                input.onEvent(.didTapIndividAccount(id))
+                
+            case .retryButtonTap:
+                input.onEvent(.retryButtonTap)
+            }
+        }
     }
 }
 
@@ -121,6 +141,7 @@ private extension AccountViewController {
         case .error(let message):
             let cell = collectionView.dequeueReusableCell(ofType: ErrorCell.self, at: indexPath)
             cell.configure(using: message)
+            cell.delegate = self
             return cell
             
         case .header(let viewModel):
@@ -133,5 +154,29 @@ private extension AccountViewController {
             cell.configure(using: viewModel)
             return cell
         }
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension AccountViewController: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = adapter.dataSource.item(by: indexPath) else { return }
+        
+        switch item {
+        case .loading, .error, .header:
+            assertionFailure("Unexpected item")
+        
+        case .account(let viewModel):
+            eventsHandler?(.individAccountTap(viewModel.id))
+        }
+    }
+}
+
+// MARK: - ErrorCellEventsDelegate
+
+extension AccountViewController: ErrorCellEventsDelegate {
+    public func cell(_ cell: ErrorCell, didPressRetryButton sender: UIButton) {
+        eventsHandler?(.retryButtonTap)
     }
 }
