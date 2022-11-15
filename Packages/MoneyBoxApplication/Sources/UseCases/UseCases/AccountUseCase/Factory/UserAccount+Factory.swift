@@ -19,7 +19,7 @@ extension UserAccount {
             let accounts = accountResponse
                 .accounts?
                 .compactMap { accountDTO -> Account? in
-                    guard let id = accountDTO.wrapper?.id, !id.value.isEmpty else { return nil }
+                    guard let id = accountDTO.wrapper?.id, !id.isEmpty else { return nil }
                     
                     let accountProducts = accountResponse.productResponses?.filter {
                         guard let wrapperID = $0.wrapperID else { return false }

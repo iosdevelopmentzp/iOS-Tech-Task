@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import SceneAccount
 import DependencyResolver
-import Core
 
 final class AccountCoordinator: NavigationCoordinator {
     
@@ -32,7 +31,7 @@ final class AccountCoordinator: NavigationCoordinator {
 // MARK: - LoginSceneDelegate
 
 extension AccountCoordinator: AccountSceneDelegate {
-    func didTapIndividualAccount(with id: AdoptableID) {
+    func didTapIndividualAccount(with id: String) {
         let viewModel = IndividAccountViewModel(resolver.resolve())
         let viewController = IndividAccountViewController(viewModel)
         viewModel.sceneDelegate = self

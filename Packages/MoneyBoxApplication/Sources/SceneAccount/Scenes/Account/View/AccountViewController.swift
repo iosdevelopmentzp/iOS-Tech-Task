@@ -12,13 +12,12 @@ import Extensions
 import AppResources
 import SnapKit
 import AppViews
-import Core
 
 final public class AccountViewController: UIViewController, View, ViewSettableType {
     // MARK: Nested
     
     private enum Event {
-        case individAccountTap(_ id: AdoptableID)
+        case individAccountTap(_ id: String)
         case retryButtonTap
     }
     

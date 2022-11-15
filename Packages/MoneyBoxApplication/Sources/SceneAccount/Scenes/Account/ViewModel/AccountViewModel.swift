@@ -21,7 +21,7 @@ public final class AccountViewModel: ViewModel {
     
     public struct Output {
         enum Event {
-            case didTapIndividAccount(_ id: AdoptableID)
+            case didTapIndividAccount(_ id: String)
             case retryButtonTap
         }
         

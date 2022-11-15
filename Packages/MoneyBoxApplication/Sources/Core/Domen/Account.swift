@@ -10,14 +10,14 @@ import Foundation
 public struct Account: Equatable {
     // MARK: - Properties
     
-    public let id: AdoptableID
+    public let id: String
     public let name: String
     public let planValue: Currency
     public let moneyboxValue: Currency
     
     // MARK: - Constructor
     
-    public init(id: AdoptableID, name: String, planValue: Currency, moneyboxValue: Currency) {
+    public init(id: String, name: String, planValue: Currency, moneyboxValue: Currency) {
         
         self.id = id
         self.name = name

@@ -18,11 +18,11 @@ public struct OneOffPaymentRequestDTO: Encodable, Equatable {
     // MARK: - Properties
     
     public let amount: Int
-    public let investorProductID: AdoptableID
+    public let investorProductID: Int
     
     // MARK: - Constructor
     
-    public init(amount: Int, investorProductID: AdoptableID) {
+    public init(amount: Int, investorProductID: Int) {
         self.amount = amount
         self.investorProductID = investorProductID
     }

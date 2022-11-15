@@ -28,7 +28,7 @@ public struct AccountDTO: Decodable, Equatable {
         
         public let initialStage: String?
         public let endStage: String?
-        public let endStageID: AdoptableID?
+        public let endStageID: Int?
     }
     
     public struct Wrapper: Decodable, Equatable {
@@ -42,8 +42,8 @@ public struct AccountDTO: Decodable, Equatable {
             case returns = "Returns"
         }
         
-        public let id: AdoptableID?
-        public let definitionGlobalID: AdoptableID?
+        public let id: String?
+        public let definitionGlobalID: String?
         public let totalValue: Double?
         public let totalContributions: Int?
         public let earningsNet: Double?

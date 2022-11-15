@@ -6,8 +6,7 @@
 //
 
 import Foundation
-import Core
 
 public protocol AccountSceneDelegate: AnyObject {
-    func didTapIndividualAccount(with id: AdoptableID)
+    func didTapIndividualAccount(with id: String)
 }
