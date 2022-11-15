@@ -47,7 +47,7 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     // MARK: - Setup
     
     public func setupViews() {
-        view.backgroundColor = UIColor.red
+        view.backgroundColor = Colors.Background.screenBackground.color
         
         collectionView.registerCellClass(LoadingCell.self)
         collectionView.registerCellClass(ErrorCell.self)
