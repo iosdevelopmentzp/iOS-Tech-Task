@@ -22,8 +22,10 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
         self?.cellProvider($0, $1, $2) ?? UICollectionViewCell()
     }
     
-    private let collectionLayout = UICollectionViewFlowLayout()
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+    private lazy var layout = UICollectionViewCompositionalLayout.init { [weak self] section, environment in
+        self?.layout(for: section, environment: environment)
+    }
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     
     // MARK: - Constructor
     
@@ -46,11 +48,6 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     
     public func setupViews() {
         view.backgroundColor = UIColor.red
-        
-        collectionLayout.scrollDirection = .vertical
-        collectionLayout.minimumLineSpacing = 0
-        collectionLayout.minimumInteritemSpacing = 0
-        collectionLayout.estimatedItemSize = .init(width: view.bounds.width, height: 300)
         
         collectionView.registerCellClass(LoadingCell.self)
         collectionView.registerCellClass(ErrorCell.self)
@@ -87,6 +84,24 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
 private extension AccountViewController {
     private func updateState(_ state: AccountState) {
         adapter.update(with: state)
+    }
+}
+
+// MARK: - Layout Provider
+
+private extension AccountViewController {
+    private func layout(for section: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? {
+        guard let sectionIdentifier = adapter.dataSource.section(by: section) else {
+            return nil
+        }
+        
+        switch sectionIdentifier {
+        case .single, .main:
+            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+            let item = NSCollectionLayoutSupplementaryItem(layoutSize: size)
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
+            return .init(group: group)
+        }
     }
 }
 

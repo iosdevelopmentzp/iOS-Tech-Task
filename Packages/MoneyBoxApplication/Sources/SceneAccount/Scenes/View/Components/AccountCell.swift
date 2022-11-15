@@ -64,15 +64,15 @@ final class AccountCell: DynamicCollectionCell, ViewSettableType, Reusable {
     
     func layoutViews() {
         contentContainerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalToSuperview().inset(8)
         }
         
         stackView.snp.makeConstraints {
-            $0.left.top.bottom.equalToSuperview()
+            $0.left.top.bottom.equalToSuperview().inset(4)
         }
         
         accessoryImageView.snp.makeConstraints {
-            $0.size.equalTo(60)
+            $0.size.equalTo(20)
             $0.left.equalTo(self.stackView.snp.right).offset(10)
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().inset(8)
