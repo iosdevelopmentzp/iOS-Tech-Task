@@ -9,6 +9,7 @@ import Foundation
 import MVVM
 import UseCases
 import Extensions
+import Core
 
 public final class AccountViewModel: ViewModel {
     // MARK: - Nested
@@ -39,6 +40,8 @@ public final class AccountViewModel: ViewModel {
     
     private var eventsHandler: PrivateEventsHandler?
     
+    private var task: Task<Void, Never>?
+    
     private var state = AccountState.idle {
         didSet {
             guard state != oldValue else { return }
@@ -55,11 +58,7 @@ public final class AccountViewModel: ViewModel {
     // MARK: - Transform
     
     public func transform(_ input: Input, outputHandler: @escaping (Output) -> Void) {
-        eventsHandler = .init(
-            onStateUpdate: {
-                input.onDidUpdateState($0)
-            }
-        )
+        eventsHandler = .init(onStateUpdate: { input.onDidUpdateState($0) })
         
         let ouput = Output { [weak self] in
             switch $0 {
@@ -81,14 +80,27 @@ public final class AccountViewModel: ViewModel {
 
 private extension AccountViewModel {
     private func setupProducts() {
+        self.task?.cancel()
         state = .loading
         
-        Task {
+        self.task = Task {
+            let result: Result<UserAccount, Error>
             do {
                 let account = try await accountUseCase.userAccount()
+                result = .success(account)
+            } catch {
+                result = .failure(error)
+            }
+            
+            // Check whether current task has been canceled
+            guard !Task.isCancelled else { return }
+            
+            switch result {
+            case .success(let account):
                 let items = AccountItem.Factory.make(account: account, userName: "Test")
                 state = .loaded(items: items)
-            } catch {
+                
+            case .failure(let error):
                 state = .failed(error.localizedDescription)
             }
         }
