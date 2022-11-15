@@ -8,16 +8,22 @@
 import Foundation
 import AppResources
 
-struct AccountHeaderCellModel: Equatable {
+struct AccountHeaderCellModel: Hashable {
     // MARK: - Properties
     
     let name: String
-    let planValue: String
+    private let planValue: Double
+    private let currency: String
+    
+    var planValueText: String {
+        Strings.Account.totalPlan(currency, String(planValue))
+    }
     
     // MARK: - Constuctor
     
-    init(name: String, planValue: Double, currencySymbol: String) {
+    init(name: String, planValue: Double, currency: String) {
         self.name = Strings.Account.name(name)
-        self.planValue = Strings.Account.totalPlan(currencySymbol, String(planValue))
+        self.planValue = planValue
+        self.currency = currency
     }
 }

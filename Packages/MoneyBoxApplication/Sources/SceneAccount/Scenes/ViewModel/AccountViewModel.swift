@@ -8,17 +8,19 @@
 import Foundation
 import MVVM
 import UseCases
+import Extensions
 
 public final class AccountViewModel: ViewModel {
     // MARK: - Nested
     
     public struct Input {
-        var onDidUpdateState: (AccountState) -> Void
+        @MainThread
+        private(set) var onDidUpdateState: ArgClosure<AccountState>
     }
     
     public struct Output {
         enum Event {
-            case tapProductId(_ productId: Int)
+            case tapAccountId(_ productId: Int)
             case retryButtonTap
         }
         
@@ -26,7 +28,7 @@ public final class AccountViewModel: ViewModel {
     }
     
     private struct PrivateEventsHandler {
-        let onStateUpdate: (AccountState) -> Void
+        let onStateUpdate: ArgClosure<AccountState>
     }
     
     // MARK: - Properties
@@ -53,25 +55,25 @@ public final class AccountViewModel: ViewModel {
     // MARK: - Transform
     
     public func transform(_ input: Input, outputHandler: @escaping (Output) -> Void) {
+        eventsHandler = .init(
+            onStateUpdate: {
+                input.onDidUpdateState($0)
+            }
+        )
+        
+        let ouput = Output { [weak self] in
+            switch $0 {
+            case .tapAccountId(let id):
+                // TODO: - Route to product
+                debugPrint("Did tap account: \(id)")
+                
+            case .retryButtonTap:
+                self?.setupProducts()
+            }
+        }
+        
+        outputHandler(ouput)
         setupProducts()
-//        eventsHandler = .init(
-//            onStateUpdate: {
-//                input.onDidUpdateState($0)
-//            }
-//        )
-//        
-//        let ouput = Output {
-//            switch $0 {
-//            case .tapProductId(let id):
-//                // TODO: - Route to product
-//                break
-//                
-//            case .retryButtonTap:
-//                <#code#>
-//            }
-//        }
-//        
-//        outputHandler()
     }
 }
 
@@ -83,9 +85,11 @@ private extension AccountViewModel {
         
         Task {
             do {
-                let products = try await accountUseCase.userAccount()
+                let account = try await accountUseCase.userAccount()
+                let items = AccountItem.Factory.make(account: account, userName: "Test")
+                state = .loaded(items: items)
             } catch {
-                state = .error(error.localizedDescription)
+                state = .failed(error.localizedDescription)
             }
         }
     }

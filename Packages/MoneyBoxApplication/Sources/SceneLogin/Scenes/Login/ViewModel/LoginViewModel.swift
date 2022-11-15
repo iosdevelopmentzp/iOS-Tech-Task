@@ -16,7 +16,8 @@ public final class LoginViewModel: ViewModel {
     // MARK: - Nested
     
     public struct Input {
-        var onStateUpdate: ArgClosure<(current: LoginState, previous: LoginState?), Void>
+        @MainThread
+        var onStateUpdate: ArgClosure<LoginStateUpdate>
     }
     
     public struct Output {
@@ -26,7 +27,7 @@ public final class LoginViewModel: ViewModel {
             case passwordText(_ text: String)
         }
         
-        var onEvent: ArgClosure<EventType, Void>
+        var onEvent: ArgClosure<EventType>
     }
     
     // MARK: - Properties
@@ -38,7 +39,7 @@ public final class LoginViewModel: ViewModel {
     private var userName = "test+ios2@moneyboxapp.com"
     private var passwordText = "P455word12"
     
-    private var onStateUpdate: ArgClosure<(current: LoginState, previous: LoginState?), Void>?
+    private var onStateUpdate: ArgClosure<(current: LoginState, previous: LoginState?)>?
     
     private var state: LoginState = .idle {
         didSet {

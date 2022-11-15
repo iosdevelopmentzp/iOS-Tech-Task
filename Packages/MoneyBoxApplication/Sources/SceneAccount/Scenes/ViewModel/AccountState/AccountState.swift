@@ -10,16 +10,16 @@ import Foundation
 enum AccountState: Equatable {
     case idle
     case loading
-    case error(_ errorMessage: String)
+    case failed(_ errorMessage: String)
     case loaded(items: [AccountItem])
 }
 
 // MARK: - AccountState Extension
 
 extension AccountState {
-    var loadedItems: [AccountItem]? {
+    var loadedItems: [AccountItem] {
         guard case .loaded(items: let items) = self else {
-            return nil
+            return []
         }
         return items
     }

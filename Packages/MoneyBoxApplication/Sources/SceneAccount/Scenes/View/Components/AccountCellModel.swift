@@ -7,21 +7,35 @@
 
 import Foundation
 import AppResources
+import Core
 
-struct AccountCellModel: Equatable {
+struct AccountCellModel: Hashable {
     // MARK: - Properties
     
-    let id: AnyHashable
+    let id: AdoptableID
     let name: String
-    let planValue: String
-    let moneyBoxValue: String
+    
+    private let planValue: Double
+    private let moneyBoxValue: Double
+    private let planValueCurrency: String
+    private let moneyBoxValueCurrency: String
+    
+    var planValueText: String {
+        Strings.Account.Cell.planValue(planValueCurrency, String(planValue))
+    }
+    
+    var moneyBoxValueText: String {
+        Strings.Account.Cell.moneyboxValue(moneyBoxValueCurrency, String(moneyBoxValue))
+    }
     
     // MARK: - Constructor
     
-    init(id: AnyHashable, name: String, planValue: Double, moneyBoxValue: Double, currency: String) {
+    init(id: AdoptableID, name: String, planValue: Double, planValueCurrency: String, moneyBoxValue: Double, moneyBoxValueCurrency: String) {
         self.id = id
         self.name = name
-        self.planValue = Strings.Account.Cell.planValue(currency, String(planValue))
-        self.moneyBoxValue = Strings.Account.Cell.moneyboxValue(currency, String(moneyBoxValue))
+        self.planValue = planValue
+        self.moneyBoxValue = moneyBoxValue
+        self.planValueCurrency = planValueCurrency
+        self.moneyBoxValueCurrency = moneyBoxValueCurrency
     }
 }

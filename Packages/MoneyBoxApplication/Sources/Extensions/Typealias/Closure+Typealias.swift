@@ -8,4 +8,5 @@
 import Foundation
 
 public typealias Closure = () -> Void 
-public typealias ArgClosure<InputArg, OutputArg> = (InputArg) -> OutputArg
+public typealias ArgAdjClosure<InputArg, OutputArg> = (InputArg) -> OutputArg
+public typealias ArgClosure<InputArg> = (InputArg) -> Void

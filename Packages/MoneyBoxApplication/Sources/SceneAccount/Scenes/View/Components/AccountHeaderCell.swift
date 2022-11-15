@@ -1,5 +1,5 @@
 //
-//  AccountHeaderView.swift
+//  AccountHeaderCell.swift
 //  
 //
 //  Created by Dmytro Vorko on 23.08.2022.
@@ -12,7 +12,7 @@ import AppResources
 import SnapKit
 import AppViews
 
-final class AccountHeaderCell: DynamicCollectionCell, ViewSettableType {
+final class AccountHeaderCell: DynamicCollectionCell, ViewSettableType, Reusable {
     // MARK: - Properties
     
     private let stackView = UIStackView()
@@ -62,6 +62,6 @@ final class AccountHeaderCell: DynamicCollectionCell, ViewSettableType {
 extension AccountHeaderCell {
     func configure(using model: AccountHeaderCellModel) {
         self.subtitle.text = model.name
-        self.totalPlanLabel.text = model.planValue
+        self.totalPlanLabel.text = model.planValueText
     }
 }

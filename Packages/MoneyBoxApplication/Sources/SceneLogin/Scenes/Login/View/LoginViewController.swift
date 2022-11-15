@@ -43,7 +43,7 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     private let passwordTextField = LoginTextField(mode: .password)
     private let spacer = UIView()
     
-    private var eventsHandler: ArgClosure<Event, Void>?
+    private var eventsHandler: ArgClosure<Event>?
     
     // MARK: - Constructor
     
@@ -153,7 +153,7 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     
     public func setupOutput() {
         let output = LoginViewModel.Input(
-            onStateUpdate: { [weak self] in self?.updateState($0.current, previous: $0.previous) }
+            onStateUpdate: .init { [weak self] in self?.updateState($0) }
         )
         
         viewModel.transform(output, outputHandler: self.setupInput(_:))
@@ -183,14 +183,11 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
     
     // MARK: - Private
     
-    private func updateState(_ state: LoginState, previous: LoginState?) {
-        view.isUserInteractionEnabled = state.isLoading == false
+    private func updateState(_ state: LoginStateUpdate) {
+        view.isUserInteractionEnabled = state.current.isLoading == false
+        logInButton.setActivityIndicator(isAnimating: state.current.isLoading)
         
-        if state.isLoading != previous?.isLoading {
-            logInButton.setActivityIndicator(isAnimating: state.isLoading)
-        }
-        
-        if let errorMessage = state.errorMessage {
+        if let errorMessage = state.current.errorMessage {
             // TODO: - Handler error
             let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
             let action = UIAlertAction.init(title: "OK", style: .default)
@@ -198,7 +195,7 @@ public final class LoginViewController: UIViewController, View, ViewSettableType
             self.present(alert, animated: true)
         }
         
-        guard let models = state.model, models != previous?.model else { return }
+        guard let models = state.current.model, models != state.previous?.model else { return }
         loginTextField.configure(using: models.loginTextFieldModel)
         passwordTextField.configure(using: models.passwordTextFieldModel)
         logInButton.configure(using: models.loginButtonModel)

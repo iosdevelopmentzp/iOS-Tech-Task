@@ -12,7 +12,7 @@ import AppResources
 import AppViews
 import SnapKit
 
-final class AccountCell: DynamicCollectionCell, ViewSettableType {
+final class AccountCell: DynamicCollectionCell, ViewSettableType, Reusable {
     // MARK: - Properties
     
     private let contentContainerView = UIView()
@@ -85,7 +85,7 @@ final class AccountCell: DynamicCollectionCell, ViewSettableType {
 extension AccountCell {
     func configure(using model: AccountCellModel) {
         nameLabel.text = model.name
-        planValueLabel.text = model.planValue
-        moneyboxLabel.text = model.moneyBoxValue
+        planValueLabel.text = model.planValueText
+        moneyboxLabel.text = model.moneyBoxValueText
     }
 }

@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias LoginStateUpdate = (current: LoginState, previous: LoginState?)
+
 enum LoginState: Equatable {
     case idle
     case expectation(_ model: LoginViewModels?)
