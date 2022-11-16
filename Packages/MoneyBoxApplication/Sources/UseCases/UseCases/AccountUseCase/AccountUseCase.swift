@@ -27,9 +27,24 @@ final class AccountUseCase {
 // MARK: - AccountUseCaseProtocol
 
 extension AccountUseCase: AccountUseCaseProtocol {
+    enum Error: Swift.Error {
+        case userNotHaveAccountById
+    }
+    
     func userAccount() async throws -> UserAccount {
         let accountResponse = try await networking.account()
         return UserAccount.Factory.make(accountResponse)
+    }
+    
+    func individualAccount(by id: String) async throws -> Account {
+        let userAccount = try await userAccount()
+        
+        guard let individualAccount = userAccount.individualAccounts?.first(where: {
+            $0.id == id
+        }) else {
+            throw Error.userNotHaveAccountById
+        }
+        return individualAccount
     }
 }
 

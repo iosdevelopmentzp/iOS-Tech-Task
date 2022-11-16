@@ -18,3 +18,7 @@
 "account.totalPlan" = "Total Plan Value: %@%@";
 "account.cell.plan-value" = "Plan Value: %@%@";
 "account.cell.moneybox-value" = "Moneybox: %@%@";
+
+// MARK: - Individual Account
+
+"individual_account.add" = "Add %@%@";

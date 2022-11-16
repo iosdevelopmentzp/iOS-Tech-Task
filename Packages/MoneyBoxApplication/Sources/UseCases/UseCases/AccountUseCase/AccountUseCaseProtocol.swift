@@ -10,4 +10,5 @@ import Core
 
 public protocol AccountUseCaseProtocol {
     func userAccount() async throws -> UserAccount
+    func individualAccount(by id: String) async throws -> Account
 }

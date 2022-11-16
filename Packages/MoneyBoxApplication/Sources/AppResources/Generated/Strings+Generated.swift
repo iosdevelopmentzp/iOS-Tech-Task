@@ -32,6 +32,12 @@ public enum Strings {
       }
     }
   }
+  public enum IndividualAccount {
+    /// Add %@%@
+    public static func add(_ p1: Any, _ p2: Any) -> String {
+      return Strings.tr("Localizable", "individual_account.add", String(describing: p1), String(describing: p2), fallback: "Add %@%@")
+    }
+  }
   public enum Login {
     /// Login
     public static let loginButtonTitle = Strings.tr("Localizable", "login.login_button_title", fallback: "Login")

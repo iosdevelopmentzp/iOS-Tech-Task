@@ -11,6 +11,7 @@ import UseCases
 import Extensions
 import Core
 
+@MainActor
 public final class AccountViewModel: ViewModel {
     // MARK: - Nested
     
@@ -28,7 +29,7 @@ public final class AccountViewModel: ViewModel {
         var onEvent: (Event) -> Void
     }
     
-    private struct PrivateEventsHandler {
+    private struct EventsHandler {
         let onStateUpdate: ArgClosure<AccountState>
     }
     
@@ -38,7 +39,7 @@ public final class AccountViewModel: ViewModel {
     
     private let accountUseCase: AccountUseCaseProtocol
     
-    private var eventsHandler: PrivateEventsHandler?
+    private var eventsHandler: EventsHandler?
     
     private var task: Task<Void, Never>?
     

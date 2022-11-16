@@ -9,11 +9,19 @@ import Foundation
 import UIKit
 import Extensions
 import MVVM
+import AppResources
 
 final public class IndividAccountViewController: UIViewController, View, ViewSettableType {
     // MARK: - Properties
     
     public let viewModel: IndividAccountViewModel
+    
+    private lazy var layout = UICollectionViewCompositionalLayout { [weak self] in
+        self?.layout(for: $0, environment: $1)
+    }
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    
+    private let buttonView = IndividAccountButton()
     
     // MARK: - Constructor
     
@@ -35,7 +43,9 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     // MARK: - Setup
     
     public func setupViews() {
-        // Setup
+        view.backgroundColor = Colors.Background.screenBackground.color
+        
+        collectionView.backgroundColor = .blue
     }
     
     public func setupLocalization() {
@@ -43,7 +53,22 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     }
     
     public func addViews() {
-        // add views
+        view.addSubview(collectionView)
+        view.addSubview(buttonView)
+    }
+    
+    public func layoutViews() {
+        buttonView.snp.makeConstraints {
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            $0.left.right.equalToSuperview()
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            $0.right.equalTo(self.view.safeAreaLayoutGuide.snp.right)
+            $0.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
+            $0.bottom.equalTo(self.buttonView.snp.top)
+        }
     }
     
     public func setupOutput() {
@@ -52,5 +77,16 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     
     public func setupInput(_ input: IndividAccountViewModel.Output) {
         // setup input
+    }
+}
+
+// MARK: - Layout Provider
+
+private extension IndividAccountViewController {
+    private func layout(
+        for section: Int,
+        environment: NSCollectionLayoutEnvironment
+    ) -> NSCollectionLayoutSection? {
+        nil
     }
 }
