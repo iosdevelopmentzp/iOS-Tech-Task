@@ -39,6 +39,12 @@ final class IndividAccountButton: UIView, ViewSettableType {
     // MARK: - Setup
     
     func setupViews() {
+        button.isUserInteractionEnabled = false
+        button.layer.opacity = 0
+        button.layer.cornerRadius = 8
+    }
+    
+    func addViews() {
         addSubview(button)
     }
     
@@ -67,11 +73,22 @@ final class IndividAccountButton: UIView, ViewSettableType {
 // MARK: - Configuration
 
 extension IndividAccountButton {
-    func configure(using model: IndividAccountButtonModel) {
-        button.setTitle(model.title, for: .normal)
-        button.backgroundColor = model.backgroundColor
-        button.titleLabel?.textColor = model.textColor
+    func configure(using model: IndividAccountButtonModel, animated: Bool) {
+        self.button.isUserInteractionEnabled = model.isEnabled
+        let action = {
+            self.button.setTitle(model.title, for: .normal)
+            self.button.backgroundColor = model.backgroundColor
+            self.button.titleLabel?.textColor = model.textColor
+            self.button.layer.opacity = model.opacity
+        }
+        guard animated else {
+            action()
+            return
+        }
         
+        UIView.animate(withDuration: 0.3) {
+            action()
+        }
     }
 }
 
@@ -115,6 +132,15 @@ extension IndividAccountButtonModel {
             
         case .loading, .hidden:
             return false
+        }
+    }
+    
+    var opacity: Float {
+        switch self.state {
+        case .active, .loading:
+            return 1
+        case .hidden:
+            return 0
         }
     }
 }

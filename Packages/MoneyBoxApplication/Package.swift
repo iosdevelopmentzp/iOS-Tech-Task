@@ -39,7 +39,9 @@ let package = Package(
         
         .target(name: "Extensions"),
         
-        .target(name: "AppViews"),
+        .target(name: "AppViews", dependencies: [
+            "Extensions"
+        ]),
         
         .target(name: "AppResources", resources: [.process("Resources/Fonts/")]),
         

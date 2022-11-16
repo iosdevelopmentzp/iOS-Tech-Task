@@ -17,6 +17,7 @@ enum IndividAccountState: Hashable {
     case loading
     case failedLoading(_ errorMessage: String)
     case loaded(_ models: ModelsContainer)
-    case transactionLoading(_ models: ModelsContainer)
-    case failedTransaction(_ errorMessage: String, _ models: ModelsContainer)
+    case transactionLoading(_ models: ModelsContainer?)
+    case successTransaction(_ models: ModelsContainer?)
+    case failedTransaction(_ errorMessage: String, _ models: ModelsContainer?)
 }

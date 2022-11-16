@@ -10,11 +10,22 @@ import UIKit
 import Extensions
 import MVVM
 import AppResources
+import AppViews
 
 final public class IndividAccountViewController: UIViewController, View, ViewSettableType {
+    // MARK: - Nested
+    
+    private enum Event {
+        case addButtonTap
+    }
+    
     // MARK: - Properties
     
     public let viewModel: IndividAccountViewModel
+    
+    private var eventsHandler: ArgClosure<Event>?
+    
+    private lazy var adapter = IndividAccountViewAdapter(collectionView: collectionView, cellProvider: self, delegate: self)
     
     private lazy var layout = UICollectionViewCompositionalLayout { [weak self] in
         self?.layout(for: $0, environment: $1)
@@ -45,7 +56,9 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     public func setupViews() {
         view.backgroundColor = Colors.Background.screenBackground.color
         
-        collectionView.backgroundColor = .blue
+        collectionView.registerCellClass(LoadingCell.self)
+        collectionView.registerCellClass(ErrorCell.self)
+        collectionView.registerCellClass(IndividAccountCell.self)
     }
     
     public func setupLocalization() {
@@ -72,11 +85,28 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     }
     
     public func setupOutput() {
-        // setup output
+        let output = IndividAccountViewModel.Input(
+            onDidUpdateState: .init({ [weak self] in self?.update($0) })
+        )
+        
+        viewModel.transform(output, outputHandler: self.setupInput(_:))
     }
     
     public func setupInput(_ input: IndividAccountViewModel.Output) {
-        // setup input
+        eventsHandler = {
+            switch $0 {
+            case .addButtonTap:
+                input.onEvent(.didTapAddButton)
+            }
+        }
+    }
+}
+
+// MARK: - Private Functions
+
+private extension IndividAccountViewController {
+    private func update(_ state: IndividAccountState) {
+        adapter.update(with: state)
     }
 }
 
@@ -87,6 +117,49 @@ private extension IndividAccountViewController {
         for section: Int,
         environment: NSCollectionLayoutEnvironment
     ) -> NSCollectionLayoutSection? {
-        nil
+        guard let sectionIdentifier = adapter.dataSource.section(by: section) else {
+            return nil
+        }
+        
+        switch sectionIdentifier {
+        case .single, .main:
+            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+            let item = NSCollectionLayoutSupplementaryItem(layoutSize: size)
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
+            return .init(group: group)
+        }
+    }
+}
+
+// MARK: - Cell Provider
+
+extension IndividAccountViewController: IndividAccountViewAdapterCellProvider {
+    func cell(
+        for collectionView: UICollectionView,
+        _ indexPath: IndexPath,
+        _ item: IndividAccountViewAdapter.Item
+    ) -> UICollectionViewCell {
+        switch item {
+        case .loading:
+            return collectionView.dequeueReusableCell(ofType: LoadingCell.self, at: indexPath)
+            
+        case .error(let message):
+            let cell = collectionView.dequeueReusableCell(ofType: ErrorCell.self, at: indexPath)
+            cell.configure(using: message)
+            return cell
+            
+        case .account(let model):
+            let cell = collectionView.dequeueReusableCell(ofType: IndividAccountCell.self, at: indexPath)
+            cell.configure(using: model)
+            return cell
+        }
+    }
+}
+
+// MARK: - IndividAccountViewAdapterDelegate
+
+extension IndividAccountViewController: IndividAccountViewAdapterDelegate {
+    func updateButton(_ model: IndividAccountButtonModel, animated: Bool) {
+        self.buttonView.configure(using: model, animated: animated)
     }
 }

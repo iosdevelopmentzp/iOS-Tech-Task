@@ -82,7 +82,7 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
         let output = AccountViewModel.Input(
             onDidUpdateState: .init { [weak self] in self?.updateState($0) }
         )
-        viewModel.transform(output) { self.setupInput($0) }
+        viewModel.transform(output, outputHandler: self.setupInput(_:))
     }
     
     public func setupInput(_ input: AccountViewModel.Output) {

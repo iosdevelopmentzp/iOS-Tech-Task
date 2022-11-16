@@ -15,10 +15,6 @@ import AppResources
 public final class IndividAccountViewModel: ViewModel {
     // MARK: - Nested
     
-    private struct Constants {
-        static let addValue = 10.0
-    }
-    
     public struct Input {
         @MainThread
         var onDidUpdateState: ArgClosure<IndividAccountState>
@@ -30,6 +26,10 @@ public final class IndividAccountViewModel: ViewModel {
         }
 
         var onEvent: ArgClosure<Event>
+    }
+    
+    private struct Constants {
+        static let addValue = 10.0
     }
     
     private struct EventsHandler {
