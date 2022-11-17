@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol SettingStorageFactoryProtocol {
-    var authorization: AuthorizationSettingsStorageProtocol { get }
+    var authorization: AuthorizationSettingsStorageProtocol & AuthorizationTokenProviderProtocol { get }
     var user: UserSettingsStorageProtocol { get }
 }
 
@@ -17,7 +17,7 @@ public class SettingStorageFactory {
 }
 
 extension SettingStorageFactory: SettingStorageFactoryProtocol {
-    public var authorization: AuthorizationSettingsStorageProtocol {
+    public var authorization: AuthorizationSettingsStorageProtocol & AuthorizationTokenProviderProtocol {
         AuthorizationSettingsStorage(
             regularStorage: UserDefaults.regular ?? .standard, // Should be used keychain storage
             safeStorage: UserDefaults.safe ?? .standard

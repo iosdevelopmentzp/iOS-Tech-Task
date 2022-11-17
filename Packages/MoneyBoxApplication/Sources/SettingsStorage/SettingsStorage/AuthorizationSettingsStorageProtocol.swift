@@ -7,9 +7,11 @@
 
 import Foundation
 
-public protocol AuthorizationSettingsStorageProtocol {
+public protocol AuthorizationTokenProviderProtocol {
     var authorizationToken: String? { get }
+}
 
+public protocol AuthorizationSettingsStorageProtocol: AuthorizationTokenProviderProtocol {
     func saveAuthorizationToken(_ token: String)
     func clearAuthorizationToken()
 }

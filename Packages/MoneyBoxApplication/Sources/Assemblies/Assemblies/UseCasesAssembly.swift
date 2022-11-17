@@ -34,7 +34,7 @@ struct UseCasesAssembly: Assembly {
         container.register(AccountUseCaseProtocol.self) { r in
             r.resolveOrFail(UseCasesFactoryProtocol.self).account(
                 networking: r.resolveOrFail(),
-                authorizationSettingsStorage: r.resolveOrFail()
+                authorizationTokenProvider: r.resolveOrFail()
             )
         }
     }

@@ -9,7 +9,6 @@ import Foundation
 
 enum AccountRouter {
     case products
-    case addMoney
 }
 
 extension AccountRouter: RouteType {
@@ -17,9 +16,6 @@ extension AccountRouter: RouteType {
         switch self {
         case .products:
             return .get
-            
-        case .addMoney:
-            return .post
         }
     }
     
@@ -27,9 +23,6 @@ extension AccountRouter: RouteType {
         switch self {
         case .products:
             return "/investorproducts"
-        
-        case .addMoney:
-            return "/oneoffpayments"
         }
     }
 }

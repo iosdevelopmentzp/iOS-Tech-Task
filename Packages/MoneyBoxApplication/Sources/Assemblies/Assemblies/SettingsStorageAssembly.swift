@@ -23,6 +23,10 @@ struct SettingsStorageAssembly: Assembly {
             r.resolveOrFail(SettingStorageFactoryProtocol.self).authorization
         }
         
+        container.register(AuthorizationTokenProviderProtocol.self) { r in
+            r.resolveOrFail(SettingStorageFactoryProtocol.self).authorization
+        }
+        
         // UserSettingsStorageProtocol
         
         container.register(UserSettingsStorageProtocol.self) { r in

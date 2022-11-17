@@ -11,6 +11,8 @@ public protocol NetworkingFactoryProtocol {
     func authorization(configurations: NetworkConfigurationsType) -> AuthorizationNetworkServiceProtocol
     
     func account(configurations: NetworkConfigurationsType) -> AccountNetworkServiceProtocol
+    
+    func transactions(configurations: NetworkConfigurationsType) -> TransactionsNetworkServiceProtocol
 }
 
 public final class NetworkingFactory {
@@ -20,6 +22,10 @@ public final class NetworkingFactory {
 // MARK: - NetworkingFactoryProtocol
 
 extension NetworkingFactory: NetworkingFactoryProtocol {
+    public func transactions(configurations: NetworkConfigurationsType) -> TransactionsNetworkServiceProtocol {
+        TransactionsNetworkService(Networking(), configurations: configurations)
+    }
+    
     public func authorization(configurations: NetworkConfigurationsType) -> AuthorizationNetworkServiceProtocol {
         AuthorizationNetworkService(Networking(), configurations: configurations)
     }

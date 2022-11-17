@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct OneOffPaymentResponse: Decodable, Equatable {
+public struct OneOffPaymentResponseDTO: Decodable, Equatable {
     // MARK: - Nested
     
     enum CodingKeys: String, CodingKey {

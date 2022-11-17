@@ -13,7 +13,7 @@ import AppNotifier
 public protocol UseCasesFactoryProtocol {
     func account(
         networking: AccountNetworkServiceProtocol,
-        authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
+        authorizationTokenProvider: AuthorizationTokenProviderProtocol
     ) -> AccountUseCaseProtocol
     
     func authorisation(
@@ -21,6 +21,11 @@ public protocol UseCasesFactoryProtocol {
         authorizationSettings: AuthorizationSettingsStorageProtocol,
         userSettings: UserSettingsStorageProtocol
     ) -> AuthorizationUseCaseProtocol
+    
+    func transactions(
+        networking: TransactionsNetworkServiceProtocol,
+        authorizationTokenProvider: AuthorizationTokenProviderProtocol
+    ) -> TransactionsUseCaseProtocol
 }
 
 public final class UseCasesFactory {
@@ -30,11 +35,18 @@ public final class UseCasesFactory {
 // MARK: - UseCasesFactoryProtocol
 
 extension UseCasesFactory: UseCasesFactoryProtocol {
+    public func transactions(
+        networking: TransactionsNetworkServiceProtocol,
+        authorizationTokenProvider: AuthorizationTokenProviderProtocol
+    ) -> TransactionsUseCaseProtocol {
+        TransactionsUseCase(networking: networking, authorizationTokenProvider: authorizationTokenProvider)
+    }
+    
     public func account(
         networking: AccountNetworkServiceProtocol,
-        authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
+        authorizationTokenProvider: AuthorizationTokenProviderProtocol
     ) -> AccountUseCaseProtocol {
-        AccountUseCase(networking: networking, authorizationSettingsStorage: authorizationSettingsStorage)
+        AccountUseCase(networking: networking, authorizationTokenProvider: authorizationTokenProvider)
     }
     
     public func authorisation(

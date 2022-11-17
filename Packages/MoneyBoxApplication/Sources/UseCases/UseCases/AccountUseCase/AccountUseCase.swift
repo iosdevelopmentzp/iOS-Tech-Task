@@ -12,14 +12,14 @@ import SettingsStorage
 
 final class AccountUseCase {
     private let networking: AccountNetworkServiceProtocol
-    private let authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
+    private let authorizationTokenProvider: AuthorizationTokenProviderProtocol
     
     init(
         networking: AccountNetworkServiceProtocol,
-        authorizationSettingsStorage: AuthorizationSettingsStorageProtocol
+        authorizationTokenProvider: AuthorizationTokenProviderProtocol
     ) {
         self.networking = networking
-        self.authorizationSettingsStorage = authorizationSettingsStorage
+        self.authorizationTokenProvider = authorizationTokenProvider
         self.networking.tokenProvider = self
     }
 }
@@ -52,6 +52,6 @@ extension AccountUseCase: AccountUseCaseProtocol {
 
 extension AccountUseCase: TokenProviderType {
     func authorizationToken() -> String? {
-        authorizationSettingsStorage.authorizationToken
+        authorizationTokenProvider.authorizationToken
     }
 }
