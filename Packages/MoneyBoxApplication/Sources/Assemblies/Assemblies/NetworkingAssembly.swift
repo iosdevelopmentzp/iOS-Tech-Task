@@ -29,5 +29,11 @@ struct NetworkingAssembly: Assembly {
         container.register(AccountNetworkServiceProtocol.self) { r in
             r.resolveOrFail(NetworkingFactoryProtocol.self).account(configurations: r.resolveOrFail())
         }
+        
+        // TransactionsNetworkServiceProtocol
+        
+        container.register(TransactionsNetworkServiceProtocol.self) { r in
+            r.resolveOrFail(NetworkingFactoryProtocol.self).transactions(configurations: r.resolveOrFail())
+        }
     }
 }

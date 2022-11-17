@@ -42,6 +42,8 @@ public final class IndividAccountViewModel: ViewModel {
     
     private let accountUseCase: AccountUseCaseProtocol
     
+    private let transactionsUseCase: TransactionsUseCaseProtocol
+    
     private var eventsHandler: EventsHandler?
     
     private let accountId: String
@@ -57,9 +59,14 @@ public final class IndividAccountViewModel: ViewModel {
     
     // MARK: - Constructor
     
-    public init(accountId: String, _ accountUseCase: AccountUseCaseProtocol) {
+    public init(
+        accountId: String,
+        _ accountUseCase: AccountUseCaseProtocol,
+        _ transactionsUseCase: TransactionsUseCaseProtocol
+    ) {
         self.accountId = accountId
         self.accountUseCase = accountUseCase
+        self.transactionsUseCase = transactionsUseCase
     }
     
     // MARK: - Transform

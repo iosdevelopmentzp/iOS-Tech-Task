@@ -37,5 +37,14 @@ struct UseCasesAssembly: Assembly {
                 authorizationTokenProvider: r.resolveOrFail()
             )
         }
+        
+        // TransactionsUseCaseProtocol
+        
+        container.register(TransactionsUseCaseProtocol.self) { r in
+            r.resolveOrFail(UseCasesFactoryProtocol.self).transactions(
+                networking: r.resolveOrFail(),
+                authorizationTokenProvider: r.resolveOrFail()
+            )
+        }
     }
 }

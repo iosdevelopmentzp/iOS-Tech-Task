@@ -32,7 +32,7 @@ final class AccountCoordinator: NavigationCoordinator {
 
 extension AccountCoordinator: AccountSceneDelegate {
     func didTapIndividualAccount(with id: String) {
-        let viewModel = IndividAccountViewModel(accountId: id, resolver.resolve())
+        let viewModel = IndividAccountViewModel(accountId: id, resolver.resolve(), resolver.resolve())
         let viewController = IndividAccountViewController(viewModel)
         viewModel.sceneDelegate = self
         navigation.pushViewController(viewController, animated: true)

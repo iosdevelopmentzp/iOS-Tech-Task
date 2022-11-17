@@ -33,6 +33,8 @@ final class AccountHeaderCell: DynamicCollectionCell, ViewSettableType, Reusable
     // MARK: - Setup
     
     func setupViews() {
+        isUserInteractionEnabled = false
+        
         [subtitle, totalPlanLabel].forEach {
             $0.font = Fonts.Lato.bold.font(size: 19)
             $0.textColor = Colors.Font.black.color

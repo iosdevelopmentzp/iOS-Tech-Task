@@ -36,10 +36,10 @@ final class IndividAccountCell: DynamicCollectionCell, ViewSettableType, Reusabl
     
     func setupViews() {
         stackView.axis = .vertical
-        stackView.spacing = 4
+        stackView.spacing = 15
         
         [nameLabel, planValueLabel, moneyboxLabel].forEach {
-            $0.font = Fonts.Lato.regular.font(size: 16)
+            $0.font = Fonts.Lato.bold.font(size: 20)
             $0.textColor = Colors.Font.black.color
             $0.numberOfLines = 1
         }

@@ -56,6 +56,8 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     public func setupViews() {
         view.backgroundColor = Colors.Background.screenBackground.color
         
+        collectionView.bounces = false
+        
         collectionView.registerCellClass(LoadingCell.self)
         collectionView.registerCellClass(ErrorCell.self)
         collectionView.registerCellClass(IndividAccountCell.self)
