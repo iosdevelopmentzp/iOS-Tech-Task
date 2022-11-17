@@ -31,6 +31,7 @@ public final class IndividAccountViewModel: ViewModel {
     
     private struct Constants {
         static let addValue = 10.0
+        static let addCurrency = "£"
     }
     
     private struct EventsHandler {
@@ -87,7 +88,7 @@ private extension IndividAccountViewModel {
     private func handle(event: Output.Event) {
         switch event {
         case .didTapAddButton:
-            invokeTransaction()
+            invokeAdding()
             
         case .didTapRetryButton:
             setupAccount()
@@ -112,11 +113,12 @@ private extension IndividAccountViewModel {
             
             switch result {
             case .success(let account):
-                let cellModel = IndividAccountCellModel.Factory.make(account: account, individAccountId: self.accountId)
-                let addValue = Constants.addValue.format(.roundUp(count: 0))
-                let buttonTitle = Strings.IndividualAccount.add("£", addValue)
-                let buttonModel = IndividAccountButtonModel.init(state: .active(buttonTitle))
-                self.state = .loaded(.init(buttonModel: buttonModel, cellModel: cellModel))
+                let model = IndividAccountModel.Factory.make(
+                    account,
+                    addValue: Constants.addValue,
+                    addCurrency: Constants.addCurrency
+                )
+                self.state = .loaded(model)
                 
             case .failure(let error):
                 self.state = .failedLoading(error.localizedDescription)
@@ -124,7 +126,16 @@ private extension IndividAccountViewModel {
         }
     }
     
-    private func invokeTransaction() {
+    private func invokeAdding() {
+        guard let model = self.state.model else { return }
+        self.state = .transactionLoading(model)
         
+//        
+//        Task {
+//            transactionsUseCase.oneOffPayment(
+//                amount: Int(Constants.addValue),
+//                investorProductID: <#T##Int#>
+//            )
+//        }
     }
 }

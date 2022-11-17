@@ -12,6 +12,7 @@ struct IndividAccountButtonModel: Hashable {
         case active(_ title: String)
         case hidden
         case loading
+        case inactive(_ title: String)
     }
     
     let state: State

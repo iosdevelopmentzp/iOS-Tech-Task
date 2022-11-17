@@ -8,16 +8,29 @@
 import Foundation
 
 enum IndividAccountState: Hashable {
-    struct ModelsContainer: Hashable {
-        let buttonModel: IndividAccountButtonModel
-        let cellModel: IndividAccountCellModel
-    }
-    
     case idle
     case loading
     case failedLoading(_ errorMessage: String)
-    case loaded(_ models: ModelsContainer)
-    case transactionLoading(_ models: ModelsContainer?)
-    case successTransaction(_ models: ModelsContainer?)
-    case failedTransaction(_ errorMessage: String, _ models: ModelsContainer?)
+    case loaded(_ model: IndividAccountModel)
+    case transactionLoading(_ model: IndividAccountModel)
+    case successTransaction(_ model: IndividAccountModel)
+    case failedTransaction(_ errorMessage: String, _ models: IndividAccountModel)
+}
+
+// MARK: - Extensions
+
+extension IndividAccountState {
+    var model: IndividAccountModel? {
+        switch self {
+            
+        case .idle, .loading, .failedLoading:
+            return nil
+            
+        case .loaded(let model),
+                .transactionLoading(let model),
+                .successTransaction(let model),
+                .failedTransaction(_, let model):
+            return model
+        }
+    }
 }

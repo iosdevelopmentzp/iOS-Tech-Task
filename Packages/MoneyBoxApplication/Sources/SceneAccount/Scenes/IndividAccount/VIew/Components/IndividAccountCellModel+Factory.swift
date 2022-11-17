@@ -10,14 +10,14 @@ import Core
 
 extension IndividAccountCellModel {
     struct Factory {
-        static func make(account: Account, individAccountId: String) -> IndividAccountCellModel {
+        static func make(model: IndividAccountModel) -> IndividAccountCellModel {
             return .init(
-                id: account.id,
-                name: account.name,
-                planValue: account.planValue.value,
-                planValueCurrency: account.planValue.sign,
-                moneyBoxValue: account.moneyboxValue.value,
-                moneyBoxValueCurrency: account.moneyboxValue.sign
+                id: model.id,
+                name: model.name,
+                planValue: model.planValue.value,
+                planValueCurrency: model.planValue.sign,
+                moneyBoxValue: model.moneyBoxValue.value,
+                moneyBoxValueCurrency: model.moneyBoxValue.sign
             )
         }
     }

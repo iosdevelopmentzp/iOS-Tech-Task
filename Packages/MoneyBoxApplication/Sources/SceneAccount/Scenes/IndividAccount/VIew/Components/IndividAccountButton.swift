@@ -97,7 +97,7 @@ extension IndividAccountButton {
 extension IndividAccountButtonModel {
     var title: String? {
         switch self.state {
-        case .active(let text):
+        case .active(let text), .inactive(let text):
             return text
             
         case .loading, .hidden:
@@ -110,17 +110,14 @@ extension IndividAccountButtonModel {
         case .active:
             return .blue
             
-        case .loading, .hidden:
+        case .loading, .hidden, .inactive:
             return .brown
         }
     }
     
     var textColor: UIColor {
         switch self.state {
-        case .active:
-            return .white
-            
-        case .loading, .hidden:
+        case .loading, .hidden, .active, .inactive:
             return .white
         }
     }
@@ -130,15 +127,16 @@ extension IndividAccountButtonModel {
         case .active:
             return true
             
-        case .loading, .hidden:
+        case .loading, .hidden, .inactive:
             return false
         }
     }
     
     var opacity: Float {
         switch self.state {
-        case .active, .loading:
+        case .active, .loading, .inactive:
             return 1
+            
         case .hidden:
             return 0
         }

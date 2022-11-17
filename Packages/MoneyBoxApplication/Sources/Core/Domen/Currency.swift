@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Currency: Equatable {
+public struct Currency: Hashable {
     // MARK: - Property
     
     public let value: Double

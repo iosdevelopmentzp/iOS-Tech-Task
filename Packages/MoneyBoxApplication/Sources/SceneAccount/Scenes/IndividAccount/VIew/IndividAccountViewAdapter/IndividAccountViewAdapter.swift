@@ -79,27 +79,13 @@ final class IndividAccountViewAdapter {
 
 private extension IndividAccountViewAdapter {
     private func updateButtonModel(for newState: IndividAccountState) {
-        let model: IndividAccountButtonModel?
         var withAnimation = true
         
-        switch newState {
-        case .idle:
-            model = .init(state: .hidden)
+        if case .idle = newState {
             withAnimation = false
-            
-        case .loading, .failedLoading:
-            model = .init(state: .hidden)
-            
-        case .loaded(let container):
-            model = container.buttonModel
-            
-        case .transactionLoading(let container),
-                .successTransaction(let container),
-                .failedTransaction(_, let container):
-            model = container?.buttonModel
         }
         
-        delegate?.updateButton(model ?? .init(state: .hidden), animated: withAnimation)
+        delegate?.updateButton(.Factory.make(newState), animated: withAnimation)
     }
 }
 
@@ -114,13 +100,11 @@ private extension IndividAccountViewAdapter.Snapshot {
         case .failedLoading(let errorMessage):
             return error(errorMessage)
             
-        case .loaded(let container):
-            return loaded(for: container.cellModel)
-            
-        case .transactionLoading(let container),
-                .failedTransaction(_, let container),
-                .successTransaction(let container):
-            return (container?.cellModel).map(loaded(for:)) ?? Self()
+        case .loaded(let model),
+                .transactionLoading(let model),
+                .failedTransaction(_, let model),
+                .successTransaction(let model):
+            return loaded(for: .Factory.make(model: model))
         }
     }
     
