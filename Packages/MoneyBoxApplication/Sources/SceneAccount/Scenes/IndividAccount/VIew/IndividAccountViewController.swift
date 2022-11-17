@@ -17,6 +17,7 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     
     private enum Event {
         case addButtonTap
+        case retryButtonTap
     }
     
     // MARK: - Properties
@@ -99,6 +100,9 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
             switch $0 {
             case .addButtonTap:
                 input.onEvent(.didTapAddButton)
+                
+            case .retryButtonTap:
+                input.onEvent(.didTapRetryButton)
             }
         }
     }
@@ -148,6 +152,7 @@ extension IndividAccountViewController: IndividAccountViewAdapterCellProvider {
         case .error(let message):
             let cell = collectionView.dequeueReusableCell(ofType: ErrorCell.self, at: indexPath)
             cell.configure(using: message)
+            cell.delegate = self
             return cell
             
         case .account(let model):
@@ -165,3 +170,12 @@ extension IndividAccountViewController: IndividAccountViewAdapterDelegate {
         self.buttonView.configure(using: model, animated: animated)
     }
 }
+
+// MARK: - ErrorCellEventsDelegate
+
+extension IndividAccountViewController: ErrorCellEventsDelegate {
+    public func cell(_ cell: ErrorCell, didPressRetryButton sender: UIButton) {
+        eventsHandler?(.retryButtonTap)
+    }
+}
+ 

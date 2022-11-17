@@ -23,6 +23,7 @@ public final class IndividAccountViewModel: ViewModel {
     public struct Output {
         enum Event {
             case didTapAddButton
+            case didTapRetryButton
         }
 
         var onEvent: ArgClosure<Event>
@@ -76,7 +77,7 @@ public final class IndividAccountViewModel: ViewModel {
         
         let output = Output { [weak self] in self?.handle(event: $0) }
         outputHandler(output)
-        setupProducts()
+        setupAccount()
     }
 }
 
@@ -87,10 +88,13 @@ private extension IndividAccountViewModel {
         switch event {
         case .didTapAddButton:
             invokeTransaction()
+            
+        case .didTapRetryButton:
+            setupAccount()
         }
     }
     
-    private func setupProducts() {
+    private func setupAccount() {
         self.task?.cancel()
         state = .loading
         
