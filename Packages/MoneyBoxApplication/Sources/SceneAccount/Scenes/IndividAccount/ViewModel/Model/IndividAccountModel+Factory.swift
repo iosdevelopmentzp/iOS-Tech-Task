@@ -10,7 +10,7 @@ import Core
 
 extension IndividAccountModel {
     struct Factory {
-        static func make(_ account: Account, addValue: Double, addCurrency: String) -> IndividAccountModel {
+        static func make(_ account: Product, addValue: Double, addCurrency: String) -> IndividAccountModel {
             return .init(
                 id: account.id,
                 name: account.name,

@@ -17,7 +17,7 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     // MARK: Nested
     
     private enum Event {
-        case individAccountTap(_ id: String)
+        case individAccountTap(_ id: Int)
         case retryButtonTap
     }
     

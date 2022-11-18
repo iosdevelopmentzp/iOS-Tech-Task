@@ -36,6 +36,10 @@ extension AccountNetworkService: AccountNetworkServiceProtocol {
     func account() async throws -> AccountResponseDTO {
         let provider = RequestDataProvider(configurations, token: self.tokenProvider?.authorizationToken())
         let target = AccountTarget(provider, router: .products)
-        return try await networking.dataRequest(target: target)
+        
+        let response: MultipleDecodableModel<AccountResponseDTO, ErrorResponseDTO>
+        response = try await networking.dataRequest(target: target)
+        
+        return try response.mainExpectationOrError()
     }
 }

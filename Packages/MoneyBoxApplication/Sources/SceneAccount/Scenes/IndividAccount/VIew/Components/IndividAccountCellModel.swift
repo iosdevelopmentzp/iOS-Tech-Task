@@ -9,7 +9,7 @@ import Foundation
 import AppResources
 
 struct IndividAccountCellModel: Hashable {
-    let id: String
+    let id: Int
     let name: String
     
     private let planValue: String
@@ -27,7 +27,7 @@ struct IndividAccountCellModel: Hashable {
     
     // MARK: - Constructor
     
-    init(id: String, name: String, planValue: Double, planValueCurrency: String, moneyBoxValue: Double, moneyBoxValueCurrency: String) {
+    init(id: Int, name: String, planValue: Double, planValueCurrency: String, moneyBoxValue: Double, moneyBoxValueCurrency: String) {
         self.id = id
         self.name = name
         self.planValue = planValue.format(.roundUp(count: 2))

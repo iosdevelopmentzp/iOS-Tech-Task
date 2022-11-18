@@ -16,5 +16,5 @@ public struct OneOffPaymentResponseDTO: Decodable, Equatable {
     
     // MARK: - Propeties
     
-    public let moneybox: Double?
+    public let moneybox: Double
 }

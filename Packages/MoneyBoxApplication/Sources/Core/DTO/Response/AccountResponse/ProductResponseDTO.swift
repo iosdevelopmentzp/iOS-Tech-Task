@@ -38,8 +38,8 @@ public struct ProductResponseDTO: Decodable, Equatable {
     
     public let id: Int
     public let assetBoxGlobalID: String?
-    public let planValue: Double?
-    public let moneybox: Double?
+    public let planValue: Double
+    public let moneybox: Double
     public let subscriptionAmount: Int?
     public let totalFees: Double?
     public let isSelected: Bool?
@@ -49,7 +49,7 @@ public struct ProductResponseDTO: Decodable, Equatable {
     public let isCashBox: Bool?
     public let pendingInstantBankTransferAmount: Int?
     public let assetBox: AssetBox?
-    public let product: ProductDTO?
+    public let product: ProductDTO
     public let investorAccount: InvestorAccount?
     public let personalisation: Personalisation?
     public let contributions: Contributions?

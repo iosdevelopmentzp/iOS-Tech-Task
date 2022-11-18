@@ -35,8 +35,8 @@ public struct ProductDTO: Decodable, Equatable {
     
     // MARK: - Properties
     
-    public let id: Int?
-    public let name: String?
+    public let id: Int
+    public let name: String
     public let categoryType: String?
     public let type: String?
     public let friendlyName: String?

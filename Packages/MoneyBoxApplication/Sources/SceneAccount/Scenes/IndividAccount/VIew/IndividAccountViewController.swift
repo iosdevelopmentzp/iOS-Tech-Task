@@ -62,6 +62,8 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
         collectionView.registerCellClass(LoadingCell.self)
         collectionView.registerCellClass(ErrorCell.self)
         collectionView.registerCellClass(IndividAccountCell.self)
+        
+        buttonView.delegate = self
     }
     
     public func setupLocalization() {
@@ -166,6 +168,15 @@ extension IndividAccountViewController: IndividAccountViewAdapterCellProvider {
 // MARK: - IndividAccountViewAdapterDelegate
 
 extension IndividAccountViewController: IndividAccountViewAdapterDelegate {
+    func showAlert(title: String, message: String, actions: [(title: String, handler: Closure)]) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        actions.forEach { tuple in
+            let action = UIAlertAction(title: tuple.title, style: .default, handler: { _ in tuple.handler() })
+            alert.addAction(action)
+        }
+        self.present(alert, animated: true)
+    }
+    
     func updateButton(_ model: IndividAccountButtonModel, animated: Bool) {
         self.buttonView.configure(using: model, animated: animated)
     }
@@ -178,4 +189,11 @@ extension IndividAccountViewController: ErrorCellEventsDelegate {
         eventsHandler?(.retryButtonTap)
     }
 }
+
+// MARK: - IndividAccountButtonDelegate
  
+extension IndividAccountViewController: IndividAccountButtonDelegate {
+    func didTapButton(_ buttonView: IndividAccountButton, _ sender: UIButton) {
+        eventsHandler?(.addButtonTap)
+    }
+}

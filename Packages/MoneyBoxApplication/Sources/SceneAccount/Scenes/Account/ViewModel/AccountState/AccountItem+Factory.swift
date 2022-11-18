@@ -17,7 +17,7 @@ extension AccountItem {
                 currency: account.totalPlanValue?.sign ?? ""
             )
             
-            let accounts: [AccountCellModel] = account.individualAccounts?.map {
+            let accounts: [AccountCellModel] = account.products?.map {
                 .init(
                     id: $0.id,
                     name: $0.name,

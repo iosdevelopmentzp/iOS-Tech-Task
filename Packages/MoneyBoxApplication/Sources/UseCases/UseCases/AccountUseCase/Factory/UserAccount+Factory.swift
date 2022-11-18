@@ -14,37 +14,18 @@ extension UserAccount {
         static func make(_ accountResponse: AccountResponseDTO) -> UserAccount {
             let totalPlanValue = Currency(value: accountResponse.totalPlanValue, sign: currencySign)
             
-            let accounts = accountResponse
-                .accounts?
-                .compactMap { accountDTO -> Account? in
-                    guard let id = accountDTO.wrapper?.id, !id.isEmpty else { return nil }
-                    
-                    let accountProducts = accountResponse.productResponses?.filter {
-                        guard let wrapperID = $0.wrapperID else { return false }
-                        return wrapperID == id
-                    } ?? []
-                    
-                    let planValue = accountProducts.reduce(into: Double(0)){ partialResult, product in
-                        partialResult += product.planValue ?? 0
-                    }
-                    
-                    let moneyboxValue = accountProducts.reduce(into: Double(0)) { partialResult, product in
-                        partialResult += product.moneybox ?? 0
-                    }
-                    
-                    return .init(
-                        id: id,
-                        name: accountDTO.name ?? "",
-                        planValue: .init(value: planValue, sign: currencySign),
-                        moneyboxValue: .init(value: moneyboxValue, sign: currencySign)
+            let products = (accountResponse.productResponses ?? []).map { productDTO -> Product in
+                    .init(
+                        id: productDTO.id,
+                        name: productDTO.product.name,
+                        planValue: .init(value: productDTO.planValue, sign: currencySign),
+                        moneyboxValue: .init(value: productDTO.moneybox, sign: currencySign)
                     )
-                }
-                .sorted(by: { $0.name < $1.name })
-            
+            }.sorted(by: { $0.name < $1.name })
             
             return UserAccount(
                 totalPlanValue: totalPlanValue,
-                individualAccounts: accounts
+                products: products
             )
         }
     }

@@ -13,6 +13,7 @@ import Extensions
 
 protocol IndividAccountViewAdapterDelegate: AnyObject {
     func updateButton(_ model: IndividAccountButtonModel, animated: Bool)
+    func showAlert(title: String, message: String, actions: [(title: String, handler: Closure)])
 }
 
 protocol IndividAccountViewAdapterCellProvider: AnyObject {
@@ -51,6 +52,7 @@ final class IndividAccountViewAdapter {
             let snapshot = Snapshot.snapshot(from: state)
             dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
             updateButtonModel(for: state)
+            invokeShowingAlertIfNeed(for: state)
         }
     }
     
@@ -78,6 +80,20 @@ final class IndividAccountViewAdapter {
 // MARK: - Private Functions
 
 private extension IndividAccountViewAdapter {
+    private func invokeShowingAlertIfNeed(for newState: IndividAccountState) {
+        switch newState {
+        case .idle, .loading, .loaded, .transactionLoading, .successTransaction:
+            break
+            
+        case .failedLoading(_):
+            // Message will be displayed in the collection view
+            break
+            
+        case .failedTransaction(let errorMessage, _):
+            self.delegate?.showAlert(title: "Error", message: errorMessage, actions: [("Got it", {})])
+        }
+    }
+    
     private func updateButtonModel(for newState: IndividAccountState) {
         var withAnimation = true
         

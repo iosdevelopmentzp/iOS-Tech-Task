@@ -36,10 +36,10 @@ extension AccountUseCase: AccountUseCaseProtocol {
         return UserAccount.Factory.make(accountResponse)
     }
     
-    func individualAccount(by id: String) async throws -> Account {
+    func individualAccount(by id: Int) async throws -> Product {
         let userAccount = try await userAccount()
         
-        guard let individualAccount = userAccount.individualAccounts?.first(where: {
+        guard let individualAccount = userAccount.products?.first(where: {
             $0.id == id
         }) else {
             throw Error.userNotHaveAccountById

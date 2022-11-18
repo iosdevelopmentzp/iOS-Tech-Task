@@ -48,7 +48,7 @@ public final class IndividAccountViewModel: ViewModel {
     
     private var eventsHandler: EventsHandler?
     
-    private let accountId: String
+    private let accountId: Int
     
     private var task: Task<Void, Never>?
     
@@ -62,7 +62,7 @@ public final class IndividAccountViewModel: ViewModel {
     // MARK: - Constructor
     
     public init(
-        accountId: String,
+        accountId: Int,
         _ accountUseCase: AccountUseCaseProtocol,
         _ transactionsUseCase: TransactionsUseCaseProtocol
     ) {
@@ -100,7 +100,7 @@ private extension IndividAccountViewModel {
         state = .loading
         
         self.task = Task {
-            let result: Result<Account, Error>
+            let result: Result<Product, Error>
             do {
                 let account = try await accountUseCase.individualAccount(by: self.accountId)
                 result = .success(account)
@@ -130,12 +130,18 @@ private extension IndividAccountViewModel {
         guard let model = self.state.model else { return }
         self.state = .transactionLoading(model)
         
-//        
-//        Task {
-//            transactionsUseCase.oneOffPayment(
-//                amount: Int(Constants.addValue),
-//                investorProductID: <#T##Int#>
-//            )
-//        }
+        
+        Task {
+            do {
+                try await transactionsUseCase.oneOffPayment(
+                    amount: Int(Constants.addValue),
+                    investorProductID: accountId
+                )
+                setupAccount()
+            } catch {
+                self.state = .failedTransaction(error.localizedDescription, model)
+            }
+            
+        }
     }
 }

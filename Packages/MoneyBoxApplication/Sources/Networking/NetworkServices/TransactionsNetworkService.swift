@@ -33,6 +33,10 @@ extension TransactionsNetworkService: TransactionsNetworkServiceProtocol {
     func oneOffPayment(_ data: OneOffPaymentRequestDTO) async throws -> OneOffPaymentResponseDTO {
         let provider = RequestDataProvider(configurations, parameters: try data.toDictionary(), token: tokenProvider?.authorizationToken())
         let target = TransactionsTarget(provider, router: .oneOffPayment)
-        return try await networking.dataRequest(target: target)
+        
+        let response: MultipleDecodableModel<OneOffPaymentResponseDTO, ErrorResponseDTO>
+        response = try await networking.dataRequest(target: target)
+        
+        return try response.mainExpectationOrError()
     }
 }

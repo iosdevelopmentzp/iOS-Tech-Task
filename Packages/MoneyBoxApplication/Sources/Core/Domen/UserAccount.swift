@@ -11,12 +11,12 @@ public struct UserAccount: Equatable {
     // MARK: - Properties
     
     public let totalPlanValue: Currency?
-    public let individualAccounts: [Account]?
+    public let products: [Product]?
     
     // MARK: - Constructor
     
-    public init(totalPlanValue: Currency?, individualAccounts: [Account]?) {
+    public init(totalPlanValue: Currency?, products: [Product]?) {
         self.totalPlanValue = totalPlanValue
-        self.individualAccounts = individualAccounts
+        self.products = products
     }
 }
