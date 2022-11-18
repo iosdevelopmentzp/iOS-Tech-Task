@@ -142,7 +142,7 @@ private extension ProductDetailsViewModel {
                     amount: value,
                     investorProductID: productId
                 )
-                self.state = .successTransaction("Did transfer \(Constants.addCurrency)\(value)", model)
+                self.state = .successTransaction("Did transfer => \(Constants.addCurrency)\(value)", model)
             } catch {
                 self.state = .failedTransaction(error.localizedDescription, model)
             }
