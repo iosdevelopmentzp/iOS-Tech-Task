@@ -13,7 +13,7 @@ import Extensions
 
 protocol ProductDetailsViewAdapterDelegate: AnyObject {
     func updateButton(_ model: ProductDetailsButtonModel, animated: Bool)
-    func showAlert(title: String, message: String, actions: [(title: String, handler: Closure)])
+    func showAlert(title: String, message: String)
 }
 
 protocol ProductDetailsViewAdapterCellProvider: AnyObject {
@@ -82,15 +82,18 @@ final class ProductDetailsViewAdapter {
 private extension ProductDetailsViewAdapter {
     private func invokeShowingAlertIfNeed(for newState: ProductDetailsState) {
         switch newState {
-        case .idle, .loading, .loaded, .transactionLoading, .successTransaction:
+        case .idle, .loading, .loaded, .transactionLoading:
             break
             
         case .failedLoading(_):
             // Message will be displayed in the collection view
             break
             
+        case .successTransaction(let description, _):
+            self.delegate?.showAlert(title: "Success Transaction", message: description)
+            
         case .failedTransaction(let errorMessage, _):
-            self.delegate?.showAlert(title: "Error", message: errorMessage, actions: [("Got it", {})])
+            self.delegate?.showAlert(title: "Error", message: errorMessage)
         }
     }
     
@@ -119,7 +122,7 @@ private extension ProductDetailsViewAdapter.Snapshot {
         case .loaded(let model),
                 .transactionLoading(let model),
                 .failedTransaction(_, let model),
-                .successTransaction(let model):
+                .successTransaction(_, let model):
             return loaded(for: .Factory.make(model: model))
         }
     }

@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Extensions
+import SwiftUI
+import AppResources
 
 protocol ProductDetailsButtonDelegate: AnyObject {
     func didTapButton(_ buttonView: ProductDetailsButton, _ sender: UIButton)
@@ -17,6 +19,8 @@ final class ProductDetailsButton: UIView, ViewSettableType {
     // MARK: - Properties
     
     private let button = UIButton()
+    
+    private let activityIndicator = UIActivityIndicatorView()
     
     weak var delegate: ProductDetailsButtonDelegate? {
         didSet {
@@ -42,10 +46,15 @@ final class ProductDetailsButton: UIView, ViewSettableType {
         button.isUserInteractionEnabled = false
         button.layer.opacity = 0
         button.layer.cornerRadius = 8
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = true
     }
     
     func addViews() {
         addSubview(button)
+        button.addSubview(activityIndicator)
     }
     
     func layoutViews() {
@@ -55,6 +64,10 @@ final class ProductDetailsButton: UIView, ViewSettableType {
             $0.center.equalToSuperview()
             $0.height.equalTo(buttonHeight)
             $0.width.equalToSuperview().multipliedBy(0.8)
+        }
+        
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
         
         snp.makeConstraints {
@@ -80,13 +93,14 @@ extension ProductDetailsButton {
             self.button.backgroundColor = model.backgroundColor
             self.button.titleLabel?.textColor = model.textColor
             self.button.layer.opacity = model.opacity
+            self.activityIndicator.isHidden = model.activityIndicatorIsHidden
         }
         guard animated else {
             action()
             return
         }
         
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.15) {
             action()
         }
     }
@@ -107,11 +121,11 @@ extension ProductDetailsButtonModel {
     
     var backgroundColor: UIColor {
         switch self.state {
-        case .active:
-            return .blue
+        case .active, .loading:
+            return Colors.appAccent.color
             
-        case .loading, .hidden, .inactive:
-            return .brown
+        case .hidden, .inactive:
+            return .gray
         }
     }
     
@@ -139,6 +153,16 @@ extension ProductDetailsButtonModel {
             
         case .hidden:
             return 0
+        }
+    }
+    
+    var activityIndicatorIsHidden: Bool {
+        switch self.state {
+        case .loading:
+            return false
+            
+        case .active, .hidden, .inactive:
+            return true
         }
     }
 }

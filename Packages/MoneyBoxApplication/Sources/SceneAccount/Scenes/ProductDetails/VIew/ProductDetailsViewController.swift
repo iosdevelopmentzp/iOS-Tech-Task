@@ -18,6 +18,7 @@ final public class ProductDetailsViewController: UIViewController, View, ViewSet
     private enum Event {
         case addButtonTap
         case retryButtonTap
+        case alertOkTap
     }
     
     // MARK: - Properties
@@ -105,6 +106,9 @@ final public class ProductDetailsViewController: UIViewController, View, ViewSet
                 
             case .retryButtonTap:
                 input.onEvent(.didTapRetryButton)
+                
+            case .alertOkTap:
+                input.onEvent(.didTapAlertConfirmation)
             }
         }
     }
@@ -168,12 +172,13 @@ extension ProductDetailsViewController: ProductDetailsViewAdapterCellProvider {
 // MARK: - ProductDetailsViewAdapterDelegate
 
 extension ProductDetailsViewController: ProductDetailsViewAdapterDelegate {
-    func showAlert(title: String, message: String, actions: [(title: String, handler: Closure)]) {
+    func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        actions.forEach { tuple in
-            let action = UIAlertAction(title: tuple.title, style: .default, handler: { _ in tuple.handler() })
-            alert.addAction(action)
-        }
+        alert.addAction(.init(
+            title: "Ok",
+            style: .default,
+            handler: { [weak self] _ in self?.eventsHandler?(.alertOkTap) }
+        ))
         self.present(alert, animated: true)
     }
     

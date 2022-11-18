@@ -24,6 +24,7 @@ public final class ProductDetailsViewModel: ViewModel {
         enum Event {
             case didTapAddButton
             case didTapRetryButton
+            case didTapAlertConfirmation
         }
 
         var onEvent: ArgClosure<Event>
@@ -92,6 +93,9 @@ private extension ProductDetailsViewModel {
             
         case .didTapRetryButton:
             setupProduct()
+            
+        case .didTapAlertConfirmation:
+            setupProduct()
         }
     }
     
@@ -132,12 +136,13 @@ private extension ProductDetailsViewModel {
         
         
         Task {
+            let value = Int(Constants.addValue)
             do {
                 try await transactionsUseCase.oneOffPayment(
-                    amount: Int(Constants.addValue),
+                    amount: value,
                     investorProductID: productId
                 )
-                setupProduct()
+                self.state = .successTransaction("Did transfer \(Constants.addCurrency)\(value)", model)
             } catch {
                 self.state = .failedTransaction(error.localizedDescription, model)
             }

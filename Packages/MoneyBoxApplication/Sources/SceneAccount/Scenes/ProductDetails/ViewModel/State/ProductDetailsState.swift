@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Extensions
 
 enum ProductDetailsState: Hashable {
     case idle
@@ -13,7 +14,7 @@ enum ProductDetailsState: Hashable {
     case failedLoading(_ errorMessage: String)
     case loaded(_ model: ProductDetailsModel)
     case transactionLoading(_ model: ProductDetailsModel)
-    case successTransaction(_ model: ProductDetailsModel)
+    case successTransaction(_ description: String, _ model: ProductDetailsModel)
     case failedTransaction(_ errorMessage: String, _ models: ProductDetailsModel)
 }
 
@@ -28,9 +29,19 @@ extension ProductDetailsState {
             
         case .loaded(let model),
                 .transactionLoading(let model),
-                .successTransaction(let model),
+                .successTransaction(_, let model),
                 .failedTransaction(_, let model):
             return model
+        }
+    }
+    
+    var isIdle: Bool {
+        switch self {
+        case .idle:
+            return true
+        
+        default:
+            return false
         }
     }
 }

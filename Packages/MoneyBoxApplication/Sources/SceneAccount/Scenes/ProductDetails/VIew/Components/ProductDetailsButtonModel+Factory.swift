@@ -28,8 +28,10 @@ extension ProductDetailsButtonModel {
                 let title = model.addValue.map { buttonTitleConstructor($0) } ?? ""
                 buttonState = .active(title)
                 
-            case .transactionLoading(let model),
-                    .successTransaction(let model),
+            case .transactionLoading:
+                buttonState = .loading
+                
+            case .successTransaction(_, let model),
                     .failedTransaction(_, let model):
                 let title = model.addValue.map { buttonTitleConstructor($0) } ?? ""
                 buttonState = .inactive(title)
