@@ -31,8 +31,8 @@ final class AccountCoordinator: NavigationCoordinator {
 // MARK: - LoginSceneDelegate
 
 extension AccountCoordinator: AccountSceneDelegate {
-    func didTapIndividualAccount(with id: Int) {
-        let viewModel = ProductDetailsViewModel(accountId: id, resolver.resolve(), resolver.resolve())
+    func didTapProduct(with id: Int) {
+        let viewModel = ProductDetailsViewModel(productId: id, resolver.resolve(), resolver.resolve())
         let viewController = ProductDetailsViewController(viewModel)
         viewModel.sceneDelegate = self
         navigation.pushViewController(viewController, animated: true)

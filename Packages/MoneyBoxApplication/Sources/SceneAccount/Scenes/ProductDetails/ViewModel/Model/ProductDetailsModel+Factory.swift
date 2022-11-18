@@ -10,12 +10,12 @@ import Core
 
 extension ProductDetailsModel {
     struct Factory {
-        static func make(_ account: Product, addValue: Double, addCurrency: String) -> ProductDetailsModel {
+        static func make(_ product: Product, addValue: Double, addCurrency: String) -> ProductDetailsModel {
             return .init(
-                id: account.id,
-                name: account.name,
-                planValue: account.planValue,
-                moneyBoxValue: account.moneyboxValue,
+                id: product.id,
+                name: product.name,
+                planValue: product.planValue,
+                moneyBoxValue: product.moneyboxValue,
                 addValue: .init(value: addValue, sign: addCurrency)
             )
         }

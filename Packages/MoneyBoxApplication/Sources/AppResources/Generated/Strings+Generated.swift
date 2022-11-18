@@ -32,12 +32,6 @@ public enum Strings {
       }
     }
   }
-  public enum IndividualAccount {
-    /// Add %@%@
-    public static func add(_ p1: Any, _ p2: Any) -> String {
-      return Strings.tr("Localizable", "individual_account.add", String(describing: p1), String(describing: p2), fallback: "Add %@%@")
-    }
-  }
   public enum Login {
     /// Login
     public static let loginButtonTitle = Strings.tr("Localizable", "login.login_button_title", fallback: "Login")
@@ -45,6 +39,12 @@ public enum Strings {
     public static let loginPlaceholder = Strings.tr("Localizable", "login.login_placeholder", fallback: "Email")
     /// Password
     public static let passwordPlaceholder = Strings.tr("Localizable", "login.password_placeholder", fallback: "Password")
+  }
+  public enum ProductDetails {
+    /// Add %@%@
+    public static func add(_ p1: Any, _ p2: Any) -> String {
+      return Strings.tr("Localizable", "product_details.add", String(describing: p1), String(describing: p2), fallback: "Add %@%@")
+    }
   }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

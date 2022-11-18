@@ -19,7 +19,7 @@ enum AccountViewItem: Hashable {
     case loading
     case error(_ message: String)
     case header(_ model: AccountHeaderCellModel)
-    case account(_ model: AccountCellModel)
+    case product(_ model: ProductCellModel)
 }
 
 final class AccountViewAdapter {
@@ -92,8 +92,8 @@ private extension AccountViewAdapter.Snapshot {
         
         let snapshotItems: [AccountViewAdapter.Item] = items.map {
             switch $0 {
-            case .individualAccount(let viewModel):
-                return .account(viewModel)
+            case .product(let viewModel):
+                return .product(viewModel)
                 
             case .header(let viewModel):
                 return .header(viewModel)

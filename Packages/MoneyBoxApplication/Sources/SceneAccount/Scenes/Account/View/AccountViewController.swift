@@ -17,7 +17,7 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     // MARK: Nested
     
     private enum Event {
-        case individAccountTap(_ id: Int)
+        case productTap(_ id: Int)
         case retryButtonTap
     }
     
@@ -63,7 +63,7 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
         collectionView.registerCellClass(LoadingCell.self)
         collectionView.registerCellClass(ErrorCell.self)
         collectionView.registerCellClass(AccountHeaderCell.self)
-        collectionView.registerCellClass(AccountCell.self)
+        collectionView.registerCellClass(ProductCell.self)
     }
     
     public func setupLocalization() {
@@ -88,8 +88,8 @@ final public class AccountViewController: UIViewController, View, ViewSettableTy
     public func setupInput(_ input: AccountViewModel.Output) {
         eventsHandler = {
             switch $0 {
-            case .individAccountTap(let id):
-                input.onEvent(.didTapIndividAccount(id))
+            case .productTap(let id):
+                input.onEvent(.didTapproduct(id))
                 
             case .retryButtonTap:
                 input.onEvent(.retryButtonTap)
@@ -148,8 +148,8 @@ private extension AccountViewController {
             cell.configure(using: viewModel)
             return cell
             
-        case .account(let viewModel):
-            let cell = collectionView.dequeueReusableCell(ofType: AccountCell.self, at: indexPath)
+        case .product(let viewModel):
+            let cell = collectionView.dequeueReusableCell(ofType: ProductCell.self, at: indexPath)
             cell.configure(using: viewModel)
             return cell
         }
@@ -166,8 +166,8 @@ extension AccountViewController: UICollectionViewDelegate {
         case .loading, .error, .header:
             assertionFailure("Unexpected item")
         
-        case .account(let viewModel):
-            eventsHandler?(.individAccountTap(viewModel.id))
+        case .product(let viewModel):
+            eventsHandler?(.productTap(viewModel.id))
         }
     }
 }

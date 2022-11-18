@@ -10,5 +10,5 @@ import Foundation
 enum ProductDetailsItem: Hashable {
     case loading
     case error(_ message: String)
-    case account(_ model: ProductDetailsCellModel)
+    case product(_ model: ProductDetailsCellModel)
 }

@@ -21,4 +21,4 @@
 
 // MARK: - Individual Account
 
-"individual_account.add" = "Add %@%@";
+"product_details.add" = "Add %@%@";

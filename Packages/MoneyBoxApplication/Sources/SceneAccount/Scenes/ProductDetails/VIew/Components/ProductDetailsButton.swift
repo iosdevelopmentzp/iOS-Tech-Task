@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Extensions
 
-protocol IndividAccountButtonDelegate: AnyObject {
+protocol ProductDetailsButtonDelegate: AnyObject {
     func didTapButton(_ buttonView: ProductDetailsButton, _ sender: UIButton)
 }
 
@@ -18,7 +18,7 @@ final class ProductDetailsButton: UIView, ViewSettableType {
     
     private let button = UIButton()
     
-    weak var delegate: IndividAccountButtonDelegate? {
+    weak var delegate: ProductDetailsButtonDelegate? {
         didSet {
             guard delegate != nil, !button.allTargets.contains(self) else { return }
             button.addTarget(self, action: #selector(self.tapHandler(_:)), for: .touchUpInside)
@@ -92,7 +92,7 @@ extension ProductDetailsButton {
     }
 }
 
-// MARK: - IndividAccountButtonModel Ext
+// MARK: - ProductDetailsButtonModel Ext
 
 extension ProductDetailsButtonModel {
     var title: String? {

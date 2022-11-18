@@ -22,7 +22,7 @@ public final class AccountViewModel: ViewModel {
     
     public struct Output {
         enum Event {
-            case didTapIndividAccount(_ id: Int)
+            case didTapproduct(_ id: Int)
             case retryButtonTap
         }
         
@@ -63,8 +63,8 @@ public final class AccountViewModel: ViewModel {
         
         let ouput = Output { [weak self] in
             switch $0 {
-            case .didTapIndividAccount(let id):
-                self?.sceneDelegate?.didTapIndividualAccount(with: id)
+            case .didTapproduct(let id):
+                self?.sceneDelegate?.didTapProduct(with: id)
                 
             case .retryButtonTap:
                 self?.setupProducts()

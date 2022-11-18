@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol AccountSceneDelegate: AnyObject {
-    func didTapIndividualAccount(with id: Int)
+    func didTapProduct(with id: Int)
 }

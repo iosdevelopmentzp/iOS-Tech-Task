@@ -1,5 +1,5 @@
 //
-//  AccountCell.swift
+//  ProductCell.swift
 //  
 //
 //  Created by Dmytro Vorko on 23.08.2022.
@@ -12,7 +12,7 @@ import AppResources
 import AppViews
 import SnapKit
 
-final class AccountCell: DynamicCollectionCell, ViewSettableType, Reusable {
+final class ProductCell: DynamicCollectionCell, ViewSettableType, Reusable {
     // MARK: - Properties
     
     private let contentContainerView = UIView()
@@ -82,8 +82,8 @@ final class AccountCell: DynamicCollectionCell, ViewSettableType, Reusable {
 
 // MARK: - Configure
 
-extension AccountCell {
-    func configure(using model: AccountCellModel) {
+extension ProductCell {
+    func configure(using model: ProductCellModel) {
         nameLabel.text = model.name
         planValueLabel.text = model.planValueText
         moneyboxLabel.text = model.moneyBoxValueText

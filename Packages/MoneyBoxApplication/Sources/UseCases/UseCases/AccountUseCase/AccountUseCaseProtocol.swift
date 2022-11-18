@@ -10,5 +10,5 @@ import Core
 
 public protocol AccountUseCaseProtocol {
     func userAccount() async throws -> UserAccount
-    func individualAccount(by id: Int) async throws -> Product
+    func productDetails(by id: Int) async throws -> Product
 }

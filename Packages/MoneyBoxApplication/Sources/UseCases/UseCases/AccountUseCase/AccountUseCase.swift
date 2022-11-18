@@ -36,7 +36,7 @@ extension AccountUseCase: AccountUseCaseProtocol {
         return UserAccount.Factory.make(accountResponse)
     }
     
-    func individualAccount(by id: Int) async throws -> Product {
+    func productDetails(by id: Int) async throws -> Product {
         let userAccount = try await userAccount()
         
         guard let individualAccount = userAccount.products?.first(where: {

@@ -141,7 +141,7 @@ private extension ProductDetailsViewAdapter.Snapshot {
     private static func loaded(for model: ProductDetailsCellModel) -> Self {
         var snapshot = Self()
         snapshot.safeAppend([.main])
-        snapshot.safeAppend([.account(model)], to: .main)
+        snapshot.safeAppend([.product(model)], to: .main)
         
         return snapshot
     }

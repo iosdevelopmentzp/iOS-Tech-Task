@@ -48,7 +48,7 @@ public final class ProductDetailsViewModel: ViewModel {
     
     private var eventsHandler: EventsHandler?
     
-    private let accountId: Int
+    private let productId: Int
     
     private var task: Task<Void, Never>?
     
@@ -62,11 +62,11 @@ public final class ProductDetailsViewModel: ViewModel {
     // MARK: - Constructor
     
     public init(
-        accountId: Int,
+        productId: Int,
         _ accountUseCase: AccountUseCaseProtocol,
         _ transactionsUseCase: TransactionsUseCaseProtocol
     ) {
-        self.accountId = accountId
+        self.productId = productId
         self.accountUseCase = accountUseCase
         self.transactionsUseCase = transactionsUseCase
     }
@@ -78,7 +78,7 @@ public final class ProductDetailsViewModel: ViewModel {
         
         let output = Output { [weak self] in self?.handle(event: $0) }
         outputHandler(output)
-        setupAccount()
+        setupProduct()
     }
 }
 
@@ -91,19 +91,19 @@ private extension ProductDetailsViewModel {
             invokeAdding()
             
         case .didTapRetryButton:
-            setupAccount()
+            setupProduct()
         }
     }
     
-    private func setupAccount() {
+    private func setupProduct() {
         self.task?.cancel()
         state = .loading
         
         self.task = Task {
             let result: Result<Product, Error>
             do {
-                let account = try await accountUseCase.individualAccount(by: self.accountId)
-                result = .success(account)
+                let product = try await accountUseCase.productDetails(by: self.productId)
+                result = .success(product)
             } catch {
                 result = .failure(error)
             }
@@ -112,9 +112,9 @@ private extension ProductDetailsViewModel {
             guard !Task.isCancelled else { return }
             
             switch result {
-            case .success(let account):
+            case .success(let product):
                 let model = ProductDetailsModel.Factory.make(
-                    account,
+                    product,
                     addValue: Constants.addValue,
                     addCurrency: Constants.addCurrency
                 )
@@ -135,9 +135,9 @@ private extension ProductDetailsViewModel {
             do {
                 try await transactionsUseCase.oneOffPayment(
                     amount: Int(Constants.addValue),
-                    investorProductID: accountId
+                    investorProductID: productId
                 )
-                setupAccount()
+                setupProduct()
             } catch {
                 self.state = .failedTransaction(error.localizedDescription, model)
             }

@@ -17,7 +17,7 @@ extension AccountItem {
                 currency: account.totalPlanValue?.sign ?? ""
             )
             
-            let accounts: [AccountCellModel] = account.products?.map {
+            let accounts: [ProductCellModel] = account.products?.map {
                 .init(
                     id: $0.id,
                     name: $0.name,
@@ -28,7 +28,7 @@ extension AccountItem {
                 )
             } ?? []
             
-            return [.header(header)] + accounts.map { .individualAccount($0) }
+            return [.header(header)] + accounts.map { .product($0) }
         }
     }
 }

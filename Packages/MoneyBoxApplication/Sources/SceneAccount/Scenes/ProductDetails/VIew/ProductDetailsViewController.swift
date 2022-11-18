@@ -157,7 +157,7 @@ extension ProductDetailsViewController: ProductDetailsViewAdapterCellProvider {
             cell.delegate = self
             return cell
             
-        case .account(let model):
+        case .product(let model):
             let cell = collectionView.dequeueReusableCell(ofType: ProductDetailsCell.self, at: indexPath)
             cell.configure(using: model)
             return cell
@@ -165,7 +165,7 @@ extension ProductDetailsViewController: ProductDetailsViewAdapterCellProvider {
     }
 }
 
-// MARK: - IndividAccountViewAdapterDelegate
+// MARK: - ProductDetailsViewAdapterDelegate
 
 extension ProductDetailsViewController: ProductDetailsViewAdapterDelegate {
     func showAlert(title: String, message: String, actions: [(title: String, handler: Closure)]) {
@@ -190,9 +190,9 @@ extension ProductDetailsViewController: ErrorCellEventsDelegate {
     }
 }
 
-// MARK: - IndividAccountButtonDelegate
+// MARK: - ProductDetailsButtonDelegate
  
-extension ProductDetailsViewController: IndividAccountButtonDelegate {
+extension ProductDetailsViewController: ProductDetailsButtonDelegate {
     func didTapButton(_ buttonView: ProductDetailsButton, _ sender: UIButton) {
         eventsHandler?(.addButtonTap)
     }

@@ -17,7 +17,7 @@ extension ProductDetailsButtonModel {
             
             let buttonTitleConstructor: ArgAdjClosure<Currency, String> = {
                 let addValue = $0.value.format(.roundUp(count: 0))
-                return Strings.IndividualAccount.add($0.sign, addValue)
+                return Strings.ProductDetails.add($0.sign, addValue)
             }
             
             switch state {

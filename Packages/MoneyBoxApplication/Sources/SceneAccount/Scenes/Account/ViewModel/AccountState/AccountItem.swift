@@ -8,6 +8,6 @@
 import Foundation
 
 enum AccountItem: Equatable {
-    case individualAccount(_ vieModel: AccountCellModel)
+    case product(_ vieModel: ProductCellModel)
     case header(_ vieModel: AccountHeaderCellModel)
 }

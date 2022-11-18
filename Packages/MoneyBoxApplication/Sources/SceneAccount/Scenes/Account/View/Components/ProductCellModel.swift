@@ -1,5 +1,5 @@
 //
-//  AccountCellModel.swift
+//  ProductCellModel.swift
 //  
 //
 //  Created by Dmytro Vorko on 23.08.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import AppResources
 
-struct AccountCellModel: Hashable {
+struct ProductCellModel: Hashable {
     // MARK: - Properties
     
     let id: Int
