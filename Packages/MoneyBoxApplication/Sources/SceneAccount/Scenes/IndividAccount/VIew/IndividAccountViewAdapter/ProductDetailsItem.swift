@@ -1,5 +1,5 @@
 //
-//  IndividAccountItem.swift
+//  ProductDetailsItem.swift
 //  
 //
 //  Created by Dmytro Vorko on 16/11/2022.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum IndividAccountItem: Hashable {
+enum ProductDetailsItem: Hashable {
     case loading
     case error(_ message: String)
-    case account(_ model: IndividAccountCellModel)
+    case account(_ model: ProductDetailsCellModel)
 }

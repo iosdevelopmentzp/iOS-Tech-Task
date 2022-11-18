@@ -1,5 +1,5 @@
 //
-//  IndividAccountViewAdapter.swift
+//  ProductDetailsViewAdapter.swift
 //  
 //
 //  Created by Dmytro Vorko on 16/11/2022.
@@ -11,41 +11,41 @@ import Extensions
 
 // MARK: - Adapter Delegates
 
-protocol IndividAccountViewAdapterDelegate: AnyObject {
-    func updateButton(_ model: IndividAccountButtonModel, animated: Bool)
+protocol ProductDetailsViewAdapterDelegate: AnyObject {
+    func updateButton(_ model: ProductDetailsButtonModel, animated: Bool)
     func showAlert(title: String, message: String, actions: [(title: String, handler: Closure)])
 }
 
-protocol IndividAccountViewAdapterCellProvider: AnyObject {
+protocol ProductDetailsViewAdapterCellProvider: AnyObject {
     func cell(
         for collectionView: UICollectionView,
         _ indexPath: IndexPath,
-        _ item: IndividAccountViewAdapter.Item
+        _ item: ProductDetailsViewAdapter.Item
     ) -> UICollectionViewCell
 }
 
-// MARK: - IndividAccountViewAdapter
+// MARK: - ProductDetailsViewAdapter
 
-final class IndividAccountViewAdapter {
+final class ProductDetailsViewAdapter {
     // MARK: - Nested
     
-    typealias Section = IndividAccountViewSection
-    typealias Item = IndividAccountItem
+    typealias Section = ProductDetailsViewSection
+    typealias Item = ProductDetailsItem
     typealias CellProvider = (UICollectionView, IndexPath, Item) -> UICollectionViewCell?
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
     // MARK: - Delegates
     
-    private weak var delegate: IndividAccountViewAdapterDelegate?
+    private weak var delegate: ProductDetailsViewAdapterDelegate?
     
-    private weak var cellProvider: IndividAccountViewAdapterCellProvider?
+    private weak var cellProvider: ProductDetailsViewAdapterCellProvider?
     
     // MARK: - Properties
     
     let dataSource: DataSource
     
-    private var state: IndividAccountState? {
+    private var state: ProductDetailsState? {
         didSet {
             guard let state = state, state != oldValue else { return }
 
@@ -60,8 +60,8 @@ final class IndividAccountViewAdapter {
     
     init(
         collectionView: UICollectionView,
-        cellProvider: IndividAccountViewAdapterCellProvider,
-        delegate: IndividAccountViewAdapterDelegate
+        cellProvider: ProductDetailsViewAdapterCellProvider,
+        delegate: ProductDetailsViewAdapterDelegate
     ) {
         self.dataSource = DataSource(collectionView: collectionView, cellProvider: {
             cellProvider.cell(for: $0, $1, $2)
@@ -72,15 +72,15 @@ final class IndividAccountViewAdapter {
     
     // MARK: - Update
     
-    func update(with state: IndividAccountState) {
+    func update(with state: ProductDetailsState) {
         self.state = state
     }
 }
 
 // MARK: - Private Functions
 
-private extension IndividAccountViewAdapter {
-    private func invokeShowingAlertIfNeed(for newState: IndividAccountState) {
+private extension ProductDetailsViewAdapter {
+    private func invokeShowingAlertIfNeed(for newState: ProductDetailsState) {
         switch newState {
         case .idle, .loading, .loaded, .transactionLoading, .successTransaction:
             break
@@ -94,7 +94,7 @@ private extension IndividAccountViewAdapter {
         }
     }
     
-    private func updateButtonModel(for newState: IndividAccountState) {
+    private func updateButtonModel(for newState: ProductDetailsState) {
         var withAnimation = true
         
         if case .idle = newState {
@@ -107,8 +107,8 @@ private extension IndividAccountViewAdapter {
 
 // MARK: - Snapshot Factory
 
-private extension IndividAccountViewAdapter.Snapshot {
-    static func snapshot(from state: IndividAccountState) -> Self {
+private extension ProductDetailsViewAdapter.Snapshot {
+    static func snapshot(from state: ProductDetailsState) -> Self {
         switch state {
         case .idle, .loading:
             return loading()
@@ -138,7 +138,7 @@ private extension IndividAccountViewAdapter.Snapshot {
         return snapshot
     }
     
-    private static func loaded(for model: IndividAccountCellModel) -> Self {
+    private static func loaded(for model: ProductDetailsCellModel) -> Self {
         var snapshot = Self()
         snapshot.safeAppend([.main])
         snapshot.safeAppend([.account(model)], to: .main)

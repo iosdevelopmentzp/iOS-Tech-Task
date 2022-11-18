@@ -1,5 +1,5 @@
 //
-//  IndividAccountViewModel.swift
+//  ProductDetailsViewModel.swift
 //  
 //
 //  Created by Dmytro Vorko on 15/11/2022.
@@ -12,12 +12,12 @@ import Extensions
 import Core
 import AppResources
 
-public final class IndividAccountViewModel: ViewModel {
+public final class ProductDetailsViewModel: ViewModel {
     // MARK: - Nested
     
     public struct Input {
         @MainThread
-        var onDidUpdateState: ArgClosure<IndividAccountState>
+        var onDidUpdateState: ArgClosure<ProductDetailsState>
     }
     
     public struct Output {
@@ -35,12 +35,12 @@ public final class IndividAccountViewModel: ViewModel {
     }
     
     private struct EventsHandler {
-        let onStateUpdate: ArgClosure<IndividAccountState>
+        let onStateUpdate: ArgClosure<ProductDetailsState>
     }
     
     // MARK: - Properties
     
-    public weak var sceneDelegate: IndividAccountSceneDelegate?
+    public weak var sceneDelegate: ProductDetailsSceneDelegate?
     
     private let accountUseCase: AccountUseCaseProtocol
     
@@ -52,7 +52,7 @@ public final class IndividAccountViewModel: ViewModel {
     
     private var task: Task<Void, Never>?
     
-    private var state: IndividAccountState = .idle {
+    private var state: ProductDetailsState = .idle {
         didSet {
             guard oldValue != state else { return }
             eventsHandler?.onStateUpdate(state)
@@ -84,7 +84,7 @@ public final class IndividAccountViewModel: ViewModel {
 
 // MARK: - Private Functions
 
-private extension IndividAccountViewModel {
+private extension ProductDetailsViewModel {
     private func handle(event: Output.Event) {
         switch event {
         case .didTapAddButton:
@@ -113,7 +113,7 @@ private extension IndividAccountViewModel {
             
             switch result {
             case .success(let account):
-                let model = IndividAccountModel.Factory.make(
+                let model = ProductDetailsModel.Factory.make(
                     account,
                     addValue: Constants.addValue,
                     addCurrency: Constants.addCurrency

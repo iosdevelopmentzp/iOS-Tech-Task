@@ -1,5 +1,5 @@
 //
-//  IndividAccountButtonModel+Factory.swift
+//  ProductDetailsButtonModel+Factory.swift
 //  
 //
 //  Created by Dmytro Vorko on 17/11/2022.
@@ -10,10 +10,10 @@ import AppResources
 import Core
 import Extensions
 
-extension IndividAccountButtonModel {
+extension ProductDetailsButtonModel {
     struct Factory {
-        static func make(_ state: IndividAccountState) -> IndividAccountButtonModel {
-            let buttonState: IndividAccountButtonModel.State
+        static func make(_ state: ProductDetailsState) -> ProductDetailsButtonModel {
+            let buttonState: ProductDetailsButtonModel.State
             
             let buttonTitleConstructor: ArgAdjClosure<Currency, String> = {
                 let addValue = $0.value.format(.roundUp(count: 0))

@@ -1,5 +1,5 @@
 //
-//  IndividAccountCellModel+Factory.swift
+//  ProductDetailsCellModel+Factory.swift
 //  
 //
 //  Created by Dmytro Vorko on 16/11/2022.
@@ -8,9 +8,9 @@
 import Foundation
 import Core
 
-extension IndividAccountCellModel {
+extension ProductDetailsCellModel {
     struct Factory {
-        static func make(model: IndividAccountModel) -> IndividAccountCellModel {
+        static func make(model: ProductDetailsModel) -> ProductDetailsCellModel {
             return .init(
                 id: model.id,
                 name: model.name,

@@ -1,5 +1,5 @@
 //
-//  IndividAccountCellModel.swift
+//  ProductDetailsCellModel.swift
 //  
 //
 //  Created by Dmytro Vorko on 15/11/2022.
@@ -8,7 +8,7 @@
 import Foundation
 import AppResources
 
-struct IndividAccountCellModel: Hashable {
+struct ProductDetailsCellModel: Hashable {
     let id: Int
     let name: String
     

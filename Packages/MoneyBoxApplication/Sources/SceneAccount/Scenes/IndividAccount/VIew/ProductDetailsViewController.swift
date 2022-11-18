@@ -1,5 +1,5 @@
 //
-//  IndividAccountViewController.swift
+//  ProductDetailsViewController.swift
 //  
 //
 //  Created by Dmytro Vorko on 15/11/2022.
@@ -12,7 +12,7 @@ import MVVM
 import AppResources
 import AppViews
 
-final public class IndividAccountViewController: UIViewController, View, ViewSettableType {
+final public class ProductDetailsViewController: UIViewController, View, ViewSettableType {
     // MARK: - Nested
     
     private enum Event {
@@ -22,22 +22,22 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     
     // MARK: - Properties
     
-    public let viewModel: IndividAccountViewModel
+    public let viewModel: ProductDetailsViewModel
     
     private var eventsHandler: ArgClosure<Event>?
     
-    private lazy var adapter = IndividAccountViewAdapter(collectionView: collectionView, cellProvider: self, delegate: self)
+    private lazy var adapter = ProductDetailsViewAdapter(collectionView: collectionView, cellProvider: self, delegate: self)
     
     private lazy var layout = UICollectionViewCompositionalLayout { [weak self] in
         self?.layout(for: $0, environment: $1)
     }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     
-    private let buttonView = IndividAccountButton()
+    private let buttonView = ProductDetailsButton()
     
     // MARK: - Constructor
     
-    public init(_ viewModel: IndividAccountViewModel) {
+    public init(_ viewModel: ProductDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,7 +61,7 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
         
         collectionView.registerCellClass(LoadingCell.self)
         collectionView.registerCellClass(ErrorCell.self)
-        collectionView.registerCellClass(IndividAccountCell.self)
+        collectionView.registerCellClass(ProductDetailsCell.self)
         
         buttonView.delegate = self
     }
@@ -90,14 +90,14 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
     }
     
     public func setupOutput() {
-        let output = IndividAccountViewModel.Input(
+        let output = ProductDetailsViewModel.Input(
             onDidUpdateState: .init({ [weak self] in self?.update($0) })
         )
         
         viewModel.transform(output, outputHandler: self.setupInput(_:))
     }
     
-    public func setupInput(_ input: IndividAccountViewModel.Output) {
+    public func setupInput(_ input: ProductDetailsViewModel.Output) {
         eventsHandler = {
             switch $0 {
             case .addButtonTap:
@@ -112,15 +112,15 @@ final public class IndividAccountViewController: UIViewController, View, ViewSet
 
 // MARK: - Private Functions
 
-private extension IndividAccountViewController {
-    private func update(_ state: IndividAccountState) {
+private extension ProductDetailsViewController {
+    private func update(_ state: ProductDetailsState) {
         adapter.update(with: state)
     }
 }
 
 // MARK: - Layout Provider
 
-private extension IndividAccountViewController {
+private extension ProductDetailsViewController {
     private func layout(
         for section: Int,
         environment: NSCollectionLayoutEnvironment
@@ -141,11 +141,11 @@ private extension IndividAccountViewController {
 
 // MARK: - Cell Provider
 
-extension IndividAccountViewController: IndividAccountViewAdapterCellProvider {
+extension ProductDetailsViewController: ProductDetailsViewAdapterCellProvider {
     func cell(
         for collectionView: UICollectionView,
         _ indexPath: IndexPath,
-        _ item: IndividAccountViewAdapter.Item
+        _ item: ProductDetailsViewAdapter.Item
     ) -> UICollectionViewCell {
         switch item {
         case .loading:
@@ -158,7 +158,7 @@ extension IndividAccountViewController: IndividAccountViewAdapterCellProvider {
             return cell
             
         case .account(let model):
-            let cell = collectionView.dequeueReusableCell(ofType: IndividAccountCell.self, at: indexPath)
+            let cell = collectionView.dequeueReusableCell(ofType: ProductDetailsCell.self, at: indexPath)
             cell.configure(using: model)
             return cell
         }
@@ -167,7 +167,7 @@ extension IndividAccountViewController: IndividAccountViewAdapterCellProvider {
 
 // MARK: - IndividAccountViewAdapterDelegate
 
-extension IndividAccountViewController: IndividAccountViewAdapterDelegate {
+extension ProductDetailsViewController: ProductDetailsViewAdapterDelegate {
     func showAlert(title: String, message: String, actions: [(title: String, handler: Closure)]) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         actions.forEach { tuple in
@@ -177,14 +177,14 @@ extension IndividAccountViewController: IndividAccountViewAdapterDelegate {
         self.present(alert, animated: true)
     }
     
-    func updateButton(_ model: IndividAccountButtonModel, animated: Bool) {
+    func updateButton(_ model: ProductDetailsButtonModel, animated: Bool) {
         self.buttonView.configure(using: model, animated: animated)
     }
 }
 
 // MARK: - ErrorCellEventsDelegate
 
-extension IndividAccountViewController: ErrorCellEventsDelegate {
+extension ProductDetailsViewController: ErrorCellEventsDelegate {
     public func cell(_ cell: ErrorCell, didPressRetryButton sender: UIButton) {
         eventsHandler?(.retryButtonTap)
     }
@@ -192,8 +192,8 @@ extension IndividAccountViewController: ErrorCellEventsDelegate {
 
 // MARK: - IndividAccountButtonDelegate
  
-extension IndividAccountViewController: IndividAccountButtonDelegate {
-    func didTapButton(_ buttonView: IndividAccountButton, _ sender: UIButton) {
+extension ProductDetailsViewController: IndividAccountButtonDelegate {
+    func didTapButton(_ buttonView: ProductDetailsButton, _ sender: UIButton) {
         eventsHandler?(.addButtonTap)
     }
 }

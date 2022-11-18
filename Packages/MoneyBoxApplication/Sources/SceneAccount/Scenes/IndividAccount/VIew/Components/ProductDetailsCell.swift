@@ -1,5 +1,5 @@
 //
-//  IndividAccountCell.swift
+//  ProductDetailsCell.swift
 //  
 //
 //  Created by Dmytro Vorko on 15/11/2022.
@@ -12,7 +12,7 @@ import AppResources
 import AppViews
 import SnapKit
 
-final class IndividAccountCell: DynamicCollectionCell, ViewSettableType, Reusable {
+final class ProductDetailsCell: DynamicCollectionCell, ViewSettableType, Reusable {
     // MARK: - Properties
     
     private let contentContainerView = UIView()
@@ -66,8 +66,8 @@ final class IndividAccountCell: DynamicCollectionCell, ViewSettableType, Reusabl
 
 // MARK: - Configure
 
-extension IndividAccountCell {
-    func configure(using model: IndividAccountCellModel) {
+extension ProductDetailsCell {
+    func configure(using model: ProductDetailsCellModel) {
         nameLabel.text = model.name
         planValueLabel.text = model.planValueText
         moneyboxLabel.text = model.moneyBoxValueText

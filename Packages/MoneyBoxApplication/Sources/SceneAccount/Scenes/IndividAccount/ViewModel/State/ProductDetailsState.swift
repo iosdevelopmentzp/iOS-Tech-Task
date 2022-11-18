@@ -1,5 +1,5 @@
 //
-//  IndividAccountState.swift
+//  ProductDetailsState.swift
 //  
 //
 //  Created by Dmytro Vorko on 16/11/2022.
@@ -7,20 +7,20 @@
 
 import Foundation
 
-enum IndividAccountState: Hashable {
+enum ProductDetailsState: Hashable {
     case idle
     case loading
     case failedLoading(_ errorMessage: String)
-    case loaded(_ model: IndividAccountModel)
-    case transactionLoading(_ model: IndividAccountModel)
-    case successTransaction(_ model: IndividAccountModel)
-    case failedTransaction(_ errorMessage: String, _ models: IndividAccountModel)
+    case loaded(_ model: ProductDetailsModel)
+    case transactionLoading(_ model: ProductDetailsModel)
+    case successTransaction(_ model: ProductDetailsModel)
+    case failedTransaction(_ errorMessage: String, _ models: ProductDetailsModel)
 }
 
 // MARK: - Extensions
 
-extension IndividAccountState {
-    var model: IndividAccountModel? {
+extension ProductDetailsState {
+    var model: ProductDetailsModel? {
         switch self {
             
         case .idle, .loading, .failedLoading:

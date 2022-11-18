@@ -1,5 +1,5 @@
 //
-//  IndividAccountButton.swift
+//  ProductDetailsButton.swift
 //  
 //
 //  Created by Dmytro Vorko on 15/11/2022.
@@ -10,10 +10,10 @@ import SnapKit
 import Extensions
 
 protocol IndividAccountButtonDelegate: AnyObject {
-    func didTapButton(_ buttonView: IndividAccountButton, _ sender: UIButton)
+    func didTapButton(_ buttonView: ProductDetailsButton, _ sender: UIButton)
 }
 
-final class IndividAccountButton: UIView, ViewSettableType {
+final class ProductDetailsButton: UIView, ViewSettableType {
     // MARK: - Properties
     
     private let button = UIButton()
@@ -72,8 +72,8 @@ final class IndividAccountButton: UIView, ViewSettableType {
 
 // MARK: - Configuration
 
-extension IndividAccountButton {
-    func configure(using model: IndividAccountButtonModel, animated: Bool) {
+extension ProductDetailsButton {
+    func configure(using model: ProductDetailsButtonModel, animated: Bool) {
         self.button.isUserInteractionEnabled = model.isEnabled
         let action = {
             self.button.setTitle(model.title, for: .normal)
@@ -94,7 +94,7 @@ extension IndividAccountButton {
 
 // MARK: - IndividAccountButtonModel Ext
 
-extension IndividAccountButtonModel {
+extension ProductDetailsButtonModel {
     var title: String? {
         switch self.state {
         case .active(let text), .inactive(let text):
