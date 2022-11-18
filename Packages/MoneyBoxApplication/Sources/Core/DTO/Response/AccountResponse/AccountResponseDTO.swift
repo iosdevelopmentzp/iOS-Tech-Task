@@ -23,10 +23,10 @@ public struct AccountResponseDTO: Decodable, Equatable {
     // MARK: - Properties
     
     public let moneyboxEndOfTaxYear: String?
-    public let totalPlanValue: Double?
-    public let totalEarnings: Double?
-    public let totalContributionsNet: Double?
-    public let totalEarningsAsPercentage: Double?
+    public let totalPlanValue: Double
+    public let totalEarnings: Double
+    public let totalContributionsNet: Double
+    public let totalEarningsAsPercentage: Double
     public let productResponses: [ProductResponseDTO]?
     public let accounts: [AccountDTO]?
 }

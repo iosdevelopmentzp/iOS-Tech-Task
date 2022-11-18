@@ -12,9 +12,7 @@ extension UserAccount {
         private static let currencySign = "£"
         
         static func make(_ accountResponse: AccountResponseDTO) -> UserAccount {
-            let totalPlanValue = accountResponse.totalPlanValue.map {
-                Currency(value: $0, sign: currencySign)
-            }
+            let totalPlanValue = Currency(value: accountResponse.totalPlanValue, sign: currencySign)
             
             let accounts = accountResponse
                 .accounts?
